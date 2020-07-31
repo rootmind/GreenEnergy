@@ -60,7 +60,7 @@ const Profile = props => {
     setLoading(true);
 
     //alert('personId'+ props);
-    var apiBaseUrl = "http://192.168.0.200:9093/person/find";
+    var apiBaseUrl = "http://192.168.0.200:9093/utilization/find";
     var payload =
     {
       "personId": props

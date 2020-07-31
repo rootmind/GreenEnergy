@@ -2,8 +2,9 @@
 /* https://aboutreact.com/react-native-login-and-signup/ */
 
 //Import React and Hook we needed
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import axios from 'axios';
+import AsyncStorage from '@react-native-community/async-storage';
 //Import all required component
 import {
   StyleSheet,
@@ -29,7 +30,24 @@ const Utilization = props => {
   let [errortext, setErrortext] = useState('');
   let [isRegistraionSuccess, setIsRegistraionSuccess] = useState(false);
 
+  let [animating, setAnimating] = useState(true);
 
+  useEffect(() => {
+    setTimeout(() => {
+      setAnimating(false);
+      //Check if user_id is set or not
+      //If not then send for Authentication
+      //else send to Home Screen
+      AsyncStorage.getItem('person_id').then((value) => {
+        // alert('value  '+ value);
+         setPersonId(value);
+        //personId = value;
+        fetchPersonInfo(value);
+      }
+
+      );
+    }, 1);
+  }, []);
 
 
   const fetchPersonInfo = (props) => {
@@ -59,11 +77,11 @@ const Utilization = props => {
           console.log(response.data.status);
           console.log(response.data.personName);
           setPersonId(response.data.personId);
-          setPersonMonth(response.data.personMonth);
-          setPersonYear(response.data.personYear);
-          setWaterUtilized(response.data.waterUtilized);
-          setElectricityUtilized(response.data.electricityUtilized);
-          setUpdateDate(response.data.updateDate);
+          // setPersonMonth(response.data.personMonth);
+          // setPersonYear(response.data.personYear);
+          // setWaterUtilized(response.data.waterUtilized);
+          // setElectricityUtilized(response.data.electricityUtilized);
+          // setUpdateDate(response.data.updateDate);
         }
 
         else {
@@ -74,6 +92,7 @@ const Utilization = props => {
       .catch(function (error) {
         setLoading(false);
         console.log(error);
+        alert("Unable To Reach Server");
       });
 
 
@@ -82,10 +101,10 @@ const Utilization = props => {
 
   const handleSubmitButton = () => {
     setErrortext('');
-    if (!personId) {
-      alert('Please fill Id');
-      return;
-    }
+    // if (!personId) {
+    //   alert('Please fill Id');
+    //   return;
+    // }
     if (!personMonth) {
       alert('Please fill Month');
       return;
@@ -130,50 +149,38 @@ const Utilization = props => {
     //axios.post(apiBaseUrl, payload)
       .then(function (response) {
         console.log(JSON.stringify(response));
+        setLoading(false);
         if (response.status == 200) {
           console.log(response.data.status);
-          props.navigation.navigate('Utilization');
+          if(response.data.status == 'STS005'){
+            alert(response.data.message);
+          }
+          else if (response.data.status == "STS006") {
+            alert(response.data.message);
+          }
+          else{
+            alert(response.data.message);
+          }
+         // props.navigation.navigate('Utilization');
           // var uploadScreen = [];
           // uploadScreen.push(<UploadScreen appContext={self.props.appContext} />)
           // self.props.appContext.setState({ loginPage: [], uploadScreen: uploadScreen })
         }
-        else if (response.status == 204) {
-          console.log("Username password do not match");
-          //alert("username password do not match")
-        }
+      
         else {
-          console.log("Username does not exists");
-          //alert("Username does not exist");
+          console.log("HTTP Response Failed");
+          alert("HTTP Response Failed");
         }
       })
       .catch(function (error) {
+        setLoading(false);
         console.log(error);
+        alert("Unable To Reach Server");
       });  
   
       //-------------------------------------------------------------------------------------------------------------------------
   };
-  if (isRegistraionSuccess) {
-    return (
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: '#307ecc',
-          justifyContent: 'center',
-        }}>
-        {/* <Image
-          source={require('.../Image')}
-          style={{ height: 150, resizeMode: 'contain', alignSelf: 'center' }}
-        /> */}
-        <Text style={styles.successTextStyle}>Registration Successful.</Text>
-        <TouchableOpacity
-          style={styles.buttonStyle}
-          activeOpacity={0.5}
-          onPress={() => props.navigation.navigate('Utilization')}>
-          <Text style={styles.buttonTextStyle}>Login Now</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  }
+
   return (
     <View style={{ flex: 1, backgroundColor: '#307ecc' }}>
       <Loader loading={loading} />
@@ -192,12 +199,11 @@ const Utilization = props => {
           <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}
-              onChangeText={personId => setPersonId(personId)}
+            //  onChangeText={personId => setPersonId(personId)}
+              value={personId}
               underlineColorAndroid="#F6F6F7"
               placeholder="Enter Id"
-              placeholderTextColor="#F6F6F7"
-              keyboardType="email-address"
-           
+              placeholderTextColor="#F6F6F7"        
               returnKeyType="next"
             
               blurOnSubmit={false}
@@ -257,7 +263,7 @@ const Utilization = props => {
               blurOnSubmit={false}
             />
                </View>
-          <View style={styles.SectionStyle}>
+          {/* <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}
               onChangeText={updateDate => setUpdateDate(updateDate)}
@@ -270,7 +276,7 @@ const Utilization = props => {
               blurOnSubmit={false}
             />
           
-          </View>
+          </View> */}
           {errortext != '' ? (
             <Text style={styles.errorTextStyle}> {errortext} </Text>
           ) : null}
