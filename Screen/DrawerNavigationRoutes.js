@@ -15,7 +15,7 @@ import Utilization from './drawerScreens/Utilization';
 import Profile from './drawerScreens/Profile';
 import CustomSidebarMenu from './Components/CustomSidebarMenu';
 import NavigationDrawerHeader from './Components/NavigationDrawerHeader';
-import Layout from './drawerScreens/Layout';
+
 
 const FirstActivity_StackNavigator = createStackNavigator({
   First: {

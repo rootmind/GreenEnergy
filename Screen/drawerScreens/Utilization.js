@@ -30,21 +30,6 @@ const Utilization = props => {
   let [isRegistraionSuccess, setIsRegistraionSuccess] = useState(false);
 
 
-  useEffect(() => {
-    setTimeout(() => {
-      setAnimating(false);
-      //Check if user_id is set or not
-      //If not then send for Authentication
-      //else send to Home Screen
-      AsyncStorage.getItem('person_id').then((value) => {
-        // alert('value'+ value);
-        // setPersonId(value);
-        fetchPersonInfo(value);
-      }
-
-      );
-    }, 1);
-  }, []);
 
 
   const fetchPersonInfo = (props) => {
@@ -97,30 +82,30 @@ const Utilization = props => {
 
   const handleSubmitButton = () => {
     setErrortext('');
-    // if (!personId) {
-    //   alert('Please fill Id');
-    //   return;
-    // }
-    // if (!personMonth) {
-    //   alert('Please fill Month');
-    //   return;
-    // }
-    // if (!personYear) {
-    //   alert('Please fill Year');
-    //   return;
-    // }
-    // if (!waterUtilized) {
-    //   alert('Please fill WaterUtilized');
-    //   return;
-    // }
-    // if (!electricityUtilized) {
-    //   alert('Please fill ElectricityUtilized');
-    //   return;
-    // }
-    // if (!updateDate) {
-    //   alert('Please fill UpdateDate');
-    //   return;
-    // }
+    if (!personId) {
+      alert('Please fill Id');
+      return;
+    }
+    if (!personMonth) {
+      alert('Please fill Month');
+      return;
+    }
+    if (!personYear) {
+      alert('Please fill Year');
+      return;
+    }
+    if (!waterUtilized) {
+      alert('Please fill WaterUtilized');
+      return;
+    }
+    if (!electricityUtilized) {
+      alert('Please fill ElectricityUtilized');
+      return;
+    }
+    if (!updateDate) {
+      alert('Please fill UpdateDate');
+      return;
+    }
      //Show Loader
     setLoading(true);
     //---------------------------------------------------------------------------------------------------------------------
@@ -212,12 +197,11 @@ const Utilization = props => {
               placeholder="Enter Id"
               placeholderTextColor="#F6F6F7"
               keyboardType="email-address"
-              ref={ref => {
-                this._emailinput = ref;
-              }}
+           
               returnKeyType="next"
-              onSubmitEditing={() => this._ageinput && this._ageinput.focus()}
+            
               blurOnSubmit={false}
+              editable={false} selectTextOnFocus={false}
             />
         </View>
         <KeyboardAvoidingView enabled>
@@ -230,9 +214,7 @@ const Utilization = props => {
               placeholderTextColor="#F6F6F7"
               autoCapitalize="sentences"
               returnKeyType="next"
-              onSubmitEditing={() =>
-                this._emailinput && this._emailinput.focus()
-              }
+            
               blurOnSubmit={false}
             />
           </View>
@@ -243,12 +225,9 @@ const Utilization = props => {
               underlineColorAndroid="#F6F6F7"
               placeholder="Enter Year"
               placeholderTextColor="#F6F6F7"
-              keyboardType="email-address"
-              ref={ref => {
-                this._emailinput = ref;
-              }}
+           
               returnKeyType="next"
-              onSubmitEditing={() => this._ageinput && this._ageinput.focus()}
+            
               blurOnSubmit={false}
             />
                </View>
@@ -259,12 +238,9 @@ const Utilization = props => {
               underlineColorAndroid="#F6F6F7"
               placeholder="Enter Water Utilized"
               placeholderTextColor="#F6F6F7"
-              keyboardType="email-address"
-              ref={ref => {
-                this._emailinput = ref;
-              }}
+            
               returnKeyType="next"
-              onSubmitEditing={() => this._ageinput && this._ageinput.focus()}
+             
               blurOnSubmit={false}
             />
                </View>
@@ -275,12 +251,9 @@ const Utilization = props => {
               underlineColorAndroid="#F6F6F7"
               placeholder="Enter Electricity Utilized"
               placeholderTextColor="#F6F6F7"
-              keyboardType="email-address"
-              ref={ref => {
-                this._emailinput = ref;
-              }}
+             
               returnKeyType="next"
-              onSubmitEditing={() => this._ageinput && this._ageinput.focus()}
+           
               blurOnSubmit={false}
             />
                </View>
@@ -291,12 +264,9 @@ const Utilization = props => {
               underlineColorAndroid="#F6F6F7"
               placeholder="Enter Date"
               placeholderTextColor="#F6F6F7"
-              keyboardType="email-address"
-              ref={ref => {
-                this._emailinput = ref;
-              }}
+            
               returnKeyType="next"
-              onSubmitEditing={() => this._ageinput && this._ageinput.focus()}
+             
               blurOnSubmit={false}
             />
           
@@ -308,7 +278,7 @@ const Utilization = props => {
             style={styles.buttonStyle}
             activeOpacity={0.5}
             onPress={handleSubmitButton}>
-            <Text style={styles.buttonTextStyle}>REGISTER</Text>
+            <Text style={styles.buttonTextStyle}>Record</Text>
           </TouchableOpacity>
         </KeyboardAvoidingView>
       </ScrollView>
