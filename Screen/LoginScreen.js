@@ -18,8 +18,7 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import Loader from './Components/Loader';
-import { white } from 'material-ui/styles/colors';
-import { black } from 'material-ui/styles/colors';
+
 
 const LoginScreen = props => {
   let [userEmail, setUserEmail] = useState('');
@@ -42,8 +41,8 @@ const LoginScreen = props => {
 
     // var apiBaseUrl = "http://localhost:8080/Person-0.0.1-SNAPSHOT/person/login";
     var apiBaseUrl = "http://192.168.0.200:9093/person/login";
-    // var apiBaseUrl = "https://aboutreact.herokuapp.com/login.php";
-   // var self = this;
+    //var apiBaseUrl = "http://192.168.43.235:9093/person/login";
+   
     var payload =
     {
 

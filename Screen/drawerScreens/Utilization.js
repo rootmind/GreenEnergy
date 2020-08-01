@@ -57,11 +57,13 @@ const Utilization = props => {
     setLoading(true);
 
     //alert('personId'+ props);
-    var apiBaseUrl = "http://192.168.0.200:9093/utilization/find";
+    var apiBaseUrl = "http://192.168.0.200:9093/utilization/get";
+   // var apiBaseUrl = "http://192.168.43.235:9093/utilization/get";
     var payload =
     {
       "personId": props
     }
+    console.log('Utilization get ' + JSON.stringify(payload));
     axios.post(apiBaseUrl, payload, {
       headers: {
         'Content-Type': 'application/json',
@@ -72,11 +74,11 @@ const Utilization = props => {
       //axios.post(apiBaseUrl, payload)
       .then(function (response) {
         setLoading(false);
-        console.log(JSON.stringify(response));
+        console.log('Utilization get Response ' + JSON.stringify(response));
         if (response.status == 200) {
-          console.log(response.data.status);
-          console.log(response.data.personName);
-          setPersonId(response.data.personId);
+          console.log(response.data[0].personMonth);
+        //  console.log(response.data.personName);
+         // setPersonId(response.data.personId);
           // setPersonMonth(response.data.personMonth);
           // setPersonYear(response.data.personYear);
           // setWaterUtilized(response.data.waterUtilized);
@@ -121,16 +123,17 @@ const Utilization = props => {
       alert('Please fill ElectricityUtilized');
       return;
     }
-    if (!updateDate) {
-      alert('Please fill UpdateDate');
-      return;
-    }
+    // if (!updateDate) {
+    //   alert('Please fill UpdateDate');
+    //   return;
+    // }
      //Show Loader
     setLoading(true);
     //---------------------------------------------------------------------------------------------------------------------
    
    
     var apiBaseUrl = "http://192.168.0.200:9093/utilization/insert";
+    //var apiBaseUrl = "http://192.168.43.235:9093/utilization/insert";
     
     var payload =
     {

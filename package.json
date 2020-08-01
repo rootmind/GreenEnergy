@@ -13,7 +13,6 @@
     "@react-native-community/async-storage": "^1.11.0",
     "@react-native-community/masked-view": "^0.1.10",
     "axios": "^0.19.2",
-    "material-ui": "^0.20.2",
     "react": "16.13.1",
     "react-dom": "^16.13.1",
     "react-native": "0.63.2",
@@ -21,10 +20,11 @@
     "react-native-reanimated": "^1.10.1",
     "react-native-safe-area-context": "^3.1.1",
     "react-native-screens": "^2.9.0",
+    "react-native-svg": "12.1.0",
     "react-navigation": "^4.4.0",
     "react-navigation-drawer": "^2.5.0",
     "react-navigation-stack": "^2.8.2",
-    "react-tap-event-plugin": "^3.0.3"
+    "victory-native": "^35.0.1"
   },
   "devDependencies": {
     "@babel/core": "7.10.5",

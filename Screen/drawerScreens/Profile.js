@@ -60,11 +60,14 @@ const Profile = props => {
     setLoading(true);
 
     //alert('personId'+ props);
-    var apiBaseUrl = "http://192.168.0.200:9093/utilization/find";
+    var apiBaseUrl = "http://192.168.0.200:9093/person/find";
+   // var apiBaseUrl = "http://192.168.43.235:9093/person/find";
+
     var payload =
     {
       "personId": props
     }
+    console.log('Profile Find ' + JSON.stringify(payload));
     axios.post(apiBaseUrl, payload, {
       headers: {
         'Content-Type': 'application/json',
@@ -75,7 +78,7 @@ const Profile = props => {
       //axios.post(apiBaseUrl, payload)
       .then(function (response) {
         setLoading(false);
-        console.log(JSON.stringify(response));
+        console.log('Profile Find Response ' + JSON.stringify(response));
         if (response.status == 200) {
           console.log(response.data.status);
           console.log(response.data.personName);
@@ -118,6 +121,7 @@ const Profile = props => {
 
     //alert('personId'+ props);
     var apiBaseUrl = "http://192.168.0.200:9093/person/update";
+   // var apiBaseUrl = "http://192.168.43.235:9093/person/update";
     var payload =
     {
       "personId": personId,

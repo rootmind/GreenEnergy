@@ -16,6 +16,8 @@ import PersonRegister from './Screen/PersonRegister';
 import DrawerNavigationRoutes from './Screen/DrawerNavigationRoutes';
 
 const Auth = createStackNavigator({
+
+ 
   //Stack Navigator for Login and Sign up Screen
   LoginScreen: {
     screen: LoginScreen,

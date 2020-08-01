@@ -73,9 +73,9 @@ const PersonRegister = props => {
         //Show Loader
     setLoading(true);
     //---------------------------------------------------------------------------------------------------------------------
-   //"http://localhost:9094/utilization/get";
-   //var apiBaseUrl = "http://localhost:8080/Person-0.0.1-SNAPSHOT/person/insert";
+ 
    var apiBaseUrl = "http://192.168.0.200:9093/person/insert";
+   //var apiBaseUrl = "http://192.168.43.235:9093/person/insert";
    // var apiBaseUrl = "http://localhost:9093/utilization/find";
     var self = this;
     var payload =
