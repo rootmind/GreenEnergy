@@ -90,19 +90,11 @@ const LoginScreen = props => {
         }
         else
 
-          if (response.status == 500) {
-            console.log("PersonId password do not match");
-
-            alert("username password do not match")
-          }
-          else {
-            console.log("Username does not exists");
-
-            alert("Username does not exist");
-          }
+        alert('Invalid HTTP Response')
       })
       .catch(function (error) {
         console.log(error);
+        alert('Unable TO Reach Server');
       });
     // var formBody = [];
     // for (var key in dataToSend) {

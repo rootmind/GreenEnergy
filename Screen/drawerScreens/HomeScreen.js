@@ -19,7 +19,7 @@ import {
 } from 'react-native';
 import Loader from '../Components/Loader';
 import { set } from 'react-native-reanimated';
-import { VictoryBar, VictoryChart, VictoryTheme, VictoryGroup, VictoryStack } from "victory-native";
+import { VictoryBar, VictoryChart, VictoryTheme, VictoryGroup, VictoryStack, VictoryAxis } from "victory-native";
 
 const HomeScreen = props => {
   let [personId, setPersonId] = useState('');
@@ -33,47 +33,51 @@ const HomeScreen = props => {
   let [jobType, setJobType] = useState('');
   let [loading, setLoading] = useState(false);
   let [errortext, setErrortext] = useState('');
-  let [isRegistraionSuccess, setIsRegistraionSuccess] = useState(false);
+  let [isGraphLoading, setIsGraphLoading] = useState(false);
+  //let [isLoading, setIsLoading] = useState[];
+  let [utilizationData, setUtilizationData] = useState([{ personMonth: "1", waterUtilized: "100", electricityUtilized: "200" }]);
 
   let [animating, setAnimating] = useState(true);
 
-  const data = [
-    { quarter: 1, earnings: 8000, payment: 10000 },
-    { quarter: 2, earnings: 16500, payment: 9000 },
-    { quarter: 3, earnings: 14250, payment: 11000 },
-    { quarter: 4, earnings: 19000, payment: 15000 }
-    // { quarter: 1, payment: 10000 },
-    // { quarter: 2, payment: 13000 },
-    // { quarter: 3, payment: 12000 },
-    // { quarter: 4, payment: 15000 }
-  ];
+  // let data = [
+  //   { personMonth: "1", waterUtilized: "100", electricityUtilized: "200" },
+  //   // { quarter: 2, earnings: 16500, payment: 9000 },
+  //   // { quarter: 3, earnings: 14250, payment: 11000 },
+  //   // { quarter: 4, earnings: 19000, payment: 15000 }
+  //   // { quarter: 1, payment: 10000 },
+  //   // { quarter: 2, payment: 13000 },
+  //   // { quarter: 3, payment: 12000 },
+  //   // { quarter: 4, payment: 15000 }
+  // ];
 
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setAnimating(false);
-  //     //Check if user_id is set or not
-  //     //If not then send for Authentication
-  //     //else send to Home Screen
-  //     AsyncStorage.getItem('person_id').then((value) => {
-  //       // alert('value'+ value);
-  //       // setPersonId(value);
-  //       fetchPersonInfo(value);
-  //     }
+  useEffect(() => {
+    setTimeout(() => {
+      setAnimating(false);
+      //Check if user_id is set or not
+      //If not then send for Authentication
+      //else send to Home Screen
+      AsyncStorage.getItem('person_id').then((value) => {
+        //alert('value' + value);
+        setPersonId(value);
+        fetchUtilizationInfo(value);
+      }
 
-  //     );
-  //   }, 1);
-  // }, []);
+      );
+    }, 1);
+  }, []);
 
 
-  const fetchPersonInfo = (props) => {
+  const fetchUtilizationInfo = (props) => {
     setErrortext('');
 
     //Show Loader
     setLoading(true);
+    // setLoading[];
 
     //alert('personId'+ props);
-    var apiBaseUrl = "http://192.168.0.200:9093/person/find";
+    // var apiBaseUrl = "http://192.168.0.200:9093/person/find";
     // var apiBaseUrl = "http://192.168.43.235:9093/person/find";
+    var apiBaseUrl = "http://192.168.0.200:9093/utilization/get";
     var payload =
     {
       "personId": props
@@ -89,12 +93,27 @@ const HomeScreen = props => {
       //axios.post(apiBaseUrl, payload)
       .then(function (response) {
         setLoading(false);
-        console.log(JSON.stringify(response));
+        // setLoading[];
+        console.log('Get Response ' + JSON.stringify(response));
         if (response.status == 200) {
-          console.log(response.data.status);
-          console.log(response.data.personName);
-          setPersonName(response.data.personName);
+          console.log('Data 1  ' + JSON.stringify(response.data));
+          //console.log(response.data[0].personName);
+          //  setPersonName(response.data.personName);
+          // console.log('Slice ' + response.data.slice());
+          // console.log('Initial Data  ' + data[0].personMonth + ' ' + data[0].waterUtilized + ' ' + data[0].electricityUtilized);
+          // data = [...response.data];
 
+          // console.log('Data 2  ' + JSON.stringify(data));
+          // console.log('Final Data  ' + data[0].personMonth + ' ' + data[0].waterUtilized + ' ' + data[0].electricityUtilized);
+          //  alert('Data ' + data);
+
+
+          //  setTimeout(() => { setIsLoading(true); }, 1000);
+          // setTimeout(() => { setIsLoading[]; }, 1000);
+          setIsGraphLoading(true);
+          setUtilizationData(response.data);
+
+          // data = reponse.data;
 
 
         }
@@ -107,6 +126,7 @@ const HomeScreen = props => {
       .catch(function (error) {
 
         setLoading(false);
+        // setLoading[];
         console.log(error);
         alert("Unable To Reach Server");
       });
@@ -115,236 +135,234 @@ const HomeScreen = props => {
 
   };
 
+  if (isGraphLoading) {
+
+    return (
+      <View style={styles.container}>
 
 
-  return (
-    <View style={styles.container}>
-      <VictoryChart width={350} theme={VictoryTheme.material}>
-
-        <VictoryGroup offset={20000}
-          standalone={false}
-          colorScale={"qualitative"}>
-          <VictoryStack colorScale={"blue"} >
-            <VictoryBar data={data} x="quarter" y="earnings" /></VictoryStack>
-
-         
-
-
-        </VictoryGroup>
-
-        {/* <VictoryGroup offset={20000}
-          standalone={false}
-          colorScale={"qualitative"}>
-        
-          <VictoryStack colorScale={"warm"} >
-            <VictoryBar data={data} x="quarter" y="payment" /></VictoryStack>
-
-        </VictoryGroup> */}
-
-      </VictoryChart>
-
-      <VictoryChart width={350} theme={VictoryTheme.material}>
-
-        {/* <VictoryGroup offset={20000}
-  standalone={false}
-  colorScale={"qualitative"}>
-  <VictoryStack colorScale={"blue"} >
-    <VictoryBar data={data} x="quarter" y="earnings" /></VictoryStack>
-  
-
-</VictoryGroup> */}
-
-        <VictoryGroup offset={1000}
-          standalone={false}
-          colorScale={"qualitative"}>
-
-          <VictoryStack colorScale={"blue"} >
-            <VictoryBar data={data} x="quarter" y="payment" /></VictoryStack>
-
-        </VictoryGroup>
-
-      </VictoryChart>
-
-    </View>
-
-    // <View style={{ flex: 1, backgroundColor: '#307ecc' }}>
-    //   <Loader loading={loading} />
-    //   <ScrollView keyboardShouldPersistTaps="handled">
+        <VictoryChart width={350} theme={VictoryTheme.material}>
 
 
 
-    //     <View style={{ alignItems: 'center' }}>
-    //         <Image
-    //           source={require('../Image/aboutreact.png')}
-    //           style={{
-    //             width: '50%',
-    //             height: 100,
-    //             resizeMode: 'contain',
-    //             margin: 30,
-    //           }}
-    //         />
-    //            </View>
-    //         <View style={styles.SectionStyle}>
-    //           <TextInput
-    //             style={styles.inputStyle}
-    //             onChangeText={personId => setPersonId(personId)}
-    //             underlineColorAndroid="#F6F6F7"
-    //             placeholder="Enter Id"
-    //             placeholderTextColor="#F6F6F7"
-    //             keyboardType="email-address"
-    //             ref={ref => {
-    //               this._emailinput = ref;
-    //             }}
-    //             returnKeyType="next"
-    //             onSubmitEditing={() => this._ageinput && this._ageinput.focus()}
-    //             blurOnSubmit={false}
-    //           />
-    //       </View>
-    //       <KeyboardAvoidingView enabled>
-    //         <View style={styles.SectionStyle}>
-    //           <TextInput
-    //             style={styles.inputStyle}
-    //            onChangeText={PersonName => setPersonName(PersonName)}
-    //            value = {personName}
-    //             underlineColorAndroid="#FFFFFF"
-    //             placeholder="Enter Name"
-    //             placeholderTextColor="#F6F6F7"
-    //             autoCapitalize="sentences"
-    //             returnKeyType="next"
-    //             onSubmitEditing={() =>
-    //               this._emailinput && this._emailinput.focus()
-    //             }
-    //             blurOnSubmit={false}
-    //           />
-    //         </View>
-    //         <View style={styles.SectionStyle}>
-    //           <TextInput
-    //             style={styles.inputStyle}
-    //             onChangeText={personEmail => setPersonEmail(personEmail)}
-    //             underlineColorAndroid="#F6F6F7"
-    //             placeholder="Enter Email"
-    //             placeholderTextColor="#F6F6F7"
-    //             keyboardType="email-address"
-    //             ref={ref => {
-    //               this._emailinput = ref;
-    //             }}
-    //             returnKeyType="next"
-    //             onSubmitEditing={() => this._ageinput && this._ageinput.focus()}
-    //             blurOnSubmit={false}
-    //           />
-    //              </View>
-    //         <View style={styles.SectionStyle}>
-    //           <TextInput
-    //             style={styles.inputStyle}
-    //             onChangeText={personPassword => setPersonPassword(personPassword)}
-    //             underlineColorAndroid="#F6F6F7"
-    //             placeholder="Enter Password"
-    //             placeholderTextColor="#F6F6F7"
-    //             keyboardType="email-address"
-    //             ref={ref => {
-    //               this._emailinput = ref;
-    //             }}
-    //             returnKeyType="next"
-    //             onSubmitEditing={() => this._ageinput && this._ageinput.focus()}
-    //             blurOnSubmit={false}
-    //           />
-    //              </View>
-    //         <View style={styles.SectionStyle}>
-    //           <TextInput
-    //             style={styles.inputStyle}
-    //             onChangeText={grade => setGrade(grade)}
-    //             underlineColorAndroid="#F6F6F7"
-    //             placeholder="Enter Grade"
-    //             placeholderTextColor="#F6F6F7"
-    //             keyboardType="email-address"
-    //             ref={ref => {
-    //               this._emailinput = ref;
-    //             }}
-    //             returnKeyType="next"
-    //             onSubmitEditing={() => this._ageinput && this._ageinput.focus()}
-    //             blurOnSubmit={false}
-    //           />
-    //              </View>
-    //         <View style={styles.SectionStyle}>
-    //           <TextInput
-    //             style={styles.inputStyle}
-    //             onChangeText={personSection => setPersonSection(personSection)}
-    //             underlineColorAndroid="#F6F6F7"
-    //             placeholder="Enter Section"
-    //             placeholderTextColor="#F6F6F7"
-    //             keyboardType="email-address"
-    //             ref={ref => {
-    //               this._emailinput = ref;
-    //             }}
-    //             returnKeyType="next"
-    //             onSubmitEditing={() => this._ageinput && this._ageinput.focus()}
-    //             blurOnSubmit={false}
-    //           />
-    //              </View>
-    //         <View style={styles.SectionStyle}>
-    //           <TextInput
-    //             style={styles.inputStyle}
-    //             onChangeText={gender => setGender(gender)}
-    //             underlineColorAndroid="#F6F6F7"
-    //             placeholder="Enter Email"
-    //             placeholderTextColor="#F6F6F7"
-    //             keyboardType="email-address"
-    //             ref={ref => {
-    //               this._emailinput = ref;
-    //             }}
-    //             returnKeyType="next"
-    //             onSubmitEditing={() => this._ageinput && this._ageinput.focus()}
-    //             blurOnSubmit={false}
-    //           />
+          <VictoryGroup offset={10}
+            standalone={false}
+            colorScale={"qualitative"}>
 
-    //         </View>
-    //         <View style={styles.SectionStyle}>
-    //           <TextInput
-    //             style={styles.inputStyle}
-    //             onChangeText={personStatus => setPersonStatus(personStatus)}
-    //             underlineColorAndroid="#F6F6F7"
-    //             placeholder="Enter Status"
-    //             placeholderTextColor="#F6F6F7"
-    //             keyboardType="email-address"
-    //             ref={ref => {
-    //               this._ageinput = ref;
-    //             }}
-    //             onSubmitEditing={() =>
-    //               this._addressinput && this._addressinput.focus()
-    //             }
-    //             blurOnSubmit={false}
-    //           />
-    //         </View>
-    //         <View style={styles.SectionStyle}>
-    //           <TextInput
-    //             style={styles.inputStyle}
-    //             onChangeText={jobType => setJobType(jobType)}
-    //             underlineColorAndroid="#FFFFFF"
-    //             placeholder="Enter JobType"
-    //             placeholderTextColor="#F6F6F7"
-    //             autoCapitalize="sentences"
-    //             ref={ref => {
-    //               this._addressinput = ref;
-    //             }}
-    //             returnKeyType="next"
-    //             onSubmitEditing={Keyboard.dismiss}
-    //             blurOnSubmit={false}
-    //           />
-    //         </View>
-    //         {errortext != '' ? (
-    //           <Text style={styles.errorTextStyle}> {errortext} </Text>
-    //         ) : null}
-    //         <TouchableOpacity
-    //           style={styles.buttonStyle}
-    //           activeOpacity={0.5}
-    //           onPress={handleSubmitButton}>
-    //           <Text style={styles.buttonTextStyle}>REGISTER</Text>
-    //         </TouchableOpacity>
-    //       </KeyboardAvoidingView> 
-    //   </ScrollView>
-    // </View>
-  );
+            <VictoryStack colorScale={"blue"} >
+              <VictoryBar data={utilizationData} x="personMonth" y="electricityUtilized" /></VictoryStack>
+
+          </VictoryGroup>
+
+        </VictoryChart>
+
+        <VictoryChart width={350} theme={VictoryTheme.material}>
+
+
+
+          <VictoryGroup offset={10}
+            standalone={false}
+            colorScale={"qualitative"}>
+
+            <VictoryStack colorScale={"blue"} >
+              <VictoryBar data={utilizationData} x="personMonth" y="waterUtilized" /></VictoryStack>
+
+          </VictoryGroup>
+
+        </VictoryChart>
+
+
+      </View>
+
+
+    );
+  }
+
+  else {
+    return (
+      <View style={styles.container}>
+      </View>
+    );
+  }
 };
+
+// <View style={{ flex: 1, backgroundColor: '#307ecc' }}>
+//   <Loader loading={loading} />
+//   <ScrollView keyboardShouldPersistTaps="handled">
+
+
+
+//     <View style={{ alignItems: 'center' }}>
+//         <Image
+//           source={require('../Image/aboutreact.png')}
+//           style={{
+//             width: '50%',
+//             height: 100,
+//             resizeMode: 'contain',
+//             margin: 30,
+//           }}
+//         />
+//            </View>
+//         <View style={styles.SectionStyle}>
+//           <TextInput
+//             style={styles.inputStyle}
+//             onChangeText={personId => setPersonId(personId)}
+//             underlineColorAndroid="#F6F6F7"
+//             placeholder="Enter Id"
+//             placeholderTextColor="#F6F6F7"
+//             keyboardType="email-address"
+//             ref={ref => {
+//               this._emailinput = ref;
+//             }}
+//             returnKeyType="next"
+//             onSubmitEditing={() => this._ageinput && this._ageinput.focus()}
+//             blurOnSubmit={false}
+//           />
+//       </View>
+//       <KeyboardAvoidingView enabled>
+//         <View style={styles.SectionStyle}>
+//           <TextInput
+//             style={styles.inputStyle}
+//            onChangeText={PersonName => setPersonName(PersonName)}
+//            value = {personName}
+//             underlineColorAndroid="#FFFFFF"
+//             placeholder="Enter Name"
+//             placeholderTextColor="#F6F6F7"
+//             autoCapitalize="sentences"
+//             returnKeyType="next"
+//             onSubmitEditing={() =>
+//               this._emailinput && this._emailinput.focus()
+//             }
+//             blurOnSubmit={false}
+//           />
+//         </View>
+//         <View style={styles.SectionStyle}>
+//           <TextInput
+//             style={styles.inputStyle}
+//             onChangeText={personEmail => setPersonEmail(personEmail)}
+//             underlineColorAndroid="#F6F6F7"
+//             placeholder="Enter Email"
+//             placeholderTextColor="#F6F6F7"
+//             keyboardType="email-address"
+//             ref={ref => {
+//               this._emailinput = ref;
+//             }}
+//             returnKeyType="next"
+//             onSubmitEditing={() => this._ageinput && this._ageinput.focus()}
+//             blurOnSubmit={false}
+//           />
+//              </View>
+//         <View style={styles.SectionStyle}>
+//           <TextInput
+//             style={styles.inputStyle}
+//             onChangeText={personPassword => setPersonPassword(personPassword)}
+//             underlineColorAndroid="#F6F6F7"
+//             placeholder="Enter Password"
+//             placeholderTextColor="#F6F6F7"
+//             keyboardType="email-address"
+//             ref={ref => {
+//               this._emailinput = ref;
+//             }}
+//             returnKeyType="next"
+//             onSubmitEditing={() => this._ageinput && this._ageinput.focus()}
+//             blurOnSubmit={false}
+//           />
+//              </View>
+//         <View style={styles.SectionStyle}>
+//           <TextInput
+//             style={styles.inputStyle}
+//             onChangeText={grade => setGrade(grade)}
+//             underlineColorAndroid="#F6F6F7"
+//             placeholder="Enter Grade"
+//             placeholderTextColor="#F6F6F7"
+//             keyboardType="email-address"
+//             ref={ref => {
+//               this._emailinput = ref;
+//             }}
+//             returnKeyType="next"
+//             onSubmitEditing={() => this._ageinput && this._ageinput.focus()}
+//             blurOnSubmit={false}
+//           />
+//              </View>
+//         <View style={styles.SectionStyle}>
+//           <TextInput
+//             style={styles.inputStyle}
+//             onChangeText={personSection => setPersonSection(personSection)}
+//             underlineColorAndroid="#F6F6F7"
+//             placeholder="Enter Section"
+//             placeholderTextColor="#F6F6F7"
+//             keyboardType="email-address"
+//             ref={ref => {
+//               this._emailinput = ref;
+//             }}
+//             returnKeyType="next"
+//             onSubmitEditing={() => this._ageinput && this._ageinput.focus()}
+//             blurOnSubmit={false}
+//           />
+//              </View>
+//         <View style={styles.SectionStyle}>
+//           <TextInput
+//             style={styles.inputStyle}
+//             onChangeText={gender => setGender(gender)}
+//             underlineColorAndroid="#F6F6F7"
+//             placeholder="Enter Email"
+//             placeholderTextColor="#F6F6F7"
+//             keyboardType="email-address"
+//             ref={ref => {
+//               this._emailinput = ref;
+//             }}
+//             returnKeyType="next"
+//             onSubmitEditing={() => this._ageinput && this._ageinput.focus()}
+//             blurOnSubmit={false}
+//           />
+
+//         </View>
+//         <View style={styles.SectionStyle}>
+//           <TextInput
+//             style={styles.inputStyle}
+//             onChangeText={personStatus => setPersonStatus(personStatus)}
+//             underlineColorAndroid="#F6F6F7"
+//             placeholder="Enter Status"
+//             placeholderTextColor="#F6F6F7"
+//             keyboardType="email-address"
+//             ref={ref => {
+//               this._ageinput = ref;
+//             }}
+//             onSubmitEditing={() =>
+//               this._addressinput && this._addressinput.focus()
+//             }
+//             blurOnSubmit={false}
+//           />
+//         </View>
+//         <View style={styles.SectionStyle}>
+//           <TextInput
+//             style={styles.inputStyle}
+//             onChangeText={jobType => setJobType(jobType)}
+//             underlineColorAndroid="#FFFFFF"
+//             placeholder="Enter JobType"
+//             placeholderTextColor="#F6F6F7"
+//             autoCapitalize="sentences"
+//             ref={ref => {
+//               this._addressinput = ref;
+//             }}
+//             returnKeyType="next"
+//             onSubmitEditing={Keyboard.dismiss}
+//             blurOnSubmit={false}
+//           />
+//         </View>
+//         {errortext != '' ? (
+//           <Text style={styles.errorTextStyle}> {errortext} </Text>
+//         ) : null}
+//         <TouchableOpacity
+//           style={styles.buttonStyle}
+//           activeOpacity={0.5}
+//           onPress={handleSubmitButton}>
+//           <Text style={styles.buttonTextStyle}>REGISTER</Text>
+//         </TouchableOpacity>
+//       </KeyboardAvoidingView> 
+//   </ScrollView>
+// </View>
+
 export default HomeScreen;
 
 

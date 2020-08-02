@@ -17,6 +17,7 @@ import {
   ScrollView,
 } from 'react-native';
 import Loader from './Components/Loader';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const PersonRegister = props => {
   let [personId, setPersonId] = useState('');
@@ -31,6 +32,7 @@ const PersonRegister = props => {
   let [loading, setLoading] = useState(false);
   let [errortext, setErrortext] = useState('');
   let [isRegistraionSuccess, setIsRegistraionSuccess] = useState(false);
+
 
   const handleSubmitButton = () => {
     setErrortext('');
@@ -70,13 +72,13 @@ const PersonRegister = props => {
       alert('Please fill JobType');
       return;
     }
-        //Show Loader
+    //Show Loader
     setLoading(true);
     //---------------------------------------------------------------------------------------------------------------------
- 
-   var apiBaseUrl = "http://192.168.0.200:9093/person/insert";
-   //var apiBaseUrl = "http://192.168.43.235:9093/person/insert";
-   // var apiBaseUrl = "http://localhost:9093/utilization/find";
+
+    var apiBaseUrl = "http://192.168.0.200:9093/person/insert";
+    //var apiBaseUrl = "http://192.168.43.235:9093/person/insert";
+    // var apiBaseUrl = "http://localhost:9093/utilization/find";
     var self = this;
     var payload =
     {
@@ -89,40 +91,53 @@ const PersonRegister = props => {
       "gender": gender,
       "personStatus": personStatus,
       "jobType": jobType
-  
+
       // "email": this.state.username,
       // "password": this.state.password
     }
-    axios.post(apiBaseUrl, payload, {headers :{
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Credentials': true,
-  }})
-    //axios.post(apiBaseUrl, payload)
+    axios.post(apiBaseUrl, payload, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true,
+      }
+    })
+      //axios.post(apiBaseUrl, payload)
       .then(function (response) {
+        setLoading(false);
         console.log(JSON.stringify(response));
         if (response.status == 200) {
-          console.log(response.data.status);
-         // self.setState(response.data);
-          props.navigation.navigate('DrawerNavigationRoutes');
-          // var uploadScreen = [];
-          // uploadScreen.push(<UploadScreen appContext={self.props.appContext} />)
-          // self.props.appContext.setState({ loginPage: [], uploadScreen: uploadScreen })
-        }
-        else if (response.status == 204) {
-          console.log("Username password do not match");
-          //alert("username password do not match")
+          if (response.data.status == 'STS008') {
+            console.log(response.data.message);
+            // self.setState(response.data);
+            AsyncStorage.setItem('person_id', response.data.personId);
+            props.navigation.navigate('DrawerNavigationRoutes');
+            // var uploadScreen = [];
+            // uploadScreen.push(<UploadScreen appContext={self.props.appContext} />)
+            // self.props.appContext.setState({ loginPage: [], uploadScreen: uploadScreen })
+          }
+          else if (response.data.status == 'STS007') {
+
+            console.log(response.data.message);
+            alert(response.data.message);
+          }
+          else {
+            console.log(response.data.message);
+            alert(response.data.message);
+          }
         }
         else {
-          console.log("Username does not exists");
-          //alert("Username does not exist");
+          alert('Invalid HTTP Response');
         }
-      })
+      }
+      )      
       .catch(function (error) {
+        setLoading(false);
+        alert('Unable To Reach Server');
         console.log(error);
       });
 
-      //-------------------------------------------------------------------------------------------------------------------------
+    //-------------------------------------------------------------------------------------------------------------------------
   };
   if (isRegistraionSuccess) {
     return (
@@ -160,22 +175,22 @@ const PersonRegister = props => {
               margin: 30,
             }}
           />
-             </View>
-          <View style={styles.SectionStyle}>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={personId => setPersonId(personId)}
-              underlineColorAndroid="#F6F6F7"
-              placeholder="Enter Id"
-              placeholderTextColor="#F6F6F7"
-              keyboardType="email-address"
-              ref={ref => {
-                this._emailinput = ref;
-              }}
-              returnKeyType="next"
-              onSubmitEditing={() => this._ageinput && this._ageinput.focus()}
-              blurOnSubmit={false}
-            />
+        </View>
+        <View style={styles.SectionStyle}>
+          <TextInput
+            style={styles.inputStyle}
+            onChangeText={personId => setPersonId(personId)}
+            underlineColorAndroid="#F6F6F7"
+            placeholder="Enter Id"
+            placeholderTextColor="#F6F6F7"
+            keyboardType="email-address"
+            ref={ref => {
+              this._emailinput = ref;
+            }}
+            returnKeyType="next"
+            onSubmitEditing={() => this._ageinput && this._ageinput.focus()}
+            blurOnSubmit={false}
+          />
         </View>
         <KeyboardAvoidingView enabled>
           <View style={styles.SectionStyle}>
@@ -208,7 +223,7 @@ const PersonRegister = props => {
               onSubmitEditing={() => this._ageinput && this._ageinput.focus()}
               blurOnSubmit={false}
             />
-               </View>
+          </View>
           <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}
@@ -224,7 +239,7 @@ const PersonRegister = props => {
               onSubmitEditing={() => this._ageinput && this._ageinput.focus()}
               blurOnSubmit={false}
             />
-               </View>
+          </View>
           <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}
@@ -240,7 +255,7 @@ const PersonRegister = props => {
               onSubmitEditing={() => this._ageinput && this._ageinput.focus()}
               blurOnSubmit={false}
             />
-               </View>
+          </View>
           <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}
@@ -256,7 +271,7 @@ const PersonRegister = props => {
               onSubmitEditing={() => this._ageinput && this._ageinput.focus()}
               blurOnSubmit={false}
             />
-               </View>
+          </View>
           <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}
@@ -272,7 +287,7 @@ const PersonRegister = props => {
               onSubmitEditing={() => this._ageinput && this._ageinput.focus()}
               blurOnSubmit={false}
             />
-            
+
           </View>
           <View style={styles.SectionStyle}>
             <TextInput
