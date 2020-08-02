@@ -21,6 +21,7 @@ import Loader from '../Components/Loader';
 import { set } from 'react-native-reanimated';
 import { VictoryBar, VictoryChart, VictoryTheme, VictoryGroup, VictoryStack, VictoryAxis } from "victory-native";
 //charan 
+//kanna
 const HomeScreen = props => {
   let [personId, setPersonId] = useState('');
   let [personName, setPersonName] = useState('');
