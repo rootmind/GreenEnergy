@@ -189,7 +189,7 @@ const LoginScreen = props => {
                 onChangeText={UserPassword => setUserPassword(UserPassword)}
                 //underlineColorAndroid="#FFFFFF"
                 //style={styles.placeholder}
-                placeholder="Password" //12345
+                placeholder=" Password" //12345
                 placeholderTextColor="#F6F6F7"
                 selectionColor='red'
                 // keyboardType="default"
