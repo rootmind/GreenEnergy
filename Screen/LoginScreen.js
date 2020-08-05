@@ -30,7 +30,7 @@ const LoginScreen = props => {
   const handleSubmitPress = () => {
     setErrortext('');
     if (!userEmail) {
-      alert('Please fill Email');
+      alert('Please fill ID');
       return;
     }
     if (!userPassword) {
@@ -165,7 +165,7 @@ const LoginScreen = props => {
             <View style={styles.textInput}>
               <TextInput
                 style={styles.inputStyle}
-                onChangeText={UserId => setUserEmail(userEmail)}
+                onChangeText={userEmail => setUserEmail(userEmail)}
                 //underlineColorAndroid="#FFFFFF"
                 placeholder=" User ID" //dummy@abc.com
                 //placeholderFontSize="20px"
