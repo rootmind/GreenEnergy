@@ -19,6 +19,7 @@ import {
 } from 'react-native';
 import Loader from '../Components/Loader';
 import { set } from 'react-native-reanimated';
+import {serverIP} from '../../app.json';
 
 const Profile = props => {
   let [personId, setPersonId] = useState('');
@@ -60,7 +61,8 @@ const Profile = props => {
     setLoading(true);
 
     //alert('personId'+ props);
-    var apiBaseUrl = "http://192.168.0.200:9093/person/find";
+    var apiBaseUrl = serverIP + ":9093/person/find";
+    //var apiBaseUrl = "http://192.168.1.3:9093/person/find";
    // var apiBaseUrl = "http://192.168.43.235:9093/person/find";
 
     var payload =
@@ -120,7 +122,8 @@ const Profile = props => {
     setLoading(true);
 
     //alert('personId'+ props);
-    var apiBaseUrl = "http://192.168.0.200:9093/person/update";
+    var apiBaseUrl = serverIP + ":9093/person/update";
+    //var apiBaseUrl = "http://192.168.1.3:9093/person/update";
    // var apiBaseUrl = "http://192.168.43.235:9093/person/update";
     var payload =
     {

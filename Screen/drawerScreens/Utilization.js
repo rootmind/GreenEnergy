@@ -18,6 +18,7 @@ import {
   ScrollView,
 } from 'react-native';
 import Loader from '../Components/Loader';
+import {serverIP} from '../../app.json';
 
 const Utilization = props => {
   let [personId, setPersonId] = useState('');
@@ -57,7 +58,8 @@ const Utilization = props => {
     setLoading(true);
 
     //alert('personId'+ props);
-    var apiBaseUrl = "http://192.168.0.200:9093/utilization/get";
+    var apiBaseUrl = serverIP + ":9093/utilization/get";
+    //var apiBaseUrl = "http://192.168.1.3:9093/utilization/get";
    // var apiBaseUrl = "http://192.168.43.235:9093/utilization/get";
     var payload =
     {
@@ -131,8 +133,8 @@ const Utilization = props => {
     setLoading(true);
     //---------------------------------------------------------------------------------------------------------------------
    
-   
-    var apiBaseUrl = "http://192.168.0.200:9093/utilization/insert";
+    //var apiBaseUrl = "http://192.168.1.3:9093/utilization/insert";
+    var apiBaseUrl = serverIP + ":9093/utilization/insert";
     //var apiBaseUrl = "http://192.168.43.235:9093/utilization/insert";
     
     var payload =

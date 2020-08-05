@@ -11,12 +11,12 @@ import AsyncStorage from '@react-native-community/async-storage';
 const CustomSidebarMenu = props => {
   let items = [
     {
-      navOptionName: 'Home Screen',
+      navOptionName: 'Home',
       screenToNavigate: 'HomeScreen',
     },
 
     {
-      navOptionName: 'Setting Screen',
+      navOptionName: 'Settings',
       screenToNavigate: 'SettingsScreen',
     },
 
@@ -42,7 +42,7 @@ const CustomSidebarMenu = props => {
       props.navigation.toggleDrawer();
       Alert.alert(
         'Logout',
-        'Are you sure? You want to logout?',
+        'Are you sure you want to logout?',
         [
           {
             text: 'Cancel',
@@ -51,7 +51,7 @@ const CustomSidebarMenu = props => {
             },
           },
           {
-            text: 'Confirm',
+            text: 'Yes',
             onPress: () => {
               AsyncStorage.clear();
               props.navigation.navigate('Auth');
@@ -71,11 +71,11 @@ const CustomSidebarMenu = props => {
     <View style={stylesSidebar.sideMenuContainer}>
       <View style={stylesSidebar.profileHeader}>
         <View style={stylesSidebar.profileHeaderPicCircle}>
-          <Text style={{ fontSize: 25, color: '#307ecc' }}>
-            {'About React'.charAt(0)}
+          <Text style={{ fontSize: 25, fontWeight: 'bold', color: 'cyan' }}>
+            {'Green Energy'.charAt(0)}
           </Text>
         </View>
-        <Text style={stylesSidebar.profileHeaderText}>AboutReact</Text>
+        <Text style={stylesSidebar.profileHeaderText}>Green Energy</Text>
       </View>
       <View style={stylesSidebar.profileHeaderLine} />
       <View style={{ width: '100%', flex: 1 }}>
@@ -85,17 +85,17 @@ const CustomSidebarMenu = props => {
               flexDirection: 'row',
               alignItems: 'center',
               padding: 20,
-              color: 'white',
+              color: 'black',
               backgroundColor:
                 global.currentScreenIndex === item.screenToNavigate
-                  ? '#4b9ff2'
-                  : '#307ecc',
+                  ? 'orange'
+                  : 'cyan',
             }}
             key={key}
             onStartShouldSetResponder={() =>
               handleClick(key, item.screenToNavigate)
             }>
-            <Text style={{ fontSize: 15, color: 'white' }}>
+            <Text style={{ fontSize: 20, color: 'black' }}>
               {item.navOptionName}
             </Text>
           </View>
@@ -109,13 +109,13 @@ const stylesSidebar = StyleSheet.create({
   sideMenuContainer: {
     width: '100%',
     height: '100%',
-    backgroundColor: '#307ecc',
+    backgroundColor: 'cyan',
     paddingTop: 40,
     color: 'white',
   },
   profileHeader: {
     flexDirection: 'row',
-    backgroundColor: '#307ecc',
+    backgroundColor: 'cyan',
     padding: 15,
     textAlign: 'center',
   },
@@ -123,22 +123,23 @@ const stylesSidebar = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 60 / 2,
-    color: 'white',
-    backgroundColor: '#ffffff',
+    color: 'cyan',
+    backgroundColor: 'black',
     textAlign: 'center',
     justifyContent: 'center',
     alignItems: 'center',
   },
   profileHeaderText: {
-    color: 'white',
+    color: 'black',
     alignSelf: 'center',
     paddingHorizontal: 10,
     fontWeight: 'bold',
+    fontSize: 24
   },
   profileHeaderLine: {
     height: 1,
-    marginHorizontal: 20,
-    backgroundColor: '#e2e2e2',
+    marginHorizontal: 18,
+    backgroundColor: 'black',
     marginTop: 15,
     marginBottom: 10,
   },
