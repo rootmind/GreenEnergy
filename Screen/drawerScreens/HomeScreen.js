@@ -19,8 +19,8 @@ import {
 } from 'react-native';
 import Loader from '../Components/Loader';
 import { set } from 'react-native-reanimated';
-import { VictoryBar, VictoryChart, VictoryTheme, VictoryGroup, VictoryStack, VictoryAxis } from "victory-native";
-import {serverIP} from '../../app.json';
+import { VictoryBar, VictoryChart, VictoryTheme, VictoryGroup, VictoryStack, VictoryAxis, VictoryLine } from "victory-native";
+import { serverIP } from '../../app.json';
 //charan 
 //kanna
 const HomeScreen = props => {
@@ -59,7 +59,7 @@ const HomeScreen = props => {
       //If not then send for Authentication
       //else send to Home Screen
       AsyncStorage.getItem('person_id').then((value) => {
-        //alert('value' + value);
+        // alert('value' + value);
         setPersonId(value);
         fetchUtilizationInfo(value);
       }
@@ -115,6 +115,7 @@ const HomeScreen = props => {
           // setTimeout(() => { setIsLoading[]; }, 1000);
           setIsGraphLoading(true);
           setUtilizationData(response.data);
+          // setUtilizationData([{ personMonth: 1, waterUtilized: 100, electricityUtilized: 200 }]);
 
           // data = reponse.data;
 
@@ -142,53 +143,70 @@ const HomeScreen = props => {
 
     return (
       <View style={styles.container}>
+        <ScrollView keyboardShouldPersistTaps="handled">
 
 
-        <VictoryChart  height={350}  width={350}  domainPadding={{ x: 10 },{ y: 100 }} theme={VictoryTheme.material}        >
+          <VictoryChart height={400} width={375} theme={VictoryTheme.material}        >
 
 
 
-          <VictoryGroup offset={10}
-            standalone={false}
-            colorScale={"qualitative"}>
+            <VictoryGroup offset={0}
+              standalone={false}
+              colorScale={"qualitative"}>
 
-            <VictoryStack colorScale={"blue"} >
+              <VictoryStack colorScale={"blue"} >
 
-            {utilizationData.map((data, i) => {
+                {/* {utilizationData.map((data, i) => {
                 return <VictoryBar data={data} x="personMonth" y="electricityUtilized" key={i}/>;
-              })}
+              })} */}
 
-              {/* <VictoryBar data={utilizationData} x="personMonth" y="electricityUtilized" /> */}
+                <VictoryBar data={utilizationData} x="personMonth" y="electricityUtilized" barWidth={({ index }) => index * 2 + 8} />
               </VictoryStack>
 
-              <VictoryAxis dependentAxis
-              tickFormat={(tick) => `${tick}KW`}
-            />
-            <VictoryAxis
-              tickFormat={["1", "2", "3", "4", "5","6", "7", "8", "9", "10","11", "12"]}
+              <VictoryAxis dependentAxis  label="Electricity"
+              //domain={[0, 200]}
+                tickFormat={(tick) => `${tick}kW`}
+              />
+              <VictoryAxis domain={[0, 12]} label="Month"
+                tickFormat={["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]}
               />
 
-          </VictoryGroup>
+            </VictoryGroup>
 
-        </VictoryChart>
+          </VictoryChart>
 
-
-        {/* <VictoryChart   width={350} theme={VictoryTheme.material}>
-
+          <VictoryChart height={400} width={375} theme={VictoryTheme.material}        >
 
 
-          <VictoryGroup offset={10}
-            standalone={false}
-            colorScale={"qualitative"}>
 
-            <VictoryStack colorScale={"blue"} >
-              <VictoryBar data={utilizationData} x="personMonth" y="waterUtilized" /></VictoryStack>
+            <VictoryGroup offset={0}
+              standalone={false}
+              colorScale={"qualitative"}>
 
-          </VictoryGroup>
+              <VictoryStack colorScale={"blue"} >
 
-        </VictoryChart> */}
+                {/* {utilizationData.map((data, i) => {
+      return <VictoryBar data={data} x="personMonth" y="electricityUtilized" key={i}/>;
+    })} */}
+
+                <VictoryBar data={utilizationData} x="personMonth" y="waterUtilized" barWidth={({ index }) => index * 2 + 8} />
+              </VictoryStack>
+
+              <VictoryAxis dependentAxis   label="Water"
+             // domain={[0, 900]}
+                tickFormat={(tick) => `${tick}gal`}
+              />
+              <VictoryAxis domain={[0, 12]}  label="Month"
+                tickFormat={["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]}
+              />
+
+            </VictoryGroup>
+
+          </VictoryChart>
 
 
+
+        </ScrollView>
       </View>
 
 
@@ -198,6 +216,7 @@ const HomeScreen = props => {
   else {
     return (
       <View style={styles.container}>
+
       </View>
     );
   }
