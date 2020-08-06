@@ -142,7 +142,7 @@ const HomeScreen = props => {
       <View style={styles.container}>
 
 
-        <VictoryChart width={350} theme={VictoryTheme.material}>
+        <VictoryChart  height={350}  width={350}  domainPadding={{ x: 10 },{ y: 100 }} theme={VictoryTheme.material}        >
 
 
 
@@ -151,13 +151,27 @@ const HomeScreen = props => {
             colorScale={"qualitative"}>
 
             <VictoryStack colorScale={"blue"} >
-              <VictoryBar data={utilizationData} x="personMonth" y="electricityUtilized" /></VictoryStack>
+
+            {utilizationData.map((data, i) => {
+                return <VictoryBar data={data} x="personMonth" y="electricityUtilized" key={i}/>;
+              })}
+
+              {/* <VictoryBar data={utilizationData} x="personMonth" y="electricityUtilized" /> */}
+              </VictoryStack>
+
+              <VictoryAxis dependentAxis
+              tickFormat={(tick) => `${tick}KW`}
+            />
+            <VictoryAxis
+              tickFormat={["1", "2", "3", "4", "5","6", "7", "8", "9", "10","11", "12"]}
+              />
 
           </VictoryGroup>
 
         </VictoryChart>
 
-        <VictoryChart width={350} theme={VictoryTheme.material}>
+
+        {/* <VictoryChart   width={350} theme={VictoryTheme.material}>
 
 
 
@@ -170,7 +184,7 @@ const HomeScreen = props => {
 
           </VictoryGroup>
 
-        </VictoryChart>
+        </VictoryChart> */}
 
 
       </View>
