@@ -18,6 +18,7 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import Loader from './Components/Loader';
+import {serverIP} from '../app.json';
 
 
 const LoginScreen = props => {
@@ -29,7 +30,7 @@ const LoginScreen = props => {
   const handleSubmitPress = () => {
     setErrortext('');
     if (!userEmail) {
-      alert('Please fill Email');
+      alert('Please fill ID');
       return;
     }
     if (!userPassword) {
@@ -40,9 +41,10 @@ const LoginScreen = props => {
    // var dataToSend = { user_email: userEmail, user_password: userPassword };
 
     // var apiBaseUrl = "http://localhost:8080/Person-0.0.1-SNAPSHOT/person/login";
-    var apiBaseUrl = "http://192.168.0.200:9093/person/login";
+    var apiBaseUrl = serverIP + ":9093/person/login";
     //var apiBaseUrl = "http://192.168.43.235:9093/person/login";
    
+    console.log('apiBaseUrl ' + apiBaseUrl);
     var payload =
     {
 
@@ -135,65 +137,70 @@ const LoginScreen = props => {
   };
 
   return (
+    // <View style={styles.container}>
+    //   <View style={styles.backgroundContainer}>
+    //     <Image style={styles.bakcgroundImage} source={require('./Image/1.jpg')} />
+    //   </View>
+    // </View>
+
+
     <View style={styles.mainBody}>
       <Loader loading={loading} />
       <ScrollView keyboardShouldPersistTaps="handled">
-        <View style={{ marginTop: 100 }}>
+        <View style={{ marginTop: 65 }}>
           <KeyboardAvoidingView enabled>
-
             <View style={{ alignItems: 'center' }}>
               <Image
-
-                source={require('../Image/aboutreact.png')}
+                source={require('../Image/2.jpg')}
                 style={{
-                  width: '50%',
-                  height: 100,
+                  width: '200%',
+                  height: 252,
                   resizeMode: 'contain',
-                  margin: 30,
+                  margin: -20
                 }}
               />
-
             </View>
 
-             <View style={styles.SectionStyle}>
+
+            <View style={styles.textInput}>
               <TextInput
                 style={styles.inputStyle}
-                onChangeText={UserEmail => setUserEmail(UserEmail)}
-                underlineColorAndroid="#FFFFFF"
-                placeholder="Enter Email" //dummy@abc.com
-                placeholderTextColor= 'black'//"#F6F6F7"
+                onChangeText={userEmail => setUserEmail(userEmail)}
+                //underlineColorAndroid="#FFFFFF"
+                placeholder=" User ID" //dummy@abc.com
+                //placeholderFontSize="20px"
+                placeholderTextColor="#F6F6F7"
+                selectionColor='red'
                 autoCapitalize="none"
-                keyboardType="email-address"
-                ref={ref => {
-                  this._emailinput = ref;
-               }}
+                // keyboardType="email-address"
+                // ref={ref => {
+                //   this._emailinput = ref;
+                // }}
                 returnKeyType="next"
-                onSubmitEditing={() =>
-                  this._passwordinput && this._passwordinput.focus()
-                }
+                // onSubmitEditing={() =>
+                //   this._passwordinput && this._passwordinput.focus()
+                // }
                 blurOnSubmit={false}
               />
-
             </View>
-            <View style={styles.SectionStyle}>
+            <View style={styles.textInput}>
               <TextInput
                 style={styles.inputStyle}
                 onChangeText={UserPassword => setUserPassword(UserPassword)}
-                underlineColorAndroid="#FFFFFF"
-                placeholder="Enter Password" //12345
-                placeholderTextColor=  'black'//"#F6F6F7"
-                keyboardType="default"
-                ref={ref => {
-                  this._passwordinput = ref;
-                }}
+                //underlineColorAndroid="#FFFFFF"
+                //style={styles.placeholder}
+                placeholder=" Password" //12345
+                placeholderTextColor="#F6F6F7"
+                selectionColor='red'
+                // keyboardType="default"
+                // ref={ref => {
+                //   this._passwordinput = ref;
+                // }}
                 onSubmitEditing={Keyboard.dismiss}
                 blurOnSubmit={false}
                 secureTextEntry={true}
               />
-            </View> 
-
-           
-
+            </View>
             {errortext != '' ? (
               <Text style={styles.errorTextStyle}> {errortext} </Text>
             ) : null}
@@ -201,20 +208,17 @@ const LoginScreen = props => {
               style={styles.buttonStyle}
               activeOpacity={0.5}
               onPress={handleSubmitPress}>
+              {/* <ImageBackground source={image} style={styles.image}>
+                <Text style={styles.buttonTextStyle}>LOGIN</Text>
+              </ImageBackground> */}
               <Text style={styles.buttonTextStyle}>LOGIN</Text>
-            </TouchableOpacity>
-            {/* <Text
-              style={styles.registerTextStyle}
-              onPress={() => props.navigation.navigate('RegisterScreen')}>
-              New Here ? Register
-            </Text> */}
 
+            </TouchableOpacity>
             <Text
               style={styles.registerTextStyle}
               onPress={() => props.navigation.navigate('PersonRegister')}>
-              New Here ? Register Person
+              New Here?  Register
             </Text>
-
           </KeyboardAvoidingView>
         </View>
       </ScrollView>
@@ -227,8 +231,7 @@ const styles = StyleSheet.create({
   mainBody: {
     flex: 1,
     justifyContent: 'center',
-    // backgroundColor: '#307ecc',
-    backgroundColor: 'white',
+    backgroundColor: 'black',
   },
   SectionStyle: {
     flexDirection: 'row',
@@ -237,43 +240,85 @@ const styles = StyleSheet.create({
     marginLeft: 35,
     marginRight: 35,
     margin: 10,
+    backgroundColor: 'white',
+    paddingVertical: 20
   },
   buttonStyle: {
     backgroundColor: '#7DE24E',
-    borderWidth: 0,
     color: '#FFFFFF',
     borderColor: '#7DE24E',
-    height: 40,
+    height: 59,
     alignItems: 'center',
     borderRadius: 30,
-    marginLeft: 35,
-    marginRight: 35,
-    marginTop: 20,
-    marginBottom: 20,
+    marginLeft: 28,
+    marginRight: 24,
+    marginTop: 25,
+    marginBottom: 12
   },
   buttonTextStyle: {
-    color: '#FFFFFF',
-    paddingVertical: 10,
-    fontSize: 16,
+    color: 'black',
+    paddingVertical: 15,
+    fontSize: 22,
+    fontWeight: 'bold'
+    
   },
   inputStyle: {
     flex: 1,
-    color: 'black',
+    color: 'white',
     paddingLeft: 15,
     paddingRight: 15,
-    borderWidth: 1,
+    borderWidth: 3,
     borderRadius: 30,
-    borderColor: 'black',
+    paddingVertical: 15,
+    borderColor: 'blue',
+    fontSize: 20
+
   },
   registerTextStyle: {
-    color:  'black',// '#FFFFFF',
+    color: '#FFFFFF',
     textAlign: 'center',
     fontWeight: 'bold',
-    fontSize: 14,
+    fontSize: 18,
   },
   errorTextStyle: {
     color: 'red',
     textAlign: 'center',
     fontSize: 14,
   },
+  textInput: {
+    flex: 1,
+    margin: 23,
+    paddingLeft: 6,
+    color: 'white',
+    fontSize: 20,
+
+  },
+  image: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center"
+  },
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+  },
+  backgroundContainer: {
+    flex: 1,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+  },
+  bakcgroundImage: {
+    flex: 1,
+    width: null,
+    height: null
+  },
+  loginButton: {
+    marginBottom: 40
+  }
+
 });

@@ -20,6 +20,7 @@ import {
 import Loader from '../Components/Loader';
 import { set } from 'react-native-reanimated';
 import { VictoryBar, VictoryChart, VictoryTheme, VictoryGroup, VictoryStack, VictoryAxis } from "victory-native";
+import {serverIP} from '../../app.json';
 //charan 
 //kanna
 const HomeScreen = props => {
@@ -78,7 +79,8 @@ const HomeScreen = props => {
     //alert('personId'+ props);
     // var apiBaseUrl = "http://192.168.0.200:9093/person/find";
     // var apiBaseUrl = "http://192.168.43.235:9093/person/find";
-    var apiBaseUrl = "http://192.168.0.200:9093/utilization/get";
+    var apiBaseUrl = serverIP + ":9093/utilization/get";
+    //var apiBaseUrl = "http://192.168.1.3:9093/utilization/get";
     var payload =
     {
       "personId": props

@@ -1,4 +1,4 @@
-/* This is an Login Registration example from https://aboutreact.com/ */
+	/* This is an Login Registration example from https://aboutreact.com/ */
 /* https://aboutreact.com/react-native-login-and-signup/ */
 
 //Import React and Hooks we needed
@@ -7,9 +7,9 @@ import React, { useState, useEffect } from 'react';
 //Import all required component
 import { ActivityIndicator, View, StyleSheet, Image } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
+//import LoginScreen from './LoginScreen';
 
 const SplashScreen = props => {
-
   //State for ActivityIndicator animation
   let [animating, setAnimating] = useState(true);
 
@@ -30,8 +30,8 @@ const SplashScreen = props => {
   return (
     <View style={styles.container}>
       <Image
-        source={require('../Image/aboutreact.png')}
-        style={{ width: '90%', resizeMode: 'contain', margin: 30 }}
+        source={require('../Image/1.jpg')}
+        style={{ width: '125%', resizeMode: 'contain', margin: 30 }}
       />
       <ActivityIndicator
         animating={animating}
@@ -49,10 +49,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#307ecc',
+    backgroundColor: 'white',
   },
   activityIndicator: {
     alignItems: 'center',
-    height: 80,
+    height: -70,
   },
 });
