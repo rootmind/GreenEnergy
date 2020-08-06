@@ -154,9 +154,11 @@ const LoginScreen = props => {
                 source={require('../Image/2.jpg')}
                 style={{
                   width: '200%',
-                  height: 252,
-                  resizeMode: 'contain',
-                  margin: -20
+                  height: 288,
+                  marginVertical: -5,
+                  marginLeft: 5,
+                  marginBottom: -18,
+                  resizeMode: 'contain'
                 }}
               />
             </View>
@@ -169,8 +171,8 @@ const LoginScreen = props => {
                 //underlineColorAndroid="#FFFFFF"
                 placeholder=" User ID" //dummy@abc.com
                 //placeholderFontSize="20px"
-                placeholderTextColor="#F6F6F7"
-                selectionColor='red'
+                placeholderTextColor="black"
+            selectionColor='#808B96'
                 autoCapitalize="none"
                 // keyboardType="email-address"
                 // ref={ref => {
@@ -190,8 +192,8 @@ const LoginScreen = props => {
                 //underlineColorAndroid="#FFFFFF"
                 //style={styles.placeholder}
                 placeholder=" Password" //12345
-                placeholderTextColor="#F6F6F7"
-                selectionColor='red'
+                placeholderTextColor="black"
+            selectionColor='#808B96'
                 // keyboardType="default"
                 // ref={ref => {
                 //   this._passwordinput = ref;
@@ -231,7 +233,7 @@ const styles = StyleSheet.create({
   mainBody: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: 'black',
+    backgroundColor: 'white',
   },
   SectionStyle: {
     flexDirection: 'row',
@@ -247,36 +249,48 @@ const styles = StyleSheet.create({
     backgroundColor: '#7DE24E',
     color: '#FFFFFF',
     borderColor: '#7DE24E',
-    height: 59,
+    height: 67,
     alignItems: 'center',
     borderRadius: 30,
-    marginLeft: 28,
-    marginRight: 24,
-    marginTop: 25,
-    marginBottom: 12
+    marginLeft: 32.5,
+    marginRight: 32.5,
+    marginTop: 45,
+    marginBottom: 12,
   },
   buttonTextStyle: {
     color: 'black',
-    paddingVertical: 15,
+    paddingVertical: 17.45,
+    paddingRight: 9,
     fontSize: 22,
     fontWeight: 'bold'
-    
   },
   inputStyle: {
+    backgroundColor: 'white',
     flex: 1,
-    color: 'white',
+    color: 'black',
     paddingLeft: 15,
     paddingRight: 15,
-    borderWidth: 3,
+    borderWidth: 2,
     borderRadius: 30,
-    paddingVertical: 15,
-    borderColor: 'blue',
-    fontSize: 20
-
+    paddingVertical: 17,
+    marginLeft: 1.5,
+    marginRight: 10,
+    marginTop: 14,
+    marginBottom: -30,
+    marginVertical: -10,
+    borderColor: 'black',
+    fontSize: 22
+  },
+  textInput: {
+    flex: 1,
+    margin: 23,
+    paddingLeft: 6,
+    color: 'black',
+    fontSize: 20,
   },
   registerTextStyle: {
-    color: '#FFFFFF',
-    textAlign: 'center',
+    color: 'black',
+    paddingLeft: 120,
     fontWeight: 'bold',
     fontSize: 18,
   },
@@ -284,14 +298,6 @@ const styles = StyleSheet.create({
     color: 'red',
     textAlign: 'center',
     fontSize: 14,
-  },
-  textInput: {
-    flex: 1,
-    margin: 23,
-    paddingLeft: 6,
-    color: 'white',
-    fontSize: 20,
-
   },
   image: {
     flex: 1,

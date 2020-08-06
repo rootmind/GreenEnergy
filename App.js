@@ -38,11 +38,11 @@ const Auth = createStackNavigator({
   PersonRegister: {
     screen: PersonRegister,
     navigationOptions: {
-      title: 'Register',
+      title: 'Back',
       headerStyle: {
-        backgroundColor: '#307ecc',
+        backgroundColor: '#1DA1F2',
       },
-      headerTintColor: '#fff',
+      headerTintColor: 'white',
     },
   },
 });

@@ -24,9 +24,9 @@ const FirstActivity_StackNavigator = createStackNavigator({
       title: 'Home Screen',
       headerLeft: () => <NavigationDrawerHeader navigationProps={navigation} />,
       headerStyle: {
-        backgroundColor: 'black',
+        backgroundColor: '#1DA1F2',
       },
-      headerTintColor: 'orange',
+      headerTintColor: 'white',
     }),
   },
 });
@@ -38,9 +38,9 @@ const SecondActivity_StackNavigator = createStackNavigator({
       title: 'Setting Screen',
       headerLeft: () => <NavigationDrawerHeader navigationProps={navigation} />,
       headerStyle: {
-        backgroundColor: 'black',
+        backgroundColor: '#1DA1F2',
       },
-      headerTintColor: 'orange',
+      headerTintColor: 'white',
     }),
   },
 });
@@ -52,9 +52,9 @@ const ThirdActivity_StackNavigator = createStackNavigator({
       title: 'Utilization',
       headerLeft: () => <NavigationDrawerHeader navigationProps={navigation} />,
       headerStyle: {
-        backgroundColor: 'black',
+        backgroundColor: '#1DA1F2',
       },
-      headerTintColor: 'orange',
+      headerTintColor: 'white',
     }),
   },
 });
@@ -66,9 +66,9 @@ const FourthActivity_StackNavigator = createStackNavigator({
       title: 'Profile',
       headerLeft: () => <NavigationDrawerHeader navigationProps={navigation} />,
       headerStyle: {
-        backgroundColor: 'black',
+        backgroundColor: '#1DA1F2',
       },
-      headerTintColor: 'orange',
+      headerTintColor: 'white',
     }),
   },
 });

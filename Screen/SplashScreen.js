@@ -31,7 +31,7 @@ const SplashScreen = props => {
     <View style={styles.container}>
       <Image
         source={require('../Image/1.jpg')}
-        style={{ width: '125%', resizeMode: 'contain', margin: 30 }}
+        style={{ width: '125%', resizeMode: 'contain', marginTop: 50, marginRight: 1.5 }}
       />
       <ActivityIndicator
         animating={animating}

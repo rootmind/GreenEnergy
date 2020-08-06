@@ -187,7 +187,7 @@ const Utilization = props => {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#307ecc' }}>
+    <View style={{ flex: 1, backgroundColor: 'white' }}>
       <Loader loading={loading} />
       <ScrollView keyboardShouldPersistTaps="handled">
         <View style={{ alignItems: 'center' }}>
@@ -206,9 +206,10 @@ const Utilization = props => {
               style={styles.inputStyle}
             //  onChangeText={personId => setPersonId(personId)}
               value={personId}
-              underlineColorAndroid="#F6F6F7"
+              //underlineColorAndroid="#F6F6F7"
               placeholder="Enter Id"
-              placeholderTextColor="#F6F6F7"        
+              placeholderTextColor="black"
+                        selectionColor='#808B96'        
               returnKeyType="next"
             
               blurOnSubmit={false}
@@ -220,9 +221,10 @@ const Utilization = props => {
             <TextInput
               style={styles.inputStyle}
               onChangeText={personMonth => setPersonMonth(personMonth)}
-              underlineColorAndroid="#FFFFFF"
+              //underlineColorAndroid="#FFFFFF"
               placeholder="Enter Month"
-              placeholderTextColor="#F6F6F7"
+              placeholderTextColor="black"
+                        selectionColor='#808B96'
               autoCapitalize="sentences"
               returnKeyType="next"
             
@@ -233,9 +235,10 @@ const Utilization = props => {
             <TextInput
               style={styles.inputStyle}
               onChangeText={personYear => setPersonYear(personYear)}
-              underlineColorAndroid="#F6F6F7"
+              //underlineColorAndroid="#F6F6F7"
               placeholder="Enter Year"
-              placeholderTextColor="#F6F6F7"
+              placeholderTextColor="black"
+                        selectionColor='#808B96'
            
               returnKeyType="next"
             
@@ -246,9 +249,10 @@ const Utilization = props => {
             <TextInput
               style={styles.inputStyle}
               onChangeText={waterUtilized => setWaterUtilized(waterUtilized)}
-              underlineColorAndroid="#F6F6F7"
+              //underlineColorAndroid="#F6F6F7"
               placeholder="Enter Water Utilized"
-              placeholderTextColor="#F6F6F7"
+              placeholderTextColor="black"
+                        selectionColor='#808B96'
             
               returnKeyType="next"
              
@@ -259,9 +263,10 @@ const Utilization = props => {
             <TextInput
               style={styles.inputStyle}
               onChangeText={electricityUtilized => setElectricityUtilized(electricityUtilized)}
-              underlineColorAndroid="#F6F6F7"
+              //underlineColorAndroid="#F6F6F7"
               placeholder="Enter Electricity Utilized"
-              placeholderTextColor="#F6F6F7"
+              placeholderTextColor="black"
+                        selectionColor='#808B96'
              
               returnKeyType="next"
            
@@ -300,49 +305,64 @@ export default Utilization;
 
 const styles = StyleSheet.create({
   SectionStyle: {
-    flexDirection: 'row',
-    height: 40,
-    marginTop: 20,
-    marginLeft: 35,
-    marginRight: 35,
-    margin: 10,
+      flexDirection: 'row',
+      height: 40,
+      marginTop: 20,
+      marginLeft: 35,
+      marginRight: 35,
+      margin: 10,
   },
   buttonStyle: {
-    backgroundColor: '#7DE24E',
-    borderWidth: 0,
-    color: '#FFFFFF',
-    borderColor: '#7DE24E',
-    height: 40,
-    alignItems: 'center',
-    borderRadius: 30,
-    marginLeft: 35,
-    marginRight: 35,
-    marginTop: 20,
-    marginBottom: 20,
+      backgroundColor: '#7DE24E',
+      color: '#FFFFFF',
+      borderColor: '#7DE24E',
+      height: 65,
+      alignItems: 'center',
+      borderRadius: 30,
+      marginLeft: 28,
+      marginRight: 28,
+      marginTop: 45,
+      marginBottom: 12
   },
   buttonTextStyle: {
-    color: '#FFFFFF',
-    paddingVertical: 10,
-    fontSize: 16,
+      color: 'black',
+      paddingVertical: 17.35,
+      paddingRight: 10,
+      fontSize: 22,
+      fontWeight: 'bold'
   },
   inputStyle: {
-    flex: 1,
-    color: 'white',
-    paddingLeft: 15,
-    paddingRight: 15,
-    borderWidth: 1,
-    borderRadius: 30,
-    borderColor: 'white',
+      backgroundColor: 'white',
+      flex: 1,
+      color: 'black',
+      paddingLeft: 15,
+      paddingRight: 15,
+      borderWidth: 2,
+      borderRadius: 30,
+      paddingVertical: 17,
+      marginRight: 10,
+      marginTop: 10,
+      marginBottom: -30,
+      marginVertical: -10,
+      borderColor: 'black',
+      fontSize: 22
+  },
+  textInput: {
+      flex: 1,
+      margin: 23,
+      paddingLeft: 6,
+      color: 'black',
+      fontSize: 20,
   },
   errorTextStyle: {
-    color: 'red',
-    textAlign: 'center',
-    fontSize: 14,
+      color: 'red',
+      textAlign: 'center',
+      fontSize: 14,
   },
   successTextStyle: {
-    color: 'white',
-    textAlign: 'center',
-    fontSize: 18,
-    padding: 30,
+      color: 'white',
+      textAlign: 'center',
+      fontSize: 18,
+      padding: 30,
   },
 });

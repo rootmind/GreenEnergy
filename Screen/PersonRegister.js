@@ -168,8 +168,8 @@ const PersonRegister = props => {
             onChangeText={personId => setPersonId(personId)}
             //underlineColorAndroid="#F6F6F7"
             placeholder="Enter ID"
-            placeholderTextColor="#F6F6F7"
-            selectionColor='red'
+            placeholderTextColor="black"
+            selectionColor='#808B96'
             // keyboardType="email-address"
             // ref={ref => {
             //   this._emailinput = ref;
@@ -186,8 +186,8 @@ const PersonRegister = props => {
               onChangeText={PersonName => setPersonName(PersonName)}
               //underlineColorAndroid="#FFFFFF"
               placeholder="Enter Name"
-              placeholderTextColor="#F6F6F7"
-              selectionColor='red'
+              placeholderTextColor="black"
+            selectionColor='#808B96'
               autoCapitalize="sentences"
               returnKeyType="next"
               //onSubmitEditing={() => this._personNameinput && this._personNameinput.focus()}
@@ -200,8 +200,8 @@ const PersonRegister = props => {
               onChangeText={personEmail => setPersonEmail(personEmail)}
               //underlineColorAndroid="#F6F6F7"
               placeholder="Enter Email"
-              placeholderTextColor="#F6F6F7"
-              selectionColor='red'
+              placeholderTextColor="black"
+            selectionColor='#808B96'
               // keyboardType="email-address"
               // ref={ref => {
               //   this._emailinput = ref;
@@ -217,8 +217,8 @@ const PersonRegister = props => {
               onChangeText={personPassword => setPersonPassword(personPassword)}
               //underlineColorAndroid="#F6F6F7"
               placeholder="Enter Password"
-              placeholderTextColor="#F6F6F7"
-              selectionColor='red'
+              placeholderTextColor="black"
+            selectionColor='#808B96'
               // keyboardType="email-address"
               // ref={ref => {
               //   this._emailinput = ref;
@@ -234,8 +234,8 @@ const PersonRegister = props => {
               onChangeText={grade => setGrade(grade)}
               //underlineColorAndroid="#F6F6F7"
               placeholder="Enter Class (Optional)"
-              placeholderTextColor="#F6F6F7"
-              selectionColor='red'
+              placeholderTextColor="black"
+            selectionColor='#808B96'
               // keyboardType="numerical"
               // ref={ref => {
               //   this._gradeinput = ref;
@@ -251,8 +251,8 @@ const PersonRegister = props => {
               onChangeText={personSection => setPersonSection(personSection)}
               //underlineColorAndroid="#F6F6F7"
               placeholder="Enter Section (Optional)"
-              placeholderTextColor="#F6F6F7"
-              selectionColor='red'
+              placeholderTextColor="black"
+            selectionColor='#808B96'
               //keyboardType="email-address"
               // ref={ref => {
               //   this._emailinput = ref;
@@ -268,8 +268,8 @@ const PersonRegister = props => {
               onChangeText={gender => setGender(gender)}
               //underlineColorAndroid="#F6F6F7"
               placeholder="Enter Gender"
-              placeholderTextColor="#F6F6F7"
-              selectionColor='red'
+              placeholderTextColor="black"
+            selectionColor='#808B96'
               // keyboardType="email-address"
               // ref={ref => {
               //   this._emailinput = ref;
@@ -286,8 +286,8 @@ const PersonRegister = props => {
               onChangeText={jobType => setJobType(jobType)}
               //underlineColorAndroid="#FFFFFF"
               placeholder="Enter JobType"
-              placeholderTextColor="#F6F6F7"
-              selectionColor='red'
+              placeholderTextColor="black"
+            selectionColor='#808B96'
               autoCapitalize="sentences"
               // ref={ref => {
               //   this._jobTypeinput = ref;
@@ -326,30 +326,43 @@ const styles = StyleSheet.create({
     backgroundColor: '#7DE24E',
     color: '#FFFFFF',
     borderColor: '#7DE24E',
-    height: 59,
+    height: 65,
     alignItems: 'center',
     borderRadius: 30,
     marginLeft: 28,
-    marginRight: 24,
-    marginTop: 25,
+    marginRight: 28,
+    marginTop: 45,
     marginBottom: 12
   },
   buttonTextStyle: {
     color: 'black',
-    paddingVertical: 15,
+    paddingVertical: 17.35,
+    paddingRight: 10,
     fontSize: 22,
     fontWeight: 'bold'
   },
   inputStyle: {
+    backgroundColor: 'white',
     flex: 1,
-    color: 'white',
+    color: 'black',
     paddingLeft: 15,
     paddingRight: 15,
-    borderWidth: 3,
+    borderWidth: 2,
     borderRadius: 30,
-    paddingVertical: 15,
-    borderColor: 'blue',
-    fontSize: 20
+    paddingVertical: 17,
+    marginRight: 10,
+    marginTop: 14,
+    marginBottom: -30,
+    marginVertical: -10,
+    borderColor: 'black',
+    fontSize: 22
+  },
+  textInput: {
+    flex: 1,
+    margin: 23,
+    paddingLeft: 6,
+    color: 'black',
+    fontSize: 20,
   },
   errorTextStyle: {
     color: 'red',
@@ -362,11 +375,4 @@ const styles = StyleSheet.create({
     fontSize: 18,
     padding: 30,
   },
-  textInput: {
-    flex: 1,
-    margin: 23,
-    paddingLeft: 6,
-    color: 'white',
-    fontSize: 20
-  }
 });

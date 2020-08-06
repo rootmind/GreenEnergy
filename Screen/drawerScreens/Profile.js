@@ -192,7 +192,7 @@ const Profile = props => {
 
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#307ecc' }}>
+    <View style={{ flex: 1, backgroundColor: 'white' }}>
       <Loader loading={loading} />
       <ScrollView keyboardShouldPersistTaps="handled">
         <View style={{ alignItems: 'center' }}>
@@ -211,9 +211,10 @@ const Profile = props => {
             style={styles.inputStyle}
             onChangeText={personId => setPersonId(personId)}
             value={personId}
-            underlineColorAndroid="#F6F6F7"
+            //underlineColorAndroid="#F6F6F7"
             placeholder="Enter Id"
-            placeholderTextColor="#F6F6F7"
+            placeholderTextColor="black"
+            selectionColor='#808B96'
             returnKeyType="next"
            // onSubmitEditing={() => this._ageinput && this._ageinput.focus()}
             blurOnSubmit={false}
@@ -226,9 +227,10 @@ const Profile = props => {
               style={styles.inputStyle}
               onChangeText={PersonName => setPersonName(PersonName)}
               value={personName}
-              underlineColorAndroid="#FFFFFF"
+              //underlineColorAndroid="#FFFFFF"
               placeholder="Enter Name"
-              placeholderTextColor="#F6F6F7"
+              placeholderTextColor="black"
+            selectionColor='#808B96'
               autoCapitalize="sentences"
               returnKeyType="next"
               // onSubmitEditing={() =>
@@ -242,9 +244,10 @@ const Profile = props => {
               style={styles.inputStyle}
               onChangeText={personEmail => setPersonEmail(personEmail)}
               value={personEmail}
-              underlineColorAndroid="#F6F6F7"
+              //underlineColorAndroid="#F6F6F7"
               placeholder="Enter Email"
-              placeholderTextColor="#F6F6F7"
+              placeholderTextColor="black"
+            selectionColor='#808B96'
               keyboardType="email-address"
               // ref={ref => {
               //   this._emailinput = ref;
@@ -259,9 +262,10 @@ const Profile = props => {
               style={styles.inputStyle}
               onChangeText={personPassword => setPersonPassword(personPassword)}
               value={personPassword}
-              underlineColorAndroid="#F6F6F7"
+              //underlineColorAndroid="#F6F6F7"
               placeholder="Enter Password"
-              placeholderTextColor="#F6F6F7"
+              placeholderTextColor="black"
+            selectionColor='#808B96'
               // keyboardType="email-address"
               // ref={ref => {
               //   this._emailinput = ref;
@@ -276,9 +280,10 @@ const Profile = props => {
               style={styles.inputStyle}
               onChangeText={grade => setGrade(grade)}
               value={grade}
-              underlineColorAndroid="#F6F6F7"
+              //underlineColorAndroid="#F6F6F7"
               placeholder="Enter Grade"
-              placeholderTextColor="#F6F6F7"
+              placeholderTextColor="black"
+            selectionColor='#808B96'
               // keyboardType="email-address"
               // ref={ref => {
               //   this._emailinput = ref;
@@ -293,9 +298,10 @@ const Profile = props => {
               style={styles.inputStyle}
               onChangeText={personSection => setPersonSection(personSection)}
               value={personSection}
-              underlineColorAndroid="#F6F6F7"
+              //underlineColorAndroid="#F6F6F7"
               placeholder="Enter Section"
-              placeholderTextColor="#F6F6F7"
+              placeholderTextColor="black"
+            selectionColor='#808B96'
               // keyboardType="email-address"
               // ref={ref => {
               //   this._emailinput = ref;
@@ -310,9 +316,10 @@ const Profile = props => {
               style={styles.inputStyle}
               onChangeText={gender => setGender(gender)}
               value={gender}
-              underlineColorAndroid="#F6F6F7"
+              //underlineColorAndroid="#F6F6F7"
               placeholder="Enter Email"
-              placeholderTextColor="#F6F6F7"
+              placeholderTextColor="black"
+            selectionColor='#808B96'
               // keyboardType="email-address"
               // ref={ref => {
               //   this._emailinput = ref;
@@ -328,9 +335,10 @@ const Profile = props => {
               style={styles.inputStyle}
               onChangeText={personStatus => setPersonStatus(personStatus)}
               value={personStatus}
-              underlineColorAndroid="#F6F6F7"
+              //underlineColorAndroid="#F6F6F7"
               placeholder="Enter Status"
-              placeholderTextColor="#F6F6F7"
+              placeholderTextColor="black"
+            selectionColor='#808B96'
               // keyboardType="email-address"
               // ref={ref => {
               //   this._ageinput = ref;
@@ -346,9 +354,10 @@ const Profile = props => {
               style={styles.inputStyle}
               onChangeText={jobType => setJobType(jobType)}
               value={jobType}
-              underlineColorAndroid="#FFFFFF"
+              //underlineColorAndroid="#FFFFFF"
               placeholder="Enter JobType"
-              placeholderTextColor="#F6F6F7"
+              placeholderTextColor="black"
+            selectionColor='#808B96'
               autoCapitalize="sentences"
               // ref={ref => {
               //   this._addressinput = ref;
@@ -385,30 +394,45 @@ const styles = StyleSheet.create({
   },
   buttonStyle: {
     backgroundColor: '#7DE24E',
-    borderWidth: 0,
     color: '#FFFFFF',
     borderColor: '#7DE24E',
-    height: 40,
+    height: 65,
     alignItems: 'center',
     borderRadius: 30,
-    marginLeft: 35,
-    marginRight: 35,
-    marginTop: 20,
-    marginBottom: 20,
+    marginLeft: 28,
+    marginRight: 28,
+    marginTop: 45,
+    marginBottom: 12
   },
   buttonTextStyle: {
-    color: '#FFFFFF',
-    paddingVertical: 10,
-    fontSize: 16,
+    color: 'black',
+    paddingVertical: 17.35,
+    paddingRight: 10,
+    fontSize: 22,
+    fontWeight: 'bold'
   },
   inputStyle: {
+    backgroundColor: 'white',
     flex: 1,
-    color: 'white',
+    color: 'black',
     paddingLeft: 15,
     paddingRight: 15,
-    borderWidth: 1,
+    borderWidth: 2,
     borderRadius: 30,
-    borderColor: 'white',
+    paddingVertical: 17,
+    marginRight: 10,
+    marginTop: 14,
+    marginBottom: -30,
+    marginVertical: -10,
+    borderColor: 'black',
+    fontSize: 22
+  },
+  textInput: {
+    flex: 1,
+    margin: 23,
+    paddingLeft: 6,
+    color: 'black',
+    fontSize: 20,
   },
   errorTextStyle: {
     color: 'red',

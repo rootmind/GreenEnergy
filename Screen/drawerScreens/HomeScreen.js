@@ -415,30 +415,32 @@ const styles = StyleSheet.create({
   },
   buttonStyle: {
     backgroundColor: '#7DE24E',
-    borderWidth: 0,
     color: '#FFFFFF',
     borderColor: '#7DE24E',
-    height: 40,
+    height: 59,
     alignItems: 'center',
     borderRadius: 30,
-    marginLeft: 35,
-    marginRight: 35,
-    marginTop: 20,
-    marginBottom: 20,
+    marginLeft: 28,
+    marginRight: 26,
+    marginTop: 25,
+    marginBottom: 12
   },
   buttonTextStyle: {
-    color: '#FFFFFF',
-    paddingVertical: 10,
-    fontSize: 16,
+    color: 'black',
+    paddingVertical: 15,
+    fontSize: 22,
+    fontWeight: 'bold'
   },
   inputStyle: {
     flex: 1,
     color: 'white',
     paddingLeft: 15,
     paddingRight: 15,
-    borderWidth: 1,
+    borderWidth: 3,
     borderRadius: 30,
-    borderColor: 'white',
+    paddingVertical: 15,
+    borderColor: 'blue',
+    fontSize: 20
   },
   errorTextStyle: {
     color: 'red',
@@ -451,14 +453,12 @@ const styles = StyleSheet.create({
     fontSize: 18,
     padding: 30,
   },
-
   container: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#f5fcff"
   }
-
 });
 
 

@@ -71,7 +71,7 @@ const CustomSidebarMenu = props => {
     <View style={stylesSidebar.sideMenuContainer}>
       <View style={stylesSidebar.profileHeader}>
         <View style={stylesSidebar.profileHeaderPicCircle}>
-          <Text style={{ fontSize: 25, fontWeight: 'bold', color: 'cyan' }}>
+          <Text style={{ fontSize: 25, fontWeight: 'bold', color: 'green' }}>
             {'Green Energy'.charAt(0)}
           </Text>
         </View>
@@ -88,8 +88,8 @@ const CustomSidebarMenu = props => {
               color: 'black',
               backgroundColor:
                 global.currentScreenIndex === item.screenToNavigate
-                  ? 'orange'
-                  : 'cyan',
+                  ? '#E8DAEF'
+                  : 'white',
             }}
             key={key}
             onStartShouldSetResponder={() =>
@@ -109,13 +109,13 @@ const stylesSidebar = StyleSheet.create({
   sideMenuContainer: {
     width: '100%',
     height: '100%',
-    backgroundColor: 'cyan',
+    backgroundColor: 'white',
     paddingTop: 40,
     color: 'white',
   },
   profileHeader: {
     flexDirection: 'row',
-    backgroundColor: 'cyan',
+    backgroundColor: 'white',
     padding: 15,
     textAlign: 'center',
   },
@@ -123,8 +123,8 @@ const stylesSidebar = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 60 / 2,
-    color: 'cyan',
-    backgroundColor: 'black',
+    color: 'green',
+    backgroundColor: '#D5F5E3',
     textAlign: 'center',
     justifyContent: 'center',
     alignItems: 'center',
@@ -139,6 +139,7 @@ const stylesSidebar = StyleSheet.create({
   profileHeaderLine: {
     height: 1,
     marginHorizontal: 18,
+    marginLeft: 15,
     backgroundColor: 'black',
     marginTop: 15,
     marginBottom: 10,
