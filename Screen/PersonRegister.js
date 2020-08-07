@@ -18,7 +18,8 @@ import {
 } from 'react-native';
 import Loader from './Components/Loader';
 import AsyncStorage from '@react-native-community/async-storage';
-import {serverIP} from '../app.json';
+import { serverIP } from '../app.json';
+import { Picker } from '@react-native-community/picker';
 
 const PersonRegister = props => {
   let [personId, setPersonId] = useState('');
@@ -32,8 +33,24 @@ const PersonRegister = props => {
   let [jobType, setJobType] = useState('');
   let [loading, setLoading] = useState(false);
   let [errortext, setErrortext] = useState('');
-  let [isRegistraionSuccess, setIsRegistraionSuccess] = useState(false);
+  let [isRegistrationSuccess, setIsRegistrationSuccess] = useState(false);
 
+  const gradeOptions = {
+    "KG1": "KG1",
+    "KG2": "KG2",
+    "GR1": "GR1",
+    "GR2": "GR2",
+    "GR3": "GR3",
+    "GR4": "GR4",
+    "GR5": "GR5",
+    "GR6": "GR6",
+    "GR7": "GR7",
+    "GR8": "GR8",
+    "GR9": "GR9",
+    "GR10": "GR10",
+    "GR11": "GR11",
+    "GR12": "GR12"
+  };
 
   const handleSubmitButton = () => {
     setErrortext('');
@@ -126,7 +143,7 @@ const PersonRegister = props => {
           alert('Invalid HTTP Response');
         }
       }
-      )      
+      )
       .catch(function (error) {
         setLoading(false);
         alert('Unable To Reach Server');
@@ -135,7 +152,7 @@ const PersonRegister = props => {
 
     //-------------------------------------------------------------------------------------------------------------------------
   };
-  
+
   if (isRegistrationSuccess) {
     return (
       <View
@@ -159,7 +176,7 @@ const PersonRegister = props => {
     );
   }
   return (
-    <View style={{ flex: 1, backgroundColor: 'black' }}>
+    <View style={{ flex: 1, backgroundColor: 'white' }}>
       <Loader loading={loading} />
       <ScrollView keyboardShouldPersistTaps="handled">
         <View style={styles.textInput}>
@@ -187,7 +204,7 @@ const PersonRegister = props => {
               //underlineColorAndroid="#FFFFFF"
               placeholder="Enter Name"
               placeholderTextColor="black"
-            selectionColor='#808B96'
+              selectionColor='#808B96'
               autoCapitalize="sentences"
               returnKeyType="next"
               //onSubmitEditing={() => this._personNameinput && this._personNameinput.focus()}
@@ -201,7 +218,7 @@ const PersonRegister = props => {
               //underlineColorAndroid="#F6F6F7"
               placeholder="Enter Email"
               placeholderTextColor="black"
-            selectionColor='#808B96'
+              selectionColor='#808B96'
               // keyboardType="email-address"
               // ref={ref => {
               //   this._emailinput = ref;
@@ -218,7 +235,7 @@ const PersonRegister = props => {
               //underlineColorAndroid="#F6F6F7"
               placeholder="Enter Password"
               placeholderTextColor="black"
-            selectionColor='#808B96'
+              selectionColor='#808B96'
               // keyboardType="email-address"
               // ref={ref => {
               //   this._emailinput = ref;
@@ -228,23 +245,33 @@ const PersonRegister = props => {
               blurOnSubmit={false}
             />
           </View>
-          <View style={styles.textInput}>
+          {/* <View style={styles.textInput}>
             <TextInput
               style={styles.inputStyle}
               onChangeText={grade => setGrade(grade)}
-              //underlineColorAndroid="#F6F6F7"
+              
               placeholder="Enter Class (Optional)"
               placeholderTextColor="black"
             selectionColor='#808B96'
-              // keyboardType="numerical"
-              // ref={ref => {
-              //   this._gradeinput = ref;
-              // }}
+           
               returnKeyType="next"
-              //onSubmitEditing={() => this._gradeinput && this._gradeinput.focus()}
+             
               blurOnSubmit={false}
             />
-          </View>
+          </View> */}
+      
+          <Picker
+            selectedValue={grade}
+             style={{ height: 50, width: 100 }}
+            onValueChange={(itemValue, itemIndex) =>
+              setGrade(itemValue)
+            }>
+            {Object.keys(gradeOptions).map((key) => {
+              return (<Picker.Item label={gradeOptions[key]} value={key} key={key} />) //if you have a bunch of keys value pair
+            })}
+          </Picker>
+         
+
           <View style={styles.textInput}>
             <TextInput
               style={styles.inputStyle}
@@ -252,7 +279,7 @@ const PersonRegister = props => {
               //underlineColorAndroid="#F6F6F7"
               placeholder="Enter Section (Optional)"
               placeholderTextColor="black"
-            selectionColor='#808B96'
+              selectionColor='#808B96'
               //keyboardType="email-address"
               // ref={ref => {
               //   this._emailinput = ref;
@@ -269,7 +296,7 @@ const PersonRegister = props => {
               //underlineColorAndroid="#F6F6F7"
               placeholder="Enter Gender"
               placeholderTextColor="black"
-            selectionColor='#808B96'
+              selectionColor='#808B96'
               // keyboardType="email-address"
               // ref={ref => {
               //   this._emailinput = ref;
@@ -287,7 +314,7 @@ const PersonRegister = props => {
               //underlineColorAndroid="#FFFFFF"
               placeholder="Enter JobType"
               placeholderTextColor="black"
-            selectionColor='#808B96'
+              selectionColor='#808B96'
               autoCapitalize="sentences"
               // ref={ref => {
               //   this._jobTypeinput = ref;
