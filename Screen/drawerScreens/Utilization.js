@@ -2,7 +2,7 @@
 /* https://aboutreact.com/react-native-login-and-signup/ */
 
 //Import React and Hook we needed
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
 //Import all required component
@@ -18,7 +18,8 @@ import {
   ScrollView,
 } from 'react-native';
 import Loader from '../Components/Loader';
-import {serverIP} from '../../app.json';
+import { serverIP } from '../../app.json';
+import { picker } from '@react-native-community/picker';
 
 const Utilization = props => {
   let [personId, setPersonId] = useState('');
@@ -29,9 +30,23 @@ const Utilization = props => {
   let [updateDate, setUpdateDate] = useState('');
   let [loading, setLoading] = useState(false);
   let [errortext, setErrortext] = useState('');
-  let [isRegistraionSuccess, setIsRegistraionSuccess] = useState(false);
-
+  let [isRegistrationSuccess, setIsRegistrationSuccess] = useState(false);
   let [animating, setAnimating] = useState(true);
+
+  const personMonthOptions = {
+    "1": "January",
+    "2": "February",
+    "3": "March",
+    "4": "April",
+    "5": "May",
+    "6": "June",
+    "7": "July",
+    "8": "August",
+    "9": "September",
+    "10": "October",
+    "11": "November",
+    "12": "December"
+  }
 
   useEffect(() => {
     setTimeout(() => {
@@ -41,7 +56,7 @@ const Utilization = props => {
       //else send to Home Screen
       AsyncStorage.getItem('person_id').then((value) => {
         // alert('value  '+ value);
-         setPersonId(value);
+        setPersonId(value);
         //personId = value;
         fetchPersonInfo(value);
       }
@@ -60,7 +75,7 @@ const Utilization = props => {
     //alert('personId'+ props);
     var apiBaseUrl = serverIP + ":9093/utilization/get";
     //var apiBaseUrl = "http://192.168.1.3:9093/utilization/get";
-   // var apiBaseUrl = "http://192.168.43.235:9093/utilization/get";
+    // var apiBaseUrl = "http://192.168.43.235:9093/utilization/get";
     var payload =
     {
       "personId": props
@@ -79,8 +94,8 @@ const Utilization = props => {
         console.log('Utilization get Response ' + JSON.stringify(response));
         if (response.status == 200) {
           console.log(response.data[0].personMonth);
-        //  console.log(response.data.personName);
-         // setPersonId(response.data.personId);
+          //  console.log(response.data.personName);
+          // setPersonId(response.data.personId);
           // setPersonMonth(response.data.personMonth);
           // setPersonYear(response.data.personYear);
           // setWaterUtilized(response.data.waterUtilized);
@@ -129,14 +144,14 @@ const Utilization = props => {
     //   alert('Please fill UpdateDate');
     //   return;
     // }
-     //Show Loader
+    //Show Loader
     setLoading(true);
     //---------------------------------------------------------------------------------------------------------------------
-   
+
     //var apiBaseUrl = "http://192.168.1.3:9093/utilization/insert";
     var apiBaseUrl = serverIP + ":9093/utilization/insert";
     //var apiBaseUrl = "http://192.168.43.235:9093/utilization/insert";
-    
+
     var payload =
     {
       "personId": personId,
@@ -146,32 +161,34 @@ const Utilization = props => {
       "electricityUtilized": electricityUtilized,
       "updateDate": updateDate
     }
-    axios.post(apiBaseUrl, payload, {headers :{
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Credentials': true,
-  }})
-    //axios.post(apiBaseUrl, payload)
+    axios.post(apiBaseUrl, payload, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true,
+      }
+    })
+      //axios.post(apiBaseUrl, payload)
       .then(function (response) {
         console.log(JSON.stringify(response));
         setLoading(false);
         if (response.status == 200) {
           console.log(response.data.status);
-          if(response.data.status == 'STS005'){
+          if (response.data.status == 'STS005') {
             alert(response.data.message);
           }
           else if (response.data.status == "STS006") {
             alert(response.data.message);
           }
-          else{
+          else {
             alert(response.data.message);
           }
-         // props.navigation.navigate('Utilization');
+          // props.navigation.navigate('Utilization');
           // var uploadScreen = [];
           // uploadScreen.push(<UploadScreen appContext={self.props.appContext} />)
           // self.props.appContext.setState({ loginPage: [], uploadScreen: uploadScreen })
         }
-      
+
         else {
           console.log("HTTP Response Failed");
           alert("HTTP Response Failed");
@@ -181,9 +198,9 @@ const Utilization = props => {
         setLoading(false);
         console.log(error);
         alert("Unable To Reach Server");
-      });  
-  
-      //-------------------------------------------------------------------------------------------------------------------------
+      });
+
+    //-------------------------------------------------------------------------------------------------------------------------
   };
 
   return (
@@ -200,21 +217,31 @@ const Utilization = props => {
               margin: 30,
             }}
           /> */}
-             </View>
-          <View style={styles.SectionStyle}>
-            <TextInput
-              style={styles.inputStyle}
+        </View>
+        <Picker
+          selectedValue={personMonth}
+          style={{ height: 50, width: 100 }}
+          onValueChange={(itemValue, itemIndex) =>
+            setPersonMonth(itemValue)
+          }>
+          {Object.keys(personMonthOptions).map((key) => {
+            return (<Picker.Item label={personMonthOptions[key]} value={key} key={key} />) //if you have a bunch of keys value pair
+          })}
+        </Picker>
+        <View style={styles.SectionStyle}>
+          <TextInput
+            style={styles.inputStyle}
             //  onChangeText={personId => setPersonId(personId)}
-              value={personId}
-              //underlineColorAndroid="#F6F6F7"
-              placeholder="Enter Id"
-              placeholderTextColor="black"
-                        selectionColor='#808B96'        
-              returnKeyType="next"
-            
-              blurOnSubmit={false}
-              editable={false} selectTextOnFocus={false}
-            />
+            value={personId}
+            //underlineColorAndroid="#F6F6F7"
+            placeholder="Enter Id"
+            placeholderTextColor="black"
+            selectionColor='#808B96'
+            returnKeyType="next"
+
+            blurOnSubmit={false}
+            editable={false} selectTextOnFocus={false}
+          />
         </View>
         <KeyboardAvoidingView enabled>
           <View style={styles.SectionStyle}>
@@ -224,10 +251,10 @@ const Utilization = props => {
               //underlineColorAndroid="#FFFFFF"
               placeholder="Enter Month"
               placeholderTextColor="black"
-                        selectionColor='#808B96'
+              selectionColor='#808B96'
               autoCapitalize="sentences"
               returnKeyType="next"
-            
+
               blurOnSubmit={false}
             />
           </View>
@@ -238,13 +265,13 @@ const Utilization = props => {
               //underlineColorAndroid="#F6F6F7"
               placeholder="Enter Year"
               placeholderTextColor="black"
-                        selectionColor='#808B96'
-           
+              selectionColor='#808B96'
+
               returnKeyType="next"
-            
+
               blurOnSubmit={false}
             />
-               </View>
+          </View>
           <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}
@@ -252,13 +279,13 @@ const Utilization = props => {
               //underlineColorAndroid="#F6F6F7"
               placeholder="Enter Water Utilized"
               placeholderTextColor="black"
-                        selectionColor='#808B96'
-            
+              selectionColor='#808B96'
+
               returnKeyType="next"
-             
+
               blurOnSubmit={false}
             />
-               </View>
+          </View>
           <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}
@@ -266,13 +293,13 @@ const Utilization = props => {
               //underlineColorAndroid="#F6F6F7"
               placeholder="Enter Electricity Utilized"
               placeholderTextColor="black"
-                        selectionColor='#808B96'
-             
+              selectionColor='#808B96'
+
               returnKeyType="next"
-           
+
               blurOnSubmit={false}
             />
-               </View>
+          </View>
           {/* <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}
@@ -305,64 +332,64 @@ export default Utilization;
 
 const styles = StyleSheet.create({
   SectionStyle: {
-      flexDirection: 'row',
-      height: 40,
-      marginTop: 20,
-      marginLeft: 35,
-      marginRight: 35,
-      margin: 10,
+    flexDirection: 'row',
+    height: 40,
+    marginTop: 20,
+    marginLeft: 35,
+    marginRight: 35,
+    margin: 10,
   },
   buttonStyle: {
-      backgroundColor: '#7DE24E',
-      color: '#FFFFFF',
-      borderColor: '#7DE24E',
-      height: 65,
-      alignItems: 'center',
-      borderRadius: 30,
-      marginLeft: 28,
-      marginRight: 28,
-      marginTop: 45,
-      marginBottom: 12
+    backgroundColor: '#7DE24E',
+    color: '#FFFFFF',
+    borderColor: '#7DE24E',
+    height: 65,
+    alignItems: 'center',
+    borderRadius: 30,
+    marginLeft: 28,
+    marginRight: 28,
+    marginTop: 45,
+    marginBottom: 12
   },
   buttonTextStyle: {
-      color: 'black',
-      paddingVertical: 17.35,
-      paddingRight: 10,
-      fontSize: 22,
-      fontWeight: 'bold'
+    color: 'black',
+    paddingVertical: 17.35,
+    paddingRight: 10,
+    fontSize: 22,
+    fontWeight: 'bold'
   },
   inputStyle: {
-      backgroundColor: 'white',
-      flex: 1,
-      color: 'black',
-      paddingLeft: 15,
-      paddingRight: 15,
-      borderWidth: 2,
-      borderRadius: 30,
-      paddingVertical: 17,
-      marginRight: 10,
-      marginTop: 10,
-      marginBottom: -30,
-      marginVertical: -10,
-      borderColor: 'black',
-      fontSize: 22
+    backgroundColor: 'white',
+    flex: 1,
+    color: 'black',
+    paddingLeft: 15,
+    paddingRight: 15,
+    borderWidth: 2,
+    borderRadius: 30,
+    paddingVertical: 17,
+    marginRight: 10,
+    marginTop: 10,
+    marginBottom: -30,
+    marginVertical: -10,
+    borderColor: 'black',
+    fontSize: 22
   },
   textInput: {
-      flex: 1,
-      margin: 23,
-      paddingLeft: 6,
-      color: 'black',
-      fontSize: 20,
+    flex: 1,
+    margin: 23,
+    paddingLeft: 6,
+    color: 'black',
+    fontSize: 20,
   },
   errorTextStyle: {
-      color: 'red',
-      textAlign: 'center',
-      fontSize: 14,
+    color: 'red',
+    textAlign: 'center',
+    fontSize: 14,
   },
   successTextStyle: {
-      color: 'white',
-      textAlign: 'center',
-      fontSize: 18,
-      padding: 30,
+    color: 'white',
+    textAlign: 'center',
+    fontSize: 18,
+    padding: 30,
   },
 });
