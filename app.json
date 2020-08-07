@@ -1,5 +1,5 @@
 {
   "name": "GreenEnergy",
   "displayName": "GreenEnergy",
-  "serverIP":"http://192.168.0.200"
+  "serverIP":"http://192.168.1.3"
 }
