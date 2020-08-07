@@ -19,7 +19,8 @@ import {
 } from 'react-native';
 import Loader from '../Components/Loader';
 import { set } from 'react-native-reanimated';
-import {serverIP} from '../../app.json';
+import { serverIP } from '../../app.json';
+import { Picker } from '@react-native-community/picker';
 
 const Profile = props => {
   let [personId, setPersonId] = useState('');
@@ -36,6 +37,44 @@ const Profile = props => {
   let [isRegistraionSuccess, setIsRegistraionSuccess] = useState(false);
 
   let [animating, setAnimating] = useState(true);
+
+  const gradeOptions = {
+    "0": "Select Grade",
+    "KG1": "KG1",
+    "KG2": "KG2",
+    "GR1": "GR1",
+    "GR2": "GR2",
+    "GR3": "GR3",
+    "GR4": "GR4",
+    "GR5": "GR5",
+    "GR6": "GR6",
+    "GR7": "GR7",
+    "GR8": "GR8",
+    "GR9": "GR9",
+    "GR10": "GR10",
+    "GR11": "GR11",
+    "GR12": "GR12"
+  };
+  const sectionOptions = {
+    "0": "Select Section",
+    "A": "A",
+    "B": "B",
+    "C": "C",
+    "D": "D"
+
+  };
+  const genderOptions = {
+    "0": "Select Gender",
+    "Male": "Male",
+    "Female": "Female"
+  };
+  const jobTypeOptions = {
+    "0": "Select JobType",
+    "Student": "Student",
+    "Teacher": "Teacher",
+    "Staff": "Staff"
+  };
+
 
   useEffect(() => {
     setTimeout(() => {
@@ -63,7 +102,7 @@ const Profile = props => {
     //alert('personId'+ props);
     var apiBaseUrl = serverIP + ":9093/person/find";
     //var apiBaseUrl = "http://192.168.1.3:9093/person/find";
-   // var apiBaseUrl = "http://192.168.43.235:9093/person/find";
+    // var apiBaseUrl = "http://192.168.43.235:9093/person/find";
 
     var payload =
     {
@@ -124,7 +163,7 @@ const Profile = props => {
     //alert('personId'+ props);
     var apiBaseUrl = serverIP + ":9093/person/update";
     //var apiBaseUrl = "http://192.168.1.3:9093/person/update";
-   // var apiBaseUrl = "http://192.168.43.235:9093/person/update";
+    // var apiBaseUrl = "http://192.168.43.235:9093/person/update";
     var payload =
     {
       "personId": personId,
@@ -137,7 +176,7 @@ const Profile = props => {
       "personStatus": personStatus,
       "jobType": jobType
     }
-    console.log(' Payload ' + JSON.stringify( payload));
+    console.log(' Payload ' + JSON.stringify(payload));
     axios.post(apiBaseUrl, payload, {
       headers: {
         'Content-Type': 'application/json',
@@ -151,7 +190,7 @@ const Profile = props => {
         console.log(JSON.stringify(response));
         if (response.status == 200) {
           console.log(response.data.status);
-          if(response.data.status == 'STS005') {
+          if (response.data.status == 'STS005') {
 
             alert("Update Successful");
 
@@ -160,7 +199,7 @@ const Profile = props => {
             alert("Update Not Successful");
 
           }
-                   //  setPersonId(response.data.personId);
+          //  setPersonId(response.data.personId);
           //  setPersonName(response.data.personName);
           //  setPersonEmail(response.data.personEmail);
           //  setPersonPassword(response.data.personPassword);
@@ -169,7 +208,7 @@ const Profile = props => {
           //  setGender(response.data.gender);
           //  setPersonStatus(response.data.personStatus);
           //  setJobType(response.data.jobType);
-          
+
 
 
 
@@ -216,7 +255,7 @@ const Profile = props => {
             placeholderTextColor="black"
             selectionColor='#808B96'
             returnKeyType="next"
-           // onSubmitEditing={() => this._ageinput && this._ageinput.focus()}
+            // onSubmitEditing={() => this._ageinput && this._ageinput.focus()}
             blurOnSubmit={false}
             editable={false} selectTextOnFocus={false}
           />
@@ -230,7 +269,7 @@ const Profile = props => {
               //underlineColorAndroid="#FFFFFF"
               placeholder="Enter Name"
               placeholderTextColor="black"
-            selectionColor='#808B96'
+              selectionColor='#808B96'
               autoCapitalize="sentences"
               returnKeyType="next"
               // onSubmitEditing={() =>
@@ -247,7 +286,7 @@ const Profile = props => {
               //underlineColorAndroid="#F6F6F7"
               placeholder="Enter Email"
               placeholderTextColor="black"
-            selectionColor='#808B96'
+              selectionColor='#808B96'
               keyboardType="email-address"
               // ref={ref => {
               //   this._emailinput = ref;
@@ -265,35 +304,42 @@ const Profile = props => {
               //underlineColorAndroid="#F6F6F7"
               placeholder="Enter Password"
               placeholderTextColor="black"
-            selectionColor='#808B96'
+              selectionColor='#808B96'
               // keyboardType="email-address"
               // ref={ref => {
               //   this._emailinput = ref;
               // }}
               returnKeyType="next"
-             // onSubmitEditing={() => this._ageinput && this._ageinput.focus()}
+              // onSubmitEditing={() => this._ageinput && this._ageinput.focus()}
               blurOnSubmit={false}
             />
           </View>
-          <View style={styles.SectionStyle}>
+          {/* <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}
               onChangeText={grade => setGrade(grade)}
               value={grade}
-              //underlineColorAndroid="#F6F6F7"
+            
               placeholder="Enter Grade"
               placeholderTextColor="black"
             selectionColor='#808B96'
-              // keyboardType="email-address"
-              // ref={ref => {
-              //   this._emailinput = ref;
-              // }}
+            
               returnKeyType="next"
-            //  onSubmitEditing={() => this._ageinput && this._ageinput.focus()}
               blurOnSubmit={false}
             />
-          </View>
-          <View style={styles.SectionStyle}>
+          </View> */}
+          <Picker
+            selectedValue={grade}
+            style={{ height: 50, width: 100 }}
+            onValueChange={(itemValue, itemIndex) =>
+              setGrade(itemValue)
+            }>
+            {Object.keys(gradeOptions).map((key) => {
+              return (<Picker.Item label={gradeOptions[key]} value={key} key={key} />) //if you have a bunch of keys value pair
+            })}
+          </Picker>
+
+          {/* <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}
               onChangeText={personSection => setPersonSection(personSection)}
@@ -310,8 +356,19 @@ const Profile = props => {
              // onSubmitEditing={() => this._ageinput && this._ageinput.focus()}
               blurOnSubmit={false}
             />
-          </View>
-          <View style={styles.SectionStyle}>
+          </View> */}
+          <Picker
+            selectedValue={personSection}
+            style={{ height: 50, width: 100 }}
+            onValueChange={(itemValue, itemIndex) =>
+              setPersonSection(itemValue)
+            }>
+            {Object.keys(sectionOptions).map((key) => {
+              return (<Picker.Item label={sectionOptions[key]} value={key} key={key} />) //if you have a bunch of keys value pair
+            })}
+          </Picker>
+
+          {/* <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}
               onChangeText={gender => setGender(gender)}
@@ -329,7 +386,19 @@ const Profile = props => {
               blurOnSubmit={false}
             />
 
-          </View>
+          </View> */}
+          <Picker
+            selectedValue={gender}
+            style={{ height: 50, width: 100 }}
+            onValueChange={(itemValue, itemIndex) =>
+              setGender(itemValue)
+            }>
+            {Object.keys(genderOptions).map((key) => {
+              return (<Picker.Item label={genderOptions[key]} value={key} key={key} />) //if you have a bunch of keys value pair
+            })}
+          </Picker>
+
+
           <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}
@@ -338,7 +407,7 @@ const Profile = props => {
               //underlineColorAndroid="#F6F6F7"
               placeholder="Enter Status"
               placeholderTextColor="black"
-            selectionColor='#808B96'
+              selectionColor='#808B96'
               // keyboardType="email-address"
               // ref={ref => {
               //   this._ageinput = ref;
@@ -349,7 +418,9 @@ const Profile = props => {
               blurOnSubmit={false}
             />
           </View>
-          <View style={styles.SectionStyle}>
+
+
+          {/* <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}
               onChangeText={jobType => setJobType(jobType)}
@@ -366,7 +437,18 @@ const Profile = props => {
               // onSubmitEditing={Keyboard.dismiss}
               blurOnSubmit={false}
             />
-          </View>
+          </View> */}
+          <Picker
+            selectedValue={jobType}
+            style={{ height: 50, width: 100 }}
+            onValueChange={(itemValue, itemIndex) =>
+              setJobType(itemValue)
+            }>
+            {Object.keys(jobTypeOptions).map((key) => {
+              return (<Picker.Item label={jobTypeOptions[key]} value={key} key={key} />) //if you have a bunch of keys value pair
+            })}
+          </Picker>
+
           {errortext != '' ? (
             <Text style={styles.errorTextStyle}> {errortext} </Text>
           ) : null}
