@@ -36,6 +36,7 @@ const PersonRegister = props => {
   let [isRegistrationSuccess, setIsRegistrationSuccess] = useState(false);
 
   const gradeOptions = {
+    "0": "Select Grade",
     "KG1": "KG1",
     "KG2": "KG2",
     "GR1": "GR1",
@@ -51,7 +52,25 @@ const PersonRegister = props => {
     "GR11": "GR11",
     "GR12": "GR12"
   };
+  const sectionOptions = {
+    "0": "Select Section",
+    "A": "A",
+    "B": "B",
+    "C": "C",
+    "D": "D"
 
+  };
+  const genderOptions = {
+    "0": "Select Gender",
+    "Male": "Male",
+    "Female": "Female"
+  };
+  const jobTypeOptions = {
+    "0": "Select JobType",
+    "Student": "Student",
+    "Teacher": "Teacher",
+    "Staff": "Staff"
+  };
   const handleSubmitButton = () => {
     setErrortext('');
     if (!personId) {
@@ -70,20 +89,22 @@ const PersonRegister = props => {
       alert('Please fill Password');
       return;
     }
-    // if (!grade) {
-    //   alert('Please fill Class');
-    //   return;
-    // }
-    // if (!personSection) {
-    //   alert('Please fill Section');
-    //   return;
-    // }
-    if (!gender) {
-      alert('Please fill Gender');
+    if (!grade && grade == '0') {
+      alert('Please select Grade');
       return;
     }
-    if (!jobType) {
-      alert('Please fill JobType');
+    if (!personSection && personSection == '0') {
+      alert('Please Select Section');
+      return;
+    }
+    console.log('gender ' + gender);
+    if (!gender || gender == '0') {
+      console.log('gender ' + gender);
+      alert('Please select Gender');
+      return;
+    }
+    if (!jobType || jobType == '0') {
+      alert('Please select JobType');
       return;
     }
     //Show Loader
@@ -100,8 +121,8 @@ const PersonRegister = props => {
       "personName": personName,
       "personEmail": personEmail,
       "personPassword": personPassword,
-      "grade": grade,
-      "personSection": personSection,
+      "grade": (grade == '0' ? '' : grade),
+      "personSection": (personSection == '0' ? '' : personSection),
       "gender": gender,
       "jobType": jobType
 
@@ -243,6 +264,7 @@ const PersonRegister = props => {
               returnKeyType="next"
               //onSubmitEditing={() => this._personPasswordinput && this._personPasswordinput.focus()}
               blurOnSubmit={false}
+              secureTextEntry={true}
             />
           </View>
           {/* <View style={styles.textInput}>
@@ -259,10 +281,10 @@ const PersonRegister = props => {
               blurOnSubmit={false}
             />
           </View> */}
-      
+
           <Picker
             selectedValue={grade}
-             style={{ height: 50, width: 100 }}
+            style={{ height: 50, width: 100 }}
             onValueChange={(itemValue, itemIndex) =>
               setGrade(itemValue)
             }>
@@ -270,60 +292,88 @@ const PersonRegister = props => {
               return (<Picker.Item label={gradeOptions[key]} value={key} key={key} />) //if you have a bunch of keys value pair
             })}
           </Picker>
-         
 
-          <View style={styles.textInput}>
+
+          {/* <View style={styles.textInput}>
             <TextInput
               style={styles.inputStyle}
               onChangeText={personSection => setPersonSection(personSection)}
-              //underlineColorAndroid="#F6F6F7"
+              
               placeholder="Enter Section (Optional)"
               placeholderTextColor="black"
               selectionColor='#808B96'
-              //keyboardType="email-address"
-              // ref={ref => {
-              //   this._emailinput = ref;
-              // }}
+             
               returnKeyType="next"
-              //onSubmitEditing={() => this._personSectioninput && this._personSectioninput.focus()}
+     
               blurOnSubmit={false}
             />
-          </View>
-          <View style={styles.textInput}>
+          </View> */}
+
+          <Picker
+            selectedValue={personSection}
+            style={{ height: 50, width: 100 }}
+            onValueChange={(itemValue, itemIndex) =>
+              setPersonSection(itemValue)
+            }>
+            {Object.keys(sectionOptions).map((key) => {
+              return (<Picker.Item label={sectionOptions[key]} value={key} key={key} />) //if you have a bunch of keys value pair
+            })}
+          </Picker>
+
+          {/* <View style={styles.textInput}>
             <TextInput
               style={styles.inputStyle}
               onChangeText={gender => setGender(gender)}
-              //underlineColorAndroid="#F6F6F7"
+  
               placeholder="Enter Gender"
               placeholderTextColor="black"
               selectionColor='#808B96'
-              // keyboardType="email-address"
-              // ref={ref => {
-              //   this._emailinput = ref;
-              // }}
+            
               returnKeyType="next"
-              //onSubmitEditing={() => this._genderinput && this._genderinput.focus()}
+       
               blurOnSubmit={false}
             />
 
-          </View>
-          <View style={styles.textInput}>
+          </View> */}
+
+          <Picker
+            selectedValue={gender}
+            style={{ height: 50, width: 100 }}
+            onValueChange={(itemValue, itemIndex) =>
+              setGender(itemValue)
+            }>
+            {Object.keys(genderOptions).map((key) => {
+              return (<Picker.Item label={genderOptions[key]} value={key} key={key} />) //if you have a bunch of keys value pair
+            })}
+          </Picker>
+
+          {/* <View style={styles.textInput}>
             <TextInput
               style={styles.inputStyle}
               onChangeText={jobType => setJobType(jobType)}
-              //underlineColorAndroid="#FFFFFF"
+           
               placeholder="Enter JobType"
               placeholderTextColor="black"
               selectionColor='#808B96'
               autoCapitalize="sentences"
-              // ref={ref => {
-              //   this._jobTypeinput = ref;
-              // }}
+         
               returnKeyType="next"
               onSubmitEditing={Keyboard.dismiss}
               blurOnSubmit={false}
             />
-          </View>
+          </View> */}
+      <Picker
+            selectedValue={jobType}
+            style={{ height: 50, width: 100 }}
+            onValueChange={(itemValue, itemIndex) =>
+              setJobType(itemValue)
+            }>
+            {Object.keys(jobTypeOptions).map((key) => {
+              return (<Picker.Item label={jobTypeOptions[key]} value={key} key={key} />) //if you have a bunch of keys value pair
+            })}
+          </Picker>
+
+
           {errortext != '' ? (
             <Text style={styles.errorTextStyle}> {errortext} </Text>
           ) : null}
