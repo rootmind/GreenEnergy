@@ -113,8 +113,10 @@ const HomeScreen = props => {
 
           //  setTimeout(() => { setIsLoading(true); }, 1000);
           // setTimeout(() => { setIsLoading[]; }, 1000);
-          setIsGraphLoading(true);
-          setUtilizationData(response.data);
+          if (response.data.length > 0) {
+            setIsGraphLoading(true);
+            setUtilizationData(response.data);
+          }
           // setUtilizationData([{ personMonth: 1, waterUtilized: 100, electricityUtilized: 200 }]);
 
           // data = reponse.data;
@@ -163,8 +165,8 @@ const HomeScreen = props => {
                 <VictoryBar data={utilizationData} x="personMonth" y="electricityUtilized" barWidth={({ index }) => index * 2 + 8} />
               </VictoryStack>
 
-              <VictoryAxis dependentAxis  label="Electricity"
-              //domain={[0, 200]}
+              <VictoryAxis dependentAxis label="Electricity"
+                //domain={[0, 200]}
                 tickFormat={(tick) => `${tick}kW`}
               />
               <VictoryAxis domain={[0, 12]} label="Month"
@@ -192,11 +194,11 @@ const HomeScreen = props => {
                 <VictoryBar data={utilizationData} x="personMonth" y="waterUtilized" barWidth={({ index }) => index * 2 + 8} />
               </VictoryStack>
 
-              <VictoryAxis dependentAxis   label="Water"
-             // domain={[0, 900]}
+              <VictoryAxis dependentAxis label="Water"
+                // domain={[0, 900]}
                 tickFormat={(tick) => `${tick}gal`}
               />
-              <VictoryAxis domain={[0, 12]}  label="Month"
+              <VictoryAxis domain={[0, 12]} label="Month"
                 tickFormat={["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]}
               />
 
