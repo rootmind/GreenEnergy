@@ -243,6 +243,7 @@ const PersonRegister = props => {
               returnKeyType="next"
               //onSubmitEditing={() => this._personPasswordinput && this._personPasswordinput.focus()}
               blurOnSubmit={false}
+              secureTextEntry={true}
             />
           </View>
           {/* <View style={styles.textInput}>

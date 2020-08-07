@@ -206,7 +206,7 @@ const Profile = props => {
               }}
             /> */}
         </View>
-        <View style={styles.SectionStyle}>
+        <View style={styles.textInput}>
           <TextInput
             style={styles.inputStyle}
             onChangeText={personId => setPersonId(personId)}
@@ -239,7 +239,7 @@ const Profile = props => {
               blurOnSubmit={false}
             />
           </View>
-          <View style={styles.SectionStyle}>
+          <View style={styles.textInput}>
             <TextInput
               style={styles.inputStyle}
               onChangeText={personEmail => setPersonEmail(personEmail)}
@@ -257,7 +257,7 @@ const Profile = props => {
               blurOnSubmit={false}
             />
           </View>
-          <View style={styles.SectionStyle}>
+          <View style={styles.textInput}>
             <TextInput
               style={styles.inputStyle}
               onChangeText={personPassword => setPersonPassword(personPassword)}
@@ -275,7 +275,7 @@ const Profile = props => {
               blurOnSubmit={false}
             />
           </View>
-          <View style={styles.SectionStyle}>
+          <View style={styles.textInput}>
             <TextInput
               style={styles.inputStyle}
               onChangeText={grade => setGrade(grade)}
@@ -293,7 +293,7 @@ const Profile = props => {
               blurOnSubmit={false}
             />
           </View>
-          <View style={styles.SectionStyle}>
+          <View style={styles.textInput}>
             <TextInput
               style={styles.inputStyle}
               onChangeText={personSection => setPersonSection(personSection)}
@@ -311,7 +311,7 @@ const Profile = props => {
               blurOnSubmit={false}
             />
           </View>
-          <View style={styles.SectionStyle}>
+          <View style={styles.textInput}>
             <TextInput
               style={styles.inputStyle}
               onChangeText={gender => setGender(gender)}
@@ -330,7 +330,7 @@ const Profile = props => {
             />
 
           </View>
-          <View style={styles.SectionStyle}>
+          <View style={styles.textInput}>
             <TextInput
               style={styles.inputStyle}
               onChangeText={personStatus => setPersonStatus(personStatus)}
@@ -349,7 +349,7 @@ const Profile = props => {
               blurOnSubmit={false}
             />
           </View>
-          <View style={styles.SectionStyle}>
+          <View style={styles.textInput}>
             <TextInput
               style={styles.inputStyle}
               onChangeText={jobType => setJobType(jobType)}
@@ -374,7 +374,7 @@ const Profile = props => {
             style={styles.buttonStyle}
             activeOpacity={0.5}
             onPress={handleSubmitButton}>
-            <Text style={styles.buttonTextStyle}>Update</Text>
+            <Text style={styles.buttonTextStyle}>UPDATE</Text>
           </TouchableOpacity>
         </KeyboardAvoidingView>
       </ScrollView>

@@ -19,7 +19,7 @@ import {
 } from 'react-native';
 import Loader from '../Components/Loader';
 import { serverIP } from '../../app.json';
-import { picker } from '@react-native-community/picker';
+import { Picker } from '@react-native-community/picker';
 
 const Utilization = props => {
   let [personId, setPersonId] = useState('');
@@ -32,8 +32,9 @@ const Utilization = props => {
   let [errortext, setErrortext] = useState('');
   let [isRegistrationSuccess, setIsRegistrationSuccess] = useState(false);
   let [animating, setAnimating] = useState(true);
-
+  
   const personMonthOptions = {
+    "0":"Select Month",
     "1": "January",
     "2": "February",
     "3": "March",
@@ -46,6 +47,16 @@ const Utilization = props => {
     "10": "October",
     "11": "November",
     "12": "December"
+  }
+
+  const personYearOptions = {
+    "0":"Select Year",
+    "1":"2020",
+    "2":"2021",
+    "3":"2022",
+    "4":"2023",
+    "5":"2024",
+    "6":"2025"
   }
 
   useEffect(() => {
@@ -80,7 +91,7 @@ const Utilization = props => {
     {
       "personId": props
     }
-    console.log('Utilization get ' + JSON.stringify(payload));
+    console.log('Utilization Get ' + JSON.stringify(payload));
     axios.post(apiBaseUrl, payload, {
       headers: {
         'Content-Type': 'application/json',
@@ -91,7 +102,7 @@ const Utilization = props => {
       //axios.post(apiBaseUrl, payload)
       .then(function (response) {
         setLoading(false);
-        console.log('Utilization get Response ' + JSON.stringify(response));
+        console.log('Utilization Get Response ' + JSON.stringify(response));
         if (response.status == 200) {
           console.log(response.data[0].personMonth);
           //  console.log(response.data.personName);
@@ -111,7 +122,7 @@ const Utilization = props => {
       .catch(function (error) {
         setLoading(false);
         console.log(error);
-        alert("Unable To Reach Server");
+        //alert("Unable To Reach Server");
       });
 
 
@@ -124,11 +135,11 @@ const Utilization = props => {
     //   alert('Please fill Id');
     //   return;
     // }
-    if (!personMonth) {
+    if (!personMonth || personMonth=='0') {
       alert('Please fill Month');
       return;
     }
-    if (!personYear) {
+    if (!personYear || personYear=='0') {
       alert('Please fill Year');
       return;
     }
@@ -207,8 +218,8 @@ const Utilization = props => {
     <View style={{ flex: 1, backgroundColor: 'white' }}>
       <Loader loading={loading} />
       <ScrollView keyboardShouldPersistTaps="handled">
-        <View style={{ alignItems: 'center' }}>
-          {/* <Image
+        {/* <View style={{ alignItems: 'center' }}>
+          <Image
             source={require('../Image/aboutreact.png')}
             style={{
               width: '50%',
@@ -216,19 +227,10 @@ const Utilization = props => {
               resizeMode: 'contain',
               margin: 30,
             }}
-          /> */}
-        </View>
-        <Picker
-          selectedValue={personMonth}
-          style={{ height: 50, width: 100 }}
-          onValueChange={(itemValue, itemIndex) =>
-            setPersonMonth(itemValue)
-          }>
-          {Object.keys(personMonthOptions).map((key) => {
-            return (<Picker.Item label={personMonthOptions[key]} value={key} key={key} />) //if you have a bunch of keys value pair
-          })}
-        </Picker>
-        <View style={styles.SectionStyle}>
+          />
+        </View> */}
+
+        <View style={styles.textInput}>
           <TextInput
             style={styles.inputStyle}
             //  onChangeText={personId => setPersonId(personId)}
@@ -244,35 +246,35 @@ const Utilization = props => {
           />
         </View>
         <KeyboardAvoidingView enabled>
-          <View style={styles.SectionStyle}>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={personMonth => setPersonMonth(personMonth)}
-              //underlineColorAndroid="#FFFFFF"
-              placeholder="Enter Month"
-              placeholderTextColor="black"
-              selectionColor='#808B96'
-              autoCapitalize="sentences"
-              returnKeyType="next"
 
-              blurOnSubmit={false}
-            />
+          <View style={styles.pickerInput}>
+          <Picker
+            selectedValue={personMonth}
+            style={{ height: 50, width: 150 }}
+            //itemStyle={{ backgroundColor: "grey", color: "blue", fontFamily:"Ebrima", fontSize:17 }}
+            onValueChange={(itemValue, itemIndex) =>
+              setPersonMonth(itemValue)
+            }>
+            {Object.keys(personMonthOptions).map((key) => {
+              return (<Picker.Item label={personMonthOptions[key]} value={key} key={key} />) 
+            })}
+          </Picker>
           </View>
-          <View style={styles.SectionStyle}>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={personYear => setPersonYear(personYear)}
-              //underlineColorAndroid="#F6F6F7"
-              placeholder="Enter Year"
-              placeholderTextColor="black"
-              selectionColor='#808B96'
 
-              returnKeyType="next"
-
-              blurOnSubmit={false}
-            />
+          <View style={styles.pickerInput}>
+          <Picker
+            selectedValue={personYear}
+            style={{ height: 50, width: 125 }}
+            onValueChange={(itemValue, itemIndex) =>
+              setPersonYear(itemValue)
+            }>
+            {Object.keys(personYearOptions).map((key) => {
+              return (<Picker.Item label={personYearOptions[key]} value={key} key={key} />) 
+            })}
+          </Picker>
           </View>
-          <View style={styles.SectionStyle}>
+
+          <View style={styles.textInput}>
             <TextInput
               style={styles.inputStyle}
               onChangeText={waterUtilized => setWaterUtilized(waterUtilized)}
@@ -286,7 +288,8 @@ const Utilization = props => {
               blurOnSubmit={false}
             />
           </View>
-          <View style={styles.SectionStyle}>
+          
+          <View style={styles.textInput}>
             <TextInput
               style={styles.inputStyle}
               onChangeText={electricityUtilized => setElectricityUtilized(electricityUtilized)}
@@ -300,29 +303,18 @@ const Utilization = props => {
               blurOnSubmit={false}
             />
           </View>
-          {/* <View style={styles.SectionStyle}>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={updateDate => setUpdateDate(updateDate)}
-              underlineColorAndroid="#F6F6F7"
-              placeholder="Enter Date"
-              placeholderTextColor="#F6F6F7"
-            
-              returnKeyType="next"
-             
-              blurOnSubmit={false}
-            />
-          
-          </View> */}
+
           {errortext != '' ? (
             <Text style={styles.errorTextStyle}> {errortext} </Text>
           ) : null}
+
           <TouchableOpacity
             style={styles.buttonStyle}
             activeOpacity={0.5}
             onPress={handleSubmitButton}>
             <Text style={styles.buttonTextStyle}>Record</Text>
           </TouchableOpacity>
+
         </KeyboardAvoidingView>
       </ScrollView>
     </View>
@@ -392,4 +384,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     padding: 30,
   },
+  pickerInput: {
+
+  }
 });
