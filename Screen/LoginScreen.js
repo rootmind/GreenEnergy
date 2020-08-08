@@ -18,7 +18,7 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import Loader from './Components/Loader';
-import {serverIP} from '../app.json';
+import { serverIP } from '../app.json';
 
 
 const LoginScreen = props => {
@@ -38,12 +38,12 @@ const LoginScreen = props => {
       return;
     }
     setLoading(true);
-   // var dataToSend = { user_email: userEmail, user_password: userPassword };
+    // var dataToSend = { user_email: userEmail, user_password: userPassword };
 
     // var apiBaseUrl = "http://localhost:8080/Person-0.0.1-SNAPSHOT/person/login";
     var apiBaseUrl = serverIP + ":9093/person/login";
     //var apiBaseUrl = "http://192.168.43.235:9093/person/login";
-   
+
     console.log('apiBaseUrl ' + apiBaseUrl);
     var payload =
     {
@@ -60,14 +60,14 @@ const LoginScreen = props => {
     })
     axios.post(apiBaseUrl, payload)
       .then(function (response) {
-      console.log(JSON.stringify(response));
-  
+        console.log(JSON.stringify(response));
+
         setLoading(false);
         if (response.status == 200) {
-         // alert(response.status);
-         // alert(response.data.status);
+          // alert(response.status);
+          // alert(response.data.status);
           if (response.data.status == 'STS001') {
-           // alert(response.data.status);
+            // alert(response.data.status);
             console.log(response.data.message);
             alert(response.data.message);
 
@@ -85,14 +85,14 @@ const LoginScreen = props => {
             props.navigation.navigate('DrawerNavigationRoutes');
 
           }
-          else{
+          else {
             console.log(response.data.message);
             alert(response.data.message);
           }
         }
         else
 
-        alert('Invalid HTTP Response')
+          alert('Invalid HTTP Response')
       })
       .catch(function (error) {
         console.log(error);
@@ -151,12 +151,12 @@ const LoginScreen = props => {
           <KeyboardAvoidingView enabled>
             <View style={{ alignItems: 'center' }}>
               <Image
-                source={require('../Image/2.jpg')}
+                source={require('../Image/2a.jpg')}
                 style={{
                   width: '200%',
-                  height: 288,
+                  height: 250,
                   marginVertical: -5,
-                  marginLeft: 5,
+                  marginRight: 8,
                   marginBottom: -18,
                   resizeMode: 'contain'
                 }}
@@ -172,7 +172,7 @@ const LoginScreen = props => {
                 placeholder=" User ID" //dummy@abc.com
                 //placeholderFontSize="20px"
                 placeholderTextColor="black"
-            selectionColor='#808B96'
+                selectionColor='#808B96'
                 autoCapitalize="none"
                 // keyboardType="email-address"
                 // ref={ref => {
@@ -193,7 +193,7 @@ const LoginScreen = props => {
                 //style={styles.placeholder}
                 placeholder=" Password" //12345
                 placeholderTextColor="black"
-            selectionColor='#808B96'
+                selectionColor='#808B96'
                 // keyboardType="default"
                 // ref={ref => {
                 //   this._passwordinput = ref;

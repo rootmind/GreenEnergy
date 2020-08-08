@@ -146,16 +146,7 @@ const HomeScreen = props => {
     return (
       <View style={styles.container}>
         <ScrollView keyboardShouldPersistTaps="handled">
-          <TouchableOpacity
-            style={styles.buttonStyle}
-            activeOpacity={0.5}
-            onPress={fetchUtilizationInfo(personId)}>
-            {/* <ImageBackground source={image} style={styles.image}>
-                <Text style={styles.buttonTextStyle}>LOGIN</Text>
-              </ImageBackground> */}
-            <Text style={styles.buttonTextStyle}>REFRESH</Text>
-
-          </TouchableOpacity>
+          
 
 
           <VictoryChart height={400} width={375} theme={VictoryTheme.material}        >
@@ -228,16 +219,7 @@ const HomeScreen = props => {
   else {
     return (
       <View style={styles.container}>
-        <TouchableOpacity
-          style={styles.buttonStyle}
-          activeOpacity={0.5}
-          onPress={fetchUtilizationInfo(personId)}>
-          {/* <ImageBackground source={image} style={styles.image}>
-                <Text style={styles.buttonTextStyle}>LOGIN</Text>
-              </ImageBackground> */}
-          <Text style={styles.buttonTextStyle}>REFRESH</Text>
-
-        </TouchableOpacity>
+      
       </View>
     );
   }

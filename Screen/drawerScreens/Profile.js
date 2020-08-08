@@ -245,7 +245,7 @@ const Profile = props => {
               }}
             /> */}
         </View>
-        <View style={styles.SectionStyle}>
+        <View style={styles.textInput}>
           <TextInput
             style={styles.inputStyle}
             onChangeText={personId => setPersonId(personId)}
@@ -278,7 +278,7 @@ const Profile = props => {
               blurOnSubmit={false}
             />
           </View>
-          <View style={styles.SectionStyle}>
+          <View style={styles.textInput}>
             <TextInput
               style={styles.inputStyle}
               onChangeText={personEmail => setPersonEmail(personEmail)}
@@ -296,7 +296,7 @@ const Profile = props => {
               blurOnSubmit={false}
             />
           </View>
-          <View style={styles.SectionStyle}>
+          <View style={styles.textInput}>
             <TextInput
               style={styles.inputStyle}
               onChangeText={personPassword => setPersonPassword(personPassword)}
@@ -314,7 +314,7 @@ const Profile = props => {
               blurOnSubmit={false}
             />
           </View>
-          {/* <View style={styles.SectionStyle}>
+          <View style={styles.textInput}>
             <TextInput
               style={styles.inputStyle}
               onChangeText={grade => setGrade(grade)}
@@ -327,19 +327,8 @@ const Profile = props => {
               returnKeyType="next"
               blurOnSubmit={false}
             />
-          </View> */}
-          <Picker
-            selectedValue={grade}
-            style={{ height: 50, width: 100 }}
-            onValueChange={(itemValue, itemIndex) =>
-              setGrade(itemValue)
-            }>
-            {Object.keys(gradeOptions).map((key) => {
-              return (<Picker.Item label={gradeOptions[key]} value={key} key={key} />) //if you have a bunch of keys value pair
-            })}
-          </Picker>
-
-          {/* <View style={styles.SectionStyle}>
+          </View>
+          <View style={styles.textInput}>
             <TextInput
               style={styles.inputStyle}
               onChangeText={personSection => setPersonSection(personSection)}
@@ -356,19 +345,8 @@ const Profile = props => {
              // onSubmitEditing={() => this._ageinput && this._ageinput.focus()}
               blurOnSubmit={false}
             />
-          </View> */}
-          <Picker
-            selectedValue={personSection}
-            style={{ height: 50, width: 100 }}
-            onValueChange={(itemValue, itemIndex) =>
-              setPersonSection(itemValue)
-            }>
-            {Object.keys(sectionOptions).map((key) => {
-              return (<Picker.Item label={sectionOptions[key]} value={key} key={key} />) //if you have a bunch of keys value pair
-            })}
-          </Picker>
-
-          {/* <View style={styles.SectionStyle}>
+          </View>
+          <View style={styles.textInput}>
             <TextInput
               style={styles.inputStyle}
               onChangeText={gender => setGender(gender)}
@@ -386,20 +364,8 @@ const Profile = props => {
               blurOnSubmit={false}
             />
 
-          </View> */}
-          <Picker
-            selectedValue={gender}
-            style={{ height: 50, width: 100 }}
-            onValueChange={(itemValue, itemIndex) =>
-              setGender(itemValue)
-            }>
-            {Object.keys(genderOptions).map((key) => {
-              return (<Picker.Item label={genderOptions[key]} value={key} key={key} />) //if you have a bunch of keys value pair
-            })}
-          </Picker>
-
-
-          <View style={styles.SectionStyle}>
+          </View>
+          <View style={styles.textInput}>
             <TextInput
               style={styles.inputStyle}
               onChangeText={personStatus => setPersonStatus(personStatus)}
@@ -418,9 +384,7 @@ const Profile = props => {
               blurOnSubmit={false}
             />
           </View>
-
-
-          {/* <View style={styles.SectionStyle}>
+          <View style={styles.textInput}>
             <TextInput
               style={styles.inputStyle}
               onChangeText={jobType => setJobType(jobType)}
@@ -456,7 +420,7 @@ const Profile = props => {
             style={styles.buttonStyle}
             activeOpacity={0.5}
             onPress={handleSubmitButton}>
-            <Text style={styles.buttonTextStyle}>Update</Text>
+            <Text style={styles.buttonTextStyle}>UPDATE</Text>
           </TouchableOpacity>
         </KeyboardAvoidingView>
       </ScrollView>
