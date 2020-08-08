@@ -401,7 +401,7 @@ const Profile = props => {
               // onSubmitEditing={Keyboard.dismiss}
               blurOnSubmit={false}
             />
-          </View> */}
+          </View> 
           <Picker
             selectedValue={jobType}
             style={{ height: 50, width: 100 }}
