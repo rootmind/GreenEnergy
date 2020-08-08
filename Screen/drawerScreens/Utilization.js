@@ -187,6 +187,10 @@ const Utilization = props => {
           console.log(response.data.status);
           if (response.data.status == 'STS005') {
             alert(response.data.message);
+            setPersonMonth('0');
+            setPersonYear('0');
+            setWaterUtilized('');
+            setElectricityUtilized('');
           }
           else if (response.data.status == "STS006") {
             alert(response.data.message);
@@ -282,7 +286,7 @@ const Utilization = props => {
               placeholder="Enter Water Utilized"
               placeholderTextColor="black"
               selectionColor='#808B96'
-
+              value = {waterUtilized}
               returnKeyType="next"
 
               blurOnSubmit={false}
@@ -297,7 +301,7 @@ const Utilization = props => {
               placeholder="Enter Electricity Utilized"
               placeholderTextColor="black"
               selectionColor='#808B96'
-
+              value = {electricityUtilized}
               returnKeyType="next"
 
               blurOnSubmit={false}
