@@ -12,7 +12,6 @@ import { createStackNavigator } from 'react-navigation-stack';
 import SplashScreen from './Screen/SplashScreen';
 import LoginScreen from './Screen/LoginScreen';
 import RegisterScreen from './Screen/RegisterScreen';
-import PersonRegister from './Screen/PersonRegister';
 import DrawerNavigationRoutes from './Screen/DrawerNavigationRoutes';
 
 const Auth = createStackNavigator({
@@ -25,18 +24,8 @@ const Auth = createStackNavigator({
       headerShown: false,
     },
   },
-  // RegisterScreen: {
-  //   screen: RegisterScreen,
-  //   navigationOptions: {
-  //     title: 'Register',
-  //     headerStyle: {
-  //       backgroundColor: '#307ecc',
-  //     },
-  //     headerTintColor: '#fff',
-  //   },
-  // },
-  PersonRegister: {
-    screen: PersonRegister,
+  RegisterScreen: {
+    screen: RegisterScreen,
     navigationOptions: {
       title: 'Back',
       headerStyle: {

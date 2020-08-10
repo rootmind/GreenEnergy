@@ -30,11 +30,9 @@ const Profile = props => {
   let [grade, setGrade] = useState('');
   let [personSection, setPersonSection] = useState('');
   let [gender, setGender] = useState('');
-  let [personStatus, setPersonStatus] = useState('');
   let [jobType, setJobType] = useState('');
   let [loading, setLoading] = useState(false);
   let [errortext, setErrortext] = useState('');
-  let [isRegistraionSuccess, setIsRegistraionSuccess] = useState(false);
 
   let [animating, setAnimating] = useState(true);
 
@@ -132,10 +130,6 @@ const Profile = props => {
           setGender(response.data.gender);
           setPersonStatus(response.data.personStatus);
           setJobType(response.data.jobType);
-
-
-
-
         }
 
         else {
@@ -173,7 +167,6 @@ const Profile = props => {
       "grade": grade,
       "personSection": personSection,
       "gender": gender,
-      "personStatus": personStatus,
       "jobType": jobType
     }
     console.log(' Payload ' + JSON.stringify(payload));
@@ -225,8 +218,6 @@ const Profile = props => {
         alert("Unable To Reach Server");
       });
 
-
-
   };
 
 
@@ -234,28 +225,15 @@ const Profile = props => {
     <View style={{ flex: 1, backgroundColor: 'white' }}>
       <Loader loading={loading} />
       <ScrollView keyboardShouldPersistTaps="handled">
-        <View style={{ alignItems: 'center' }}>
-          {/* <Image
-              source={require('../Image/aboutreact.png')}
-              style={{
-                width: '50%',
-                height: 100,
-                resizeMode: 'contain',
-                margin: 30,
-              }}
-            /> */}
-        </View>
         <View style={styles.textInput}>
           <TextInput
             style={styles.inputStyle}
             onChangeText={personId => setPersonId(personId)}
             value={personId}
-            //underlineColorAndroid="#F6F6F7"
             placeholder="Enter Id"
             placeholderTextColor="black"
             selectionColor='#808B96'
             returnKeyType="next"
-            // onSubmitEditing={() => this._ageinput && this._ageinput.focus()}
             blurOnSubmit={false}
             editable={false} selectTextOnFocus={false}
           />
@@ -266,15 +244,11 @@ const Profile = props => {
               style={styles.inputStyle}
               onChangeText={PersonName => setPersonName(PersonName)}
               value={personName}
-              //underlineColorAndroid="#FFFFFF"
               placeholder="Enter Name"
               placeholderTextColor="black"
               selectionColor='#808B96'
               autoCapitalize="sentences"
               returnKeyType="next"
-              // onSubmitEditing={() =>
-              //   this._emailinput && this._emailinput.focus()
-              // }
               blurOnSubmit={false}
             />
           </View>
@@ -283,16 +257,11 @@ const Profile = props => {
               style={styles.inputStyle}
               onChangeText={personEmail => setPersonEmail(personEmail)}
               value={personEmail}
-              //underlineColorAndroid="#F6F6F7"
               placeholder="Enter Email"
               placeholderTextColor="black"
               selectionColor='#808B96'
               keyboardType="email-address"
-              // ref={ref => {
-              //   this._emailinput = ref;
-              // }}
               returnKeyType="next"
-              //onSubmitEditing={() => this._ageinput && this._ageinput.focus()}
               blurOnSubmit={false}
             />
           </View>
@@ -301,110 +270,14 @@ const Profile = props => {
               style={styles.inputStyle}
               onChangeText={personPassword => setPersonPassword(personPassword)}
               value={personPassword}
-              //underlineColorAndroid="#F6F6F7"
               placeholder="Enter Password"
               placeholderTextColor="black"
               selectionColor='#808B96'
-              // keyboardType="email-address"
-              // ref={ref => {
-              //   this._emailinput = ref;
-              // }}
-              returnKeyType="next"
-              // onSubmitEditing={() => this._ageinput && this._ageinput.focus()}
-              blurOnSubmit={false}
-            />
-          </View>
-          {/* <View style={styles.textInput}>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={grade => setGrade(grade)}
-              value={grade}
-            
-              placeholder="Enter Grade"
-              placeholderTextColor="black"
-            selectionColor='#808B96'
-            
               returnKeyType="next"
               blurOnSubmit={false}
+              secureTextEntry={true}
             />
           </View>
-          <View style={styles.textInput}>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={personSection => setPersonSection(personSection)}
-              value={personSection}
-              //underlineColorAndroid="#F6F6F7"
-              placeholder="Enter Section"
-              placeholderTextColor="black"
-            selectionColor='#808B96'
-              // keyboardType="email-address"
-              // ref={ref => {
-              //   this._emailinput = ref;
-              // }}
-              returnKeyType="next"
-             // onSubmitEditing={() => this._ageinput && this._ageinput.focus()}
-              blurOnSubmit={false}
-            />
-          </View>
-          <View style={styles.textInput}>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={gender => setGender(gender)}
-              value={gender}
-              //underlineColorAndroid="#F6F6F7"
-              placeholder="Enter Email"
-              placeholderTextColor="black"
-            selectionColor='#808B96'
-              // keyboardType="email-address"
-              // ref={ref => {
-              //   this._emailinput = ref;
-              // }}
-              returnKeyType="next"
-            //  onSubmitEditing={() => this._ageinput && this._ageinput.focus()}
-              blurOnSubmit={false}
-            />
-
-          </View>
-          <View style={styles.textInput}>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={personStatus => setPersonStatus(personStatus)}
-              value={personStatus}
-              //underlineColorAndroid="#F6F6F7"
-              placeholder="Enter Status"
-              placeholderTextColor="black"
-              selectionColor='#808B96'
-              // keyboardType="email-address"
-              // ref={ref => {
-              //   this._ageinput = ref;
-              // }}
-              // onSubmitEditing={() =>
-              //   this._addressinput && this._addressinput.focus()
-              // }
-              blurOnSubmit={false}
-            />
-          </View>
-          <View style={styles.textInput}>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={jobType => setJobType(jobType)}
-             
-              //underlineColorAndroid="#FFFFFF"
-              placeholder="Enter JobType"
-              placeholderTextColor="black"
-            selectionColor='#808B96'
-              autoCapitalize="sentences"
-              // ref={ref => {
-              //   this._addressinput = ref;
-              // }}
-              returnKeyType="next"
-              // onSubmitEditing={Keyboard.dismiss}
-              blurOnSubmit={false}
-            />
-       
-          </View> 
-         */}
-
           <View>
             <Picker
               selectedValue={grade}
@@ -418,7 +291,6 @@ const Profile = props => {
               })}
             </Picker>
           </View>
-
 
           <View>
             <Picker

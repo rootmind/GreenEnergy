@@ -32,9 +32,9 @@ const Utilization = props => {
   let [errortext, setErrortext] = useState('');
   let [isRegistrationSuccess, setIsRegistrationSuccess] = useState(false);
   let [animating, setAnimating] = useState(true);
-  
+
   const personMonthOptions = {
-    "0":"Select Month",
+    "0": "Select Month",
     "1": "January",
     "2": "February",
     "3": "March",
@@ -50,13 +50,13 @@ const Utilization = props => {
   }
 
   const personYearOptions = {
-    "0":"Select Year",
-    "1":"2020",
-    "2":"2021",
-    "3":"2022",
-    "4":"2023",
-    "5":"2024",
-    "6":"2025"
+    "0": "Select Year",
+    "1": "2020",
+    "2": "2021",
+    "3": "2022",
+    "4": "2023",
+    "5": "2024",
+    "6": "2025"
   }
 
   useEffect(() => {
@@ -135,11 +135,11 @@ const Utilization = props => {
     //   alert('Please fill Id');
     //   return;
     // }
-    if (!personMonth || personMonth=='0') {
+    if (!personMonth || personMonth == '0') {
       alert('Please fill Month');
       return;
     }
-    if (!personYear || personYear=='0') {
+    if (!personYear || personYear == '0') {
       alert('Please fill Year');
       return;
     }
@@ -252,30 +252,30 @@ const Utilization = props => {
         <KeyboardAvoidingView enabled>
 
           <View style={styles.pickerInput}>
-          <Picker
-            selectedValue={personMonth}
-            style={{ height: 50, width: 150 }}
-            //itemStyle={{ backgroundColor: "grey", color: "blue", fontFamily:"Ebrima", fontSize:17 }}
-            onValueChange={(itemValue, itemIndex) =>
-              setPersonMonth(itemValue)
-            }>
-            {Object.keys(personMonthOptions).map((key) => {
-              return (<Picker.Item label={personMonthOptions[key]} value={key} key={key} />) 
-            })}
-          </Picker>
+            <Picker
+              selectedValue={personMonth}
+              style={{ height: 50, width: 150 }}
+              //itemStyle={{ backgroundColor: "grey", color: "blue", fontFamily:"Ebrima", fontSize:17 }}
+              onValueChange={(itemValue, itemIndex) =>
+                setPersonMonth(itemValue)
+              }>
+              {Object.keys(personMonthOptions).map((key) => {
+                return (<Picker.Item label={personMonthOptions[key]} value={key} key={key} />)
+              })}
+            </Picker>
           </View>
 
           <View style={styles.pickerInput}>
-          <Picker
-            selectedValue={personYear}
-            style={{ height: 50, width: 125 }}
-            onValueChange={(itemValue, itemIndex) =>
-              setPersonYear(itemValue)
-            }>
-            {Object.keys(personYearOptions).map((key) => {
-              return (<Picker.Item label={personYearOptions[key]} value={key} key={key} />) 
-            })}
-          </Picker>
+            <Picker
+              selectedValue={personYear}
+              style={{ height: 50, width: 125 }}
+              onValueChange={(itemValue, itemIndex) =>
+                setPersonYear(itemValue)
+              }>
+              {Object.keys(personYearOptions).map((key) => {
+                return (<Picker.Item label={personYearOptions[key]} value={key} key={key} />)
+              })}
+            </Picker>
           </View>
 
           <View style={styles.textInput}>
@@ -286,13 +286,13 @@ const Utilization = props => {
               placeholder="Enter Water Utilized"
               placeholderTextColor="black"
               selectionColor='#808B96'
-              value = {waterUtilized}
+              value={waterUtilized}
               returnKeyType="next"
-
+              keyboardType="numeric"
               blurOnSubmit={false}
             />
           </View>
-          
+
           <View style={styles.textInput}>
             <TextInput
               style={styles.inputStyle}
@@ -301,9 +301,9 @@ const Utilization = props => {
               placeholder="Enter Electricity Utilized"
               placeholderTextColor="black"
               selectionColor='#808B96'
-              value = {electricityUtilized}
+              value={electricityUtilized}
               returnKeyType="next"
-
+              keyboardType="numeric"
               blurOnSubmit={false}
             />
           </View>
@@ -388,7 +388,12 @@ const styles = StyleSheet.create({
     fontSize: 18,
     padding: 30,
   },
-  pickerInput: {
-
+  pickerStyle: {
+    height: 44,
+    width: 350,
+    alignSelf: 'center'
+  },
+  pickerItemStyle: {
+    height: 44
   }
 });

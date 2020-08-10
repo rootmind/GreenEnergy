@@ -168,59 +168,45 @@ const LoginScreen = props => {
               <TextInput
                 style={styles.inputStyle}
                 onChangeText={userEmail => setUserEmail(userEmail)}
-                //underlineColorAndroid="#FFFFFF"
                 placeholder=" User ID" //dummy@abc.com
-                //placeholderFontSize="20px"
                 placeholderTextColor="black"
                 selectionColor='#808B96'
                 autoCapitalize="none"
-                // keyboardType="email-address"
-                // ref={ref => {
-                //   this._emailinput = ref;
-                // }}
                 returnKeyType="next"
-                // onSubmitEditing={() =>
-                //   this._passwordinput && this._passwordinput.focus()
-                // }
                 blurOnSubmit={false}
+                onSubmitEditing={Keyboard.dismiss}
               />
             </View>
             <View style={styles.textInput}>
               <TextInput
                 style={styles.inputStyle}
                 onChangeText={UserPassword => setUserPassword(UserPassword)}
-                //underlineColorAndroid="#FFFFFF"
-                //style={styles.placeholder}
                 placeholder=" Password" //12345
                 placeholderTextColor="black"
                 selectionColor='#808B96'
-                // keyboardType="default"
-                // ref={ref => {
-                //   this._passwordinput = ref;
-                // }}
-                onSubmitEditing={Keyboard.dismiss}
                 blurOnSubmit={false}
+                onSubmitEditing={Keyboard.dismiss}
                 secureTextEntry={true}
               />
             </View>
+
             {errortext != '' ? (
               <Text style={styles.errorTextStyle}> {errortext} </Text>
             ) : null}
+
             <TouchableOpacity
               style={styles.buttonStyle}
               activeOpacity={0.5}
               onPress={handleSubmitPress}>
-              {/* <ImageBackground source={image} style={styles.image}>
-                <Text style={styles.buttonTextStyle}>LOGIN</Text>
-              </ImageBackground> */}
               <Text style={styles.buttonTextStyle}>LOGIN</Text>
-
             </TouchableOpacity>
+
             <Text
               style={styles.registerTextStyle}
-              onPress={() => props.navigation.navigate('PersonRegister')}>
+              onPress={() => props.navigation.navigate('RegisterScreen')}>
               New Here?  Register
             </Text>
+
           </KeyboardAvoidingView>
         </View>
       </ScrollView>

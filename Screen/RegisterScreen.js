@@ -3,7 +3,7 @@
 
 //Import React and Hook we needed
 import React, { useState } from 'react';
-
+import axios from 'axios';
 //Import all required component
 import {
   StyleSheet,
@@ -17,179 +17,320 @@ import {
   ScrollView,
 } from 'react-native';
 import Loader from './Components/Loader';
+import AsyncStorage from '@react-native-community/async-storage';
+import { serverIP } from '../app.json';
+import { Picker } from '@react-native-community/picker';
 
 const RegisterScreen = props => {
-  let [userName, setUserName] = useState('');
-  let [userEmail, setUserEmail] = useState('');
-  let [userAge, setUserAge] = useState('');
-  let [userAddress, setUserAddress] = useState('');
+  let [personId, setPersonId] = useState('');
+  let [personName, setPersonName] = useState('');
+  let [personEmail, setPersonEmail] = useState('');
+  let [personPassword, setPersonPassword] = useState('');
+  let [grade, setGrade] = useState('');
+  let [personSection, setPersonSection] = useState('');
+  let [gender, setGender] = useState('');
+  let [jobType, setJobType] = useState('');
   let [loading, setLoading] = useState(false);
   let [errortext, setErrortext] = useState('');
-  let [isRegistraionSuccess, setIsRegistraionSuccess] = useState(false);
 
+  const gradeOptions = {
+    "0": "Select Grade",
+    "KG1": "KG1",
+    "KG2": "KG2",
+    "GR1": "GR1",
+    "GR2": "GR2",
+    "GR3": "GR3",
+    "GR4": "GR4",
+    "GR5": "GR5",
+    "GR6": "GR6",
+    "GR7": "GR7",
+    "GR8": "GR8",
+    "GR9": "GR9",
+    "GR10": "GR10",
+    "GR11": "GR11",
+    "GR12": "GR12"
+  };
+  const sectionOptions = {
+    "0": "Select Section",
+    "A": "A",
+    "B": "B",
+    "C": "C",
+    "D": "D"
+
+  };
+  const genderOptions = {
+    "0": "Select Gender",
+    "Male": "Male",
+    "Female": "Female"
+  };
+  const jobTypeOptions = {
+    "0": "Select JobType",
+    "Student": "Student",
+    "Teacher": "Teacher",
+    "Staff": "Staff"
+  };
   const handleSubmitButton = () => {
     setErrortext('');
-    if (!userName) {
+    if (!personId) {
+      alert('Please fill Id');
+      return;
+    }
+    if (!personName) {
       alert('Please fill Name');
       return;
     }
-    if (!userEmail) {
+    if (!personEmail) {
       alert('Please fill Email');
       return;
     }
-    if (!userAge) {
-      alert('Please fill Age');
+    if (!personPassword) {
+      alert('Please fill Password');
       return;
     }
-    if (!userAddress) {
-      alert('Please fill Address');
+    if (!grade && grade == '0') {
+      alert('Please select Grade');
+      return;
+    }
+    if (!personSection && personSection == '0') {
+      alert('Please Select Section');
+      return;
+    }
+    console.log('gender ' + gender);
+    if (!gender || gender == '0') {
+      console.log('gender ' + gender);
+      alert('Please select Gender');
+      return;
+    }
+    if (!jobType || jobType == '0') {
+      alert('Please select JobType');
       return;
     }
     //Show Loader
     setLoading(true);
-    var dataToSend = {
-      user_name: userName,
-      user_email: userEmail,
-      user_age: userAge,
-      user_address: userAddress,
-    };
-    var formBody = [];
-    for (var key in dataToSend) {
-      var encodedKey = encodeURIComponent(key);
-      var encodedValue = encodeURIComponent(dataToSend[key]);
-      formBody.push(encodedKey + '=' + encodedValue);
-    }
-    formBody = formBody.join('&');
+    //---------------------------------------------------------------------------------------------------------------------
 
-    fetch('https://aboutreact.herokuapp.com/register.php', {
-      method: 'POST',
-      body: formBody,
+    var apiBaseUrl = serverIP + ":9093/person/insert";
+    //var apiBaseUrl = "http://192.168.43.235:9093/person/insert";
+    // var apiBaseUrl = "http://localhost:9093/utilization/find";
+    var self = this;
+    var payload =
+    {
+      "personId": personId,
+      "personName": personName,
+      "personEmail": personEmail,
+      "personPassword": personPassword,
+      "grade": (grade == '0' ? '' : grade),
+      "personSection": (personSection == '0' ? '' : personSection),
+      "gender": gender,
+      "jobType": jobType
+
+      // "email": this.state.username,
+      // "password": this.state.password
+    }
+    axios.post(apiBaseUrl, payload, {
       headers: {
-        //Header Defination
-        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-      },
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true,
+      }
     })
-      .then(response => response.json())
-      .then(responseJson => {
-        //Hide Loader
+      //axios.post(apiBaseUrl, payload)
+      .then(function (response) {
         setLoading(false);
-        console.log(responseJson);
-        // If server response message same as Data Matched
-        if (responseJson.status == 1) {
-          setIsRegistraionSuccess(true);
-          console.log('Registration Successful. Please Login to proceed');
-        } else {
-          setErrortext('Registration Unsuccessful');
+        console.log(JSON.stringify(response));
+        if (response.status == 200) {
+          if (response.data.status == 'STS008') {
+            console.log(response.data.message);
+            // self.setState(response.data);
+            AsyncStorage.setItem('person_id', response.data.personId);
+            props.navigation.navigate('DrawerNavigationRoutes');
+            // var uploadScreen = [];
+            // uploadScreen.push(<UploadScreen appContext={self.props.appContext} />)
+            // self.props.appContext.setState({ loginPage: [], uploadScreen: uploadScreen })
+          }
+          else if (response.data.status == 'STS007') {
+
+            console.log(response.data.message);
+            alert(response.data.message);
+          }
+          else {
+            console.log(response.data.message);
+            alert(response.data.message);
+          }
         }
-      })
-      .catch(error => {
-        //Hide Loader
+        else {
+          alert('Invalid HTTP Response');
+        }
+      }
+      )
+      .catch(function (error) {
         setLoading(false);
-        console.error(error);
+        alert('Unable To Reach Server');
+        console.log(error);
       });
+
+    //-------------------------------------------------------------------------------------------------------------------------
   };
-  if (isRegistraionSuccess) {
-    return (
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: '#307ecc',
-          justifyContent: 'center',
-        }}>
-        <Image
-          source={require('../Image/success.png')}
-          style={{ height: 150, resizeMode: 'contain', alignSelf: 'center' }}
-        />
-        <Text style={styles.successTextStyle}>Registration Successful.</Text>
-        <TouchableOpacity
-          style={styles.buttonStyle}
-          activeOpacity={0.5}
-          onPress={() => props.navigation.navigate('LoginScreen')}>
-          <Text style={styles.buttonTextStyle}>Login Now</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  }
+
+  // if (isRegistrationSuccess) {
+  //   return (
+  //     <View
+  //       style={{
+  //         flex: 1,
+  //         backgroundColor: '#307ecc',
+  //         justifyContent: 'center',
+  //       }}>
+  //       <Text style={styles.successTextStyle}>Registration Successful</Text>
+  //       <TouchableOpacity
+  //         style={styles.buttonStyle}
+  //         activeOpacity={0.5}
+  //         onPress={() => props.navigation.navigate('LoginScreen')}>
+  //         <Text style={styles.buttonTextStyle}>Login Now</Text>
+  //       </TouchableOpacity>
+  //     </View>
+  //   );
+  // }
   return (
-    <View style={{ flex: 1, backgroundColor: '#307ecc' }}>
+    <View style={{ flex: 1, backgroundColor: 'white' }}>
       <Loader loading={loading} />
       <ScrollView keyboardShouldPersistTaps="handled">
-        <View style={{ alignItems: 'center' }}>
-          <Image
-            source={require('../Image/aboutreact.png')}
-            style={{
-              width: '50%',
-              height: 100,
-              resizeMode: 'contain',
-              margin: 30,
-            }}
+        <View style={styles.textInput}>
+          <TextInput
+            style={styles.inputStyle}
+            onChangeText={personId => setPersonId(personId)}
+            placeholder="Enter ID"
+            placeholderTextColor="black"
+            selectionColor='#808B96'
+            returnKeyType="next"
+            blurOnSubmit={false}
+            onSubmitEditing={Keyboard.dismiss}
           />
         </View>
         <KeyboardAvoidingView enabled>
-          <View style={styles.SectionStyle}>
+          <View style={styles.textInput}>
             <TextInput
               style={styles.inputStyle}
-              onChangeText={UserName => setUserName(UserName)}
-              underlineColorAndroid="#FFFFFF"
+              onChangeText={PersonName => setPersonName(PersonName)}
               placeholder="Enter Name"
-              placeholderTextColor="#F6F6F7"
+              placeholderTextColor="black"
+              selectionColor='#808B96'
               autoCapitalize="sentences"
               returnKeyType="next"
-              onSubmitEditing={() =>
-                this._emailinput && this._emailinput.focus()
-              }
               blurOnSubmit={false}
-            />
-          </View>
-          <View style={styles.SectionStyle}>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={UserEmail => setUserEmail(UserEmail)}
-              underlineColorAndroid="#F6F6F7"
-              placeholder="Enter Email"
-              placeholderTextColor="#F6F6F7"
-              keyboardType="email-address"
-              ref={ref => {
-                this._emailinput = ref;
-              }}
-              returnKeyType="next"
-              onSubmitEditing={() => this._ageinput && this._ageinput.focus()}
-              blurOnSubmit={false}
-            />
-          </View>
-          <View style={styles.SectionStyle}>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={UserAge => setUserAge(UserAge)}
-              underlineColorAndroid="#F6F6F7"
-              placeholder="Enter Age"
-              placeholderTextColor="#F6F6F7"
-              keyboardType="numeric"
-              ref={ref => {
-                this._ageinput = ref;
-              }}
-              onSubmitEditing={() =>
-                this._addressinput && this._addressinput.focus()
-              }
-              blurOnSubmit={false}
-            />
-          </View>
-          <View style={styles.SectionStyle}>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={UserAddress => setUserAddress(UserAddress)}
-              underlineColorAndroid="#FFFFFF"
-              placeholder="Enter Address"
-              placeholderTextColor="#F6F6F7"
-              autoCapitalize="sentences"
-              ref={ref => {
-                this._addressinput = ref;
-              }}
-              returnKeyType="next"
               onSubmitEditing={Keyboard.dismiss}
-              blurOnSubmit={false}
             />
           </View>
+          <View style={styles.textInput}>
+            <TextInput
+              style={styles.inputStyle}
+              onChangeText={personEmail => setPersonEmail(personEmail)}
+              placeholder="Enter Email"
+              placeholderTextColor="black"
+              selectionColor='#808B96'
+              returnKeyType="next"
+              blurOnSubmit={false}
+              onSubmitEditing={Keyboard.dismiss}
+            />
+          </View>
+          <View style={styles.textInput}>
+            <TextInput
+              style={styles.inputStyle}
+              onChangeText={personPassword => setPersonPassword(personPassword)}
+              placeholder="Enter Password"
+              placeholderTextColor="black"
+              selectionColor='#808B96'
+              returnKeyType="next"
+              blurOnSubmit={false}
+              onSubmitEditing={Keyboard.dismiss}
+              secureTextEntry={true}
+            />
+          </View>
+
+          <View>
+            <Picker
+              selectedValue={grade}
+              style={styles.pickerStyle}
+              itemStyle={styles.pickerItemStyle}
+              onValueChange={(itemValue, itemIndex) =>
+                setGrade(itemValue)
+              }>
+              {Object.keys(gradeOptions).map((key) => {
+                return (<Picker.Item label={gradeOptions[key]} value={key} key={key} />) //if you have a bunch of keys value pair
+              })}
+            </Picker>
+          </View>
+
+          {/* <View style={styles.textInput}>
+            <TextInput
+              style={styles.inputStyle}
+              onChangeText={personSection => setPersonSection(personSection)}
+              
+              placeholder="Enter Section (Optional)"
+              placeholderTextColor="black"
+              selectionColor='#808B96'
+             
+              returnKeyType="next"
+     
+              blurOnSubmit={false}
+            />
+          </View> */}
+          <View>
+            <Picker
+              selectedValue={personSection}
+              style={styles.pickerStyle}
+              itemStyle={styles.pickerItemStyle}
+              onValueChange={(itemValue, itemIndex) =>
+                setPersonSection(itemValue)
+              }>
+              {Object.keys(sectionOptions).map((key) => {
+                return (<Picker.Item label={sectionOptions[key]} value={key} key={key} />) //if you have a bunch of keys value pair
+              })}
+            </Picker>
+          </View>
+          {/* <View style={styles.textInput}>
+            <TextInput
+              style={styles.inputStyle}
+              onChangeText={gender => setGender(gender)}
+  
+              placeholder="Enter Gender"
+              placeholderTextColor="black"
+              selectionColor='#808B96'
+            
+              returnKeyType="next"
+       
+              blurOnSubmit={false}
+            />
+
+          </View> */}
+          <View>
+            <Picker
+              selectedValue={gender}
+              style={styles.pickerStyle}
+              itemStyle={styles.pickerItemStyle}
+              onValueChange={(itemValue, itemIndex) =>
+                setGender(itemValue)
+              }>
+              {Object.keys(genderOptions).map((key) => {
+                return (<Picker.Item label={genderOptions[key]} value={key} key={key} />) //if you have a bunch of keys value pair
+              })}
+            </Picker>
+          </View>
+
+          <View>
+            <Picker
+              selectedValue={jobType}
+
+              style={styles.pickerStyle}
+              itemStyle={styles.pickerItemStyle}
+              onValueChange={(itemValue, itemIndex) =>
+                setJobType(itemValue)
+              }>
+              {Object.keys(jobTypeOptions).map((key) => {
+                return (<Picker.Item label={jobTypeOptions[key]} value={key} key={key} />) //if you have a bunch of keys value pair
+              })}
+            </Picker>
+          </View>
+
           {errortext != '' ? (
             <Text style={styles.errorTextStyle}> {errortext} </Text>
           ) : null}
@@ -217,30 +358,45 @@ const styles = StyleSheet.create({
   },
   buttonStyle: {
     backgroundColor: '#7DE24E',
-    borderWidth: 0,
     color: '#FFFFFF',
     borderColor: '#7DE24E',
-    height: 40,
+    height: 65,
     alignItems: 'center',
     borderRadius: 30,
-    marginLeft: 35,
-    marginRight: 35,
-    marginTop: 20,
-    marginBottom: 20,
+    marginLeft: 28,
+    marginRight: 28,
+    marginTop: 45,
+    marginBottom: 12
   },
   buttonTextStyle: {
-    color: '#FFFFFF',
-    paddingVertical: 10,
-    fontSize: 16,
+    color: 'black',
+    paddingVertical: 17.35,
+    paddingRight: 10,
+    fontSize: 22,
+    fontWeight: 'bold'
   },
   inputStyle: {
+    backgroundColor: 'white',
     flex: 1,
-    color: 'white',
+    color: 'black',
     paddingLeft: 15,
     paddingRight: 15,
-    borderWidth: 1,
+    borderWidth: 2,
     borderRadius: 30,
-    borderColor: 'white',
+    paddingVertical: 17,
+    marginRight: 10,
+    marginTop: 14,
+    marginBottom: -30,
+    marginVertical: -10,
+    borderColor: 'black',
+    fontSize: 22
+  },
+  textInput: {
+    flex: 1,
+    margin: 23,
+    paddingLeft: 6,
+    color: 'black',
+    fontSize: 20,
   },
   errorTextStyle: {
     color: 'red',
@@ -253,4 +409,14 @@ const styles = StyleSheet.create({
     fontSize: 18,
     padding: 30,
   },
+  pickerStyle: {
+
+    height: 44,
+    width: 350,
+    alignSelf: 'center'
+
+  },
+  pickerItemStyle: {
+    height: 44
+  }
 });

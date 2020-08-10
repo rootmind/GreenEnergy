@@ -1,10 +1,4 @@
-	/* This is an Login Registration example from https://aboutreact.com/ */
-/* https://aboutreact.com/react-native-login-and-signup/ */
-
-//Import React and Hooks we needed
 import React, { useState, useEffect } from 'react';
-
-//Import all required component
 import { ActivityIndicator, View, StyleSheet, Image } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 //import LoginScreen from './LoginScreen';
