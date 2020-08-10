@@ -314,7 +314,7 @@ const Profile = props => {
               blurOnSubmit={false}
             />
           </View>
-          <View style={styles.textInput}>
+          {/* <View style={styles.textInput}>
             <TextInput
               style={styles.inputStyle}
               onChangeText={grade => setGrade(grade)}
@@ -388,7 +388,7 @@ const Profile = props => {
             <TextInput
               style={styles.inputStyle}
               onChangeText={jobType => setJobType(jobType)}
-              value={jobType}
+             
               //underlineColorAndroid="#FFFFFF"
               placeholder="Enter JobType"
               placeholderTextColor="black"
@@ -401,17 +401,67 @@ const Profile = props => {
               // onSubmitEditing={Keyboard.dismiss}
               blurOnSubmit={false}
             />
+       
           </View> 
-          <Picker
-            selectedValue={jobType}
-            style={{ height: 50, width: 100 }}
-            onValueChange={(itemValue, itemIndex) =>
-              setJobType(itemValue)
-            }>
-            {Object.keys(jobTypeOptions).map((key) => {
-              return (<Picker.Item label={jobTypeOptions[key]} value={key} key={key} />) //if you have a bunch of keys value pair
-            })}
-          </Picker>
+         */}
+
+          <View>
+            <Picker
+              selectedValue={grade}
+              style={styles.pickerStyle}
+              itemStyle={styles.pickerItemStyle}
+              onValueChange={(itemValue, itemIndex) =>
+                setGrade(itemValue)
+              }>
+              {Object.keys(gradeOptions).map((key) => {
+                return (<Picker.Item label={gradeOptions[key]} value={key} key={key} />) //if you have a bunch of keys value pair
+              })}
+            </Picker>
+          </View>
+
+
+          <View>
+            <Picker
+              selectedValue={personSection}
+              style={styles.pickerStyle}
+              itemStyle={styles.pickerItemStyle}
+              onValueChange={(itemValue, itemIndex) =>
+                setPersonSection(itemValue)
+              }>
+              {Object.keys(sectionOptions).map((key) => {
+                return (<Picker.Item label={sectionOptions[key]} value={key} key={key} />) //if you have a bunch of keys value pair
+              })}
+            </Picker>
+          </View>
+
+          <View>
+            <Picker
+              selectedValue={gender}
+              style={styles.pickerStyle}
+              itemStyle={styles.pickerItemStyle}
+              onValueChange={(itemValue, itemIndex) =>
+                setGender(itemValue)
+              }>
+              {Object.keys(genderOptions).map((key) => {
+                return (<Picker.Item label={genderOptions[key]} value={key} key={key} />) //if you have a bunch of keys value pair
+              })}
+            </Picker>
+          </View>
+
+          <View>
+            <Picker
+              selectedValue={jobType}
+
+              style={styles.pickerStyle}
+              itemStyle={styles.pickerItemStyle}
+              onValueChange={(itemValue, itemIndex) =>
+                setJobType(itemValue)
+              }>
+              {Object.keys(jobTypeOptions).map((key) => {
+                return (<Picker.Item label={jobTypeOptions[key]} value={key} key={key} />) //if you have a bunch of keys value pair
+              })}
+            </Picker>
+          </View>
 
           {errortext != '' ? (
             <Text style={styles.errorTextStyle}> {errortext} </Text>
@@ -491,6 +541,16 @@ const styles = StyleSheet.create({
     fontSize: 18,
     padding: 30,
   },
+  pickerStyle: {
+
+    height: 44,
+    width: 350,
+    alignSelf: 'center'
+
+  },
+  pickerItemStyle: {
+    height: 44
+  }
 });
 
 
