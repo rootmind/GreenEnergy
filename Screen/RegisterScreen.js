@@ -260,20 +260,6 @@ const RegisterScreen = props => {
             </Picker>
           </View>
 
-          {/* <View style={styles.textInput}>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={personSection => setPersonSection(personSection)}
-              
-              placeholder="Enter Section (Optional)"
-              placeholderTextColor="black"
-              selectionColor='#808B96'
-             
-              returnKeyType="next"
-     
-              blurOnSubmit={false}
-            />
-          </View> */}
           <View>
             <Picker
               selectedValue={personSection}
@@ -287,21 +273,7 @@ const RegisterScreen = props => {
               })}
             </Picker>
           </View>
-          {/* <View style={styles.textInput}>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={gender => setGender(gender)}
-  
-              placeholder="Enter Gender"
-              placeholderTextColor="black"
-              selectionColor='#808B96'
-            
-              returnKeyType="next"
-       
-              blurOnSubmit={false}
-            />
-
-          </View> */}
+          
           <View>
             <Picker
               selectedValue={gender}

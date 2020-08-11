@@ -169,8 +169,7 @@ const Utilization = props => {
       "personMonth": personMonth,
       "personYear": personYear,
       "waterUtilized": waterUtilized,
-      "electricityUtilized": electricityUtilized,
-      "updateDate": updateDate
+      "electricityUtilized": electricityUtilized
     }
     axios.post(apiBaseUrl, payload, {
       headers: {
@@ -191,6 +190,7 @@ const Utilization = props => {
             setPersonYear('0');
             setWaterUtilized('');
             setElectricityUtilized('');
+            props.navigation.navigate('HomeScreen');
           }
           else if (response.data.status == "STS006") {
             alert(response.data.message);
@@ -222,40 +222,25 @@ const Utilization = props => {
     <View style={{ flex: 1, backgroundColor: 'white' }}>
       <Loader loading={loading} />
       <ScrollView keyboardShouldPersistTaps="handled">
-        {/* <View style={{ alignItems: 'center' }}>
-          <Image
-            source={require('../Image/aboutreact.png')}
-            style={{
-              width: '50%',
-              height: 100,
-              resizeMode: 'contain',
-              margin: 30,
-            }}
-          />
-        </View> */}
-
         <View style={styles.textInput}>
           <TextInput
             style={styles.inputStyle}
-            //  onChangeText={personId => setPersonId(personId)}
             value={personId}
-            //underlineColorAndroid="#F6F6F7"
             placeholder="Enter Id"
             placeholderTextColor="black"
             selectionColor='#808B96'
             returnKeyType="next"
-
             blurOnSubmit={false}
             editable={false} selectTextOnFocus={false}
           />
         </View>
+
         <KeyboardAvoidingView enabled>
 
           <View style={styles.pickerInput}>
             <Picker
               selectedValue={personMonth}
               style={{ height: 50, width: 150 }}
-              //itemStyle={{ backgroundColor: "grey", color: "blue", fontFamily:"Ebrima", fontSize:17 }}
               onValueChange={(itemValue, itemIndex) =>
                 setPersonMonth(itemValue)
               }>
@@ -282,7 +267,6 @@ const Utilization = props => {
             <TextInput
               style={styles.inputStyle}
               onChangeText={waterUtilized => setWaterUtilized(waterUtilized)}
-              //underlineColorAndroid="#F6F6F7"
               placeholder="Enter Water Utilized"
               placeholderTextColor="black"
               selectionColor='#808B96'
@@ -297,7 +281,6 @@ const Utilization = props => {
             <TextInput
               style={styles.inputStyle}
               onChangeText={electricityUtilized => setElectricityUtilized(electricityUtilized)}
-              //underlineColorAndroid="#F6F6F7"
               placeholder="Enter Electricity Utilized"
               placeholderTextColor="black"
               selectionColor='#808B96'
