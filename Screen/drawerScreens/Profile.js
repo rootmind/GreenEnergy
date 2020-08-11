@@ -53,7 +53,7 @@ const Profile = props => {
     "GR11": "GR11",
     "GR12": "GR12"
   };
-  const sectionOptions = {
+  const personSectionOptions = {
     "0": "Select Section",
     "A": "A",
     "B": "B",
@@ -128,7 +128,7 @@ const Profile = props => {
           setGrade(response.data.grade);
           setPersonSection(response.data.personSection);
           setGender(response.data.gender);
-          setPersonStatus(response.data.personStatus);
+          // setPersonStatus(response.data.personStatus);
           setJobType(response.data.jobType);
         }
 
@@ -300,8 +300,8 @@ const Profile = props => {
               onValueChange={(itemValue, itemIndex) =>
                 setPersonSection(itemValue)
               }>
-              {Object.keys(sectionOptions).map((key) => {
-                return (<Picker.Item label={sectionOptions[key]} value={key} key={key} />) //if you have a bunch of keys value pair
+              {Object.keys(personSectionOptions).map((key) => {
+                return (<Picker.Item label={personSectionOptions[key]} value={key} key={key} />) //if you have a bunch of keys value pair
               })}
             </Picker>
           </View>
