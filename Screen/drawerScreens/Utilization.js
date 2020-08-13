@@ -23,8 +23,8 @@ import { Picker } from '@react-native-community/picker';
 
 const Utilization = props => {
   let [personId, setPersonId] = useState('');
-  let [personMonth, setPersonMonth] = useState('');
-  let [personYear, setPersonYear] = useState('');
+  let [personMonth, setPersonMonth] = useState('0');
+  let [personYear, setPersonYear] = useState('0');
   let [waterUtilized, setWaterUtilized] = useState('');
   let [electricityUtilized, setElectricityUtilized] = useState('');
   let [updateDate, setUpdateDate] = useState('');
@@ -34,29 +34,29 @@ const Utilization = props => {
   let [animating, setAnimating] = useState(true);
 
   const personMonthOptions = {
-    "0": "Select Month",
-    "1": "January",
-    "2": "February",
-    "3": "March",
-    "4": "April",
-    "5": "May",
-    "6": "June",
-    "7": "July",
-    "8": "August",
-    "9": "September",
-    "10": "October",
-    "11": "November",
-    "12": "December"
+    0: "Select Month",
+    1: "January",
+    2: "February",
+    3: "March",
+    4: "April",
+    5: "May",
+    6: "June",
+    7: "July",
+    8: "August",
+    9: "September",
+    10: "October",
+    11: "November",
+    12: "December"
   }
 
   const personYearOptions = {
-    "0": "Select Year",
-    "1": "2020",
-    "2": "2021",
-    "3": "2022",
-    "4": "2023",
-    "5": "2024",
-    "6": "2025"
+    0: "Select Year",
+    2020: "2020",
+    2021: "2021",
+    2022: "2022",
+    2023: "2023",
+    2024: "2024",
+    2025: "2025"
   }
 
   useEffect(() => {
@@ -69,29 +69,59 @@ const Utilization = props => {
         // alert('value  '+ value);
         setPersonId(value);
         //personId = value;
-        fetchPersonInfo(value);
+        // fetchPersonInfo(value);
       }
 
       );
     }, 1);
   }, []);
 
+  const onPickerMonthChange=(value, index)=>{
+    console.log('monthind2 ' + value);
+    setPersonMonth(value);
+    
+  }
 
-  const fetchPersonInfo = (props) => {
+  useEffect(() => {
+    console.log('Do something after counter has changed', personMonth);
+    findByMonthYear();
+ }, [personMonth]);
+
+
+ const onPickerYearChange=(value, index)=>{
+   console.log('year ' + value);
+    setPersonYear(value);
+  }
+
+  useEffect(() => {
+    console.log('Do something after counter has changed', personYear);
+    findByMonthYear();
+ }, [personYear]);
+
+  const findByMonthYear = () => {
+    console.log('findByMonthYear');
     setErrortext('');
 
     //Show Loader
+    if(!personMonth || personMonth == 0){
+      return;
+    }
+    if(!personYear || personYear == 0){
+      return;
+    }
     setLoading(true);
 
     //alert('personId'+ props);
-    var apiBaseUrl = serverIP + ":9093/utilization/get";
+    var apiBaseUrl = serverIP + ":9093/utilization/findByMonthYear";
     //var apiBaseUrl = "http://192.168.1.3:9093/utilization/get";
     // var apiBaseUrl = "http://192.168.43.235:9093/utilization/get";
     var payload =
     {
-      "personId": props
+      "personId": personId,
+      "personMonth": personMonth,
+      "personYear": personYear
     }
-    console.log('Utilization Get ' + JSON.stringify(payload));
+    console.log('Utilization findByMonthYear ' + JSON.stringify(payload));
     axios.post(apiBaseUrl, payload, {
       headers: {
         'Content-Type': 'application/json',
@@ -102,15 +132,17 @@ const Utilization = props => {
       //axios.post(apiBaseUrl, payload)
       .then(function (response) {
         setLoading(false);
-        console.log('Utilization Get Response ' + JSON.stringify(response));
+        console.log('Utilization findByMonthYear ' + JSON.stringify(response));
         if (response.status == 200) {
-          console.log(response.data[0].personMonth);
+          console.log(response.data.personMonth);
           //  console.log(response.data.personName);
           // setPersonId(response.data.personId);
           // setPersonMonth(response.data.personMonth);
           // setPersonYear(response.data.personYear);
-          // setWaterUtilized(response.data.waterUtilized);
-          // setElectricityUtilized(response.data.electricityUtilized);
+           setWaterUtilized(response.data.waterUtilized);
+           console.log(response.data.waterUtilized);
+           setElectricityUtilized(response.data.electricityUtilized);
+           console.log(response.data.electricityUtilized);
           // setUpdateDate(response.data.updateDate);
         }
 
@@ -135,11 +167,11 @@ const Utilization = props => {
     //   alert('Please fill Id');
     //   return;
     // }
-    if (!personMonth || personMonth == '0') {
+    if (!personMonth || personMonth == 0) {
       alert('Please fill Month');
       return;
     }
-    if (!personYear || personYear == '0') {
+    if (!personYear || personYear == 0) {
       alert('Please fill Year');
       return;
     }
@@ -190,6 +222,10 @@ const Utilization = props => {
             setPersonYear('0');
             setWaterUtilized('');
             setElectricityUtilized('');
+            // setPersonMonth(0);
+            // setPersonYear(0);
+            // setWaterUtilized(0);
+            // setElectricityUtilized(0);
             props.navigation.navigate('HomeScreen');
           }
           else if (response.data.status == "STS006") {
@@ -241,9 +277,9 @@ const Utilization = props => {
             <Picker
               selectedValue={personMonth}
               style={{ height: 50, width: 150 }}
-              onValueChange={(itemValue, itemIndex) =>
-                setPersonMonth(itemValue)
-              }>
+              // onValueChange={(itemValue, itemIndex) =>
+              //   setPersonMonth(itemValue),() =>{findByMonthYear()}
+              onValueChange={onPickerMonthChange }>
               {Object.keys(personMonthOptions).map((key) => {
                 return (<Picker.Item label={personMonthOptions[key]} value={key} key={key} />)
               })}
@@ -254,9 +290,9 @@ const Utilization = props => {
             <Picker
               selectedValue={personYear}
               style={{ height: 50, width: 125 }}
-              onValueChange={(itemValue, itemIndex) =>
-                setPersonYear(itemValue)
-              }>
+              // onValueChange={(itemValue, itemIndex) =>
+              //   setPersonYear(itemValue),() =>{findByMonthYear()}
+              onValueChange = {onPickerYearChange }>
               {Object.keys(personYearOptions).map((key) => {
                 return (<Picker.Item label={personYearOptions[key]} value={key} key={key} />)
               })}

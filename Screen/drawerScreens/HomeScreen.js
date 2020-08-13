@@ -113,7 +113,9 @@ const HomeScreen = props => {
 
           //  setTimeout(() => { setIsLoading(true); }, 1000);
           // setTimeout(() => { setIsLoading[]; }, 1000);
-          if (response.data.length > 0) {
+          if (response.data.length > 0) 
+          
+          {
             setIsGraphLoading(true);
             setUtilizationData(response.data);
           }
