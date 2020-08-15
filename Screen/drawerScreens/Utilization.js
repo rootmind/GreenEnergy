@@ -25,8 +25,8 @@ const Utilization = props => {
   let [personId, setPersonId] = useState('');
   let [personMonth, setPersonMonth] = useState('0');
   let [personYear, setPersonYear] = useState('0');
-  let [waterUtilized, setWaterUtilized] = useState();
-  let [electricityUtilized, setElectricityUtilized] = useState();
+  let [waterUtilized, setWaterUtilized] = useState('');
+  let [electricityUtilized, setElectricityUtilized] = useState('');
   let [updateDate, setUpdateDate] = useState('');
   let [loading, setLoading] = useState(false);
   let [errortext, setErrortext] = useState('');
@@ -220,8 +220,8 @@ const Utilization = props => {
             alert(response.data.message);
             setPersonMonth('0');
             setPersonYear('0');
-            setWaterUtilized();
-            setElectricityUtilized();
+            setWaterUtilized('');
+            setElectricityUtilized('');
             // setPersonMonth(0);
             // setPersonYear(0);
             // setWaterUtilized(0);
@@ -306,7 +306,7 @@ const Utilization = props => {
               placeholder="Enter Water Utilized"
               placeholderTextColor="black"
               selectionColor='#808B96'
-              value={waterUtilized}
+              value={'' + waterUtilized}
               returnKeyType="next"
               keyboardType="numeric"
               blurOnSubmit={false}
@@ -320,7 +320,7 @@ const Utilization = props => {
               placeholder="Enter Electricity Utilized"
               placeholderTextColor="black"
               selectionColor='#808B96'
-              value={electricityUtilized}
+              value={'' + electricityUtilized}
               returnKeyType="next"
               keyboardType="numeric"
               blurOnSubmit={false}
