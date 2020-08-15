@@ -16,41 +16,48 @@ import {
   Keyboard,
   TouchableOpacity,
   ScrollView,
+  FlatList,
+  SafeAreaView
 } from 'react-native';
-import Loader from '../Components/Loader';
-import { set } from 'react-native-reanimated';
+// import Loader from '../Components/Loader';
+// import { set } from 'react-native-reanimated';
 import { VictoryBar, VictoryChart, VictoryTheme, VictoryGroup, VictoryStack, VictoryAxis, VictoryLine } from "victory-native";
 import { serverIP } from '../../app.json';
 //charan 
 //kanna
 const HomeScreen = props => {
   let [personId, setPersonId] = useState('');
-  let [personName, setPersonName] = useState('');
-  let [personEmail, setPersonEmail] = useState('');
-  let [personPassword, setPersonPassword] = useState('');
-  let [grade, setGrade] = useState('');
-  let [personSection, setPersonSection] = useState('');
-  let [gender, setGender] = useState('');
-  let [personStatus, setPersonStatus] = useState('');
-  let [jobType, setJobType] = useState('');
-  let [loading, setLoading] = useState(false);
-  let [errortext, setErrortext] = useState('');
+  // let [personName, setPersonName] = useState('');
+  // let [personEmail, setPersonEmail] = useState('');
+  // let [personPassword, setPersonPassword] = useState('');
+  // let [grade, setGrade] = useState('');
+  // let [personSection, setPersonSection] = useState('');
+  // let [gender, setGender] = useState('');
+  // let [personStatus, setPersonStatus] = useState('');
+  // let [jobType, setJobType] = useState('');
+   let [loading, setLoading] = useState(false);
+   let [errortext, setErrortext] = useState('');
   let [isGraphLoading, setIsGraphLoading] = useState(false);
   //let [isLoading, setIsLoading] = useState[];
-  let [utilizationData, setUtilizationData] = useState([{ personMonth: "1", waterUtilized: "100", electricityUtilized: "200" }]);
+  let [utilizationData, setUtilizationData] = useState([{ personMonth: "1", waterUtilized: 0, electricityUtilized: 0, personZone: 'AMBER', zone: 0 }]);
 
   let [animating, setAnimating] = useState(true);
 
-  // let data = [
-  //   { personMonth: "1", waterUtilized: "100", electricityUtilized: "200" },
-  //   // { quarter: 2, earnings: 16500, payment: 9000 },
-  //   // { quarter: 3, earnings: 14250, payment: 11000 },
-  //   // { quarter: 4, earnings: 19000, payment: 15000 }
-  //   // { quarter: 1, payment: 10000 },
-  //   // { quarter: 2, payment: 13000 },
-  //   // { quarter: 3, payment: 12000 },
-  //   // { quarter: 4, payment: 15000 }
-  // ];
+  const personMonthOptions = {
+    0: "Select Month",
+    1: "January",
+    2: "February",
+    3: "March",
+    4: "April",
+    5: "May",
+    6: "June",
+    7: "July",
+    8: "August",
+    9: "September",
+    10: "October",
+    11: "November",
+    12: "December"
+  }
 
   useEffect(() => {
     setTimeout(() => {
@@ -76,7 +83,7 @@ const HomeScreen = props => {
     setLoading(true);
     // setLoading[];
 
-    console.log('personId '+ props + ':' + personId);
+    console.log('personId ' + props + ':' + personId);
     // var apiBaseUrl = "http://192.168.0.200:9093/person/find";
     // var apiBaseUrl = "http://192.168.43.235:9093/person/find";
     var apiBaseUrl = serverIP + ":9093/utilization/get";
@@ -113,9 +120,7 @@ const HomeScreen = props => {
 
           //  setTimeout(() => { setIsLoading(true); }, 1000);
           // setTimeout(() => { setIsLoading[]; }, 1000);
-          if (response.data.length > 0) 
-          
-          {
+          if (response.data.length > 0) {
             setIsGraphLoading(true);
             setUtilizationData(response.data);
           }
@@ -148,36 +153,49 @@ const HomeScreen = props => {
     return (
       <View style={styles.container}>
 
-        <TouchableOpacity
-          style={styles.buttonStyle}
-          activeOpacity={0.5}
-          onPress={()=>fetchUtilizationInfo(personId)}>
-          {/* <ImageBackground source={image} style={styles.image}>
+
+
+
+
+
+        <ScrollView keyboardShouldPersistTaps="handled" >
+
+          <TouchableOpacity
+            style={styles.buttonStyle}
+            activeOpacity={0.5}
+            onPress={() => fetchUtilizationInfo(personId)}>
+            {/* <ImageBackground source={image} style={styles.image}>
                 <Text style={styles.buttonTextStyle}>LOGIN</Text>
               </ImageBackground> */}
-          <Text style={styles.buttonTextStyle}>REFRESH</Text>
 
-        </TouchableOpacity>
+            {/* <Text style={styles.buttonTextStyle}>R</Text> */}
+            <Image source={require('../../Image/refresh.png')} resizeMode='contain' style={styles.ImageIconStyle} />
+            {/* <Image
+                source={require('..../Image/2a.jpg')}
+                style={{
+                  width: '200%',
+                  height: 250,
+                  marginVertical: -5,
+                  marginRight: 8,
+                  marginBottom: -18,
+                  resizeMode: 'contain'
+                }}
+              /> */}
+          </TouchableOpacity>
 
-        <ScrollView keyboardShouldPersistTaps="handled">
-
-
-
-          <VictoryChart height={400} width={375} theme={VictoryTheme.material}        >
-
-
+          <VictoryChart height={400} width={375} theme={VictoryTheme.grayscale}        >
 
             <VictoryGroup offset={0}
               standalone={false}
               colorScale={"qualitative"}>
 
-              <VictoryStack colorScale={"blue"} >
+              <VictoryStack colorScale={"green"} >
 
                 {/* {utilizationData.map((data, i) => {
                 return <VictoryBar data={data} x="personMonth" y="electricityUtilized" key={i}/>;
               })} */}
 
-                <VictoryBar data={utilizationData} x="personMonth" y="electricityUtilized" barWidth={({ index }) => index * 2 + 8} />
+                <VictoryBar name="ELECTRICITY" data={utilizationData} x="personMonth" y="electricityUtilized" barWidth={({ index }) => index * 2 + 8} labels={({ datum }) => `${datum.electricityUtilized}`} />
               </VictoryStack>
 
               <VictoryAxis dependentAxis label="Electricity"
@@ -192,7 +210,7 @@ const HomeScreen = props => {
 
           </VictoryChart>
 
-          <VictoryChart height={400} width={375} theme={VictoryTheme.material}        >
+          <VictoryChart height={400} width={375} theme={VictoryTheme.grayscale}        >
 
 
 
@@ -206,7 +224,7 @@ const HomeScreen = props => {
       return <VictoryBar data={data} x="personMonth" y="electricityUtilized" key={i}/>;
     })} */}
 
-                <VictoryBar data={utilizationData} x="personMonth" y="waterUtilized" barWidth={({ index }) => index * 2 + 8} />
+                <VictoryBar data={utilizationData} x="personMonth" y="waterUtilized" barWidth={({ index }) => index * 2 + 8} labels={({ datum }) => `${datum.waterUtilized}`} />
               </VictoryStack>
 
               <VictoryAxis dependentAxis label="Water"
@@ -221,9 +239,64 @@ const HomeScreen = props => {
 
           </VictoryChart>
 
+          <VictoryChart height={400} width={375} theme={VictoryTheme.grayscale}        >
 
+
+
+            <VictoryGroup offset={0}
+              standalone={false}
+              colorScale={"qualitative"}>
+
+              <VictoryStack 
+              // colorScale={"blue"} 
+              >
+
+
+
+                <VictoryBar data={utilizationData} x="personMonth" y="zone" barWidth={({ index }) => index * 2 + 8} labels={({ datum }) => `${datum.zone}`}
+                       style={{
+                        data: {
+                          fill: ({ datum }) =>( datum.zone === 10 ? "red" :(datum.zone === 20 ? "#FFC200":"green") ),
+                          // stroke: ({ index }) => +index % 2 === 0  ? "#000000" : "#c43a31",
+                          // fillOpacity: 0.7,
+                          // strokeWidth: 3
+                        },
+                        labels: {
+                          fontSize: 15,
+                          fill: ({ datum }) =>( datum.zone === 10 ? "red" :(datum.zone === 20 ? "#FFC200":"green") )
+                        }
+                      }}
+                
+                />
+              </VictoryStack>
+
+              <VictoryAxis dependentAxis label="Zone"
+                // domain={[0, 900]}
+                tickFormat={(tick) => `${tick}`}
+              />
+              <VictoryAxis domain={[0, 12]} label="Month"
+                tickFormat={["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]}
+              />
+
+            </VictoryGroup>
+
+          </VictoryChart>
+
+   
 
         </ScrollView>
+
+
+        {/* <FlatList
+          data={utilizationData}
+          numColumns={1}
+          renderItem={({ item }) => <View><Text style={styles.item}>{personMonthOptions[item.personMonth]} - {item.personZone}</Text></View>}
+          keyExtractor={(item, index) => '' + index}
+        /> */}
+
+
+
+
       </View>
 
 
@@ -431,22 +504,23 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   buttonStyle: {
-    backgroundColor: '#7DE24E',
+    // backgroundColor: '#7DE24E',
     color: '#FFFFFF',
     borderColor: '#7DE24E',
-    height: 10,
+    height: 20,
     alignItems: 'center',
-    borderRadius: 3,
-    marginLeft: 28,
-    marginRight: 26,
-    marginTop: 25,
-    marginBottom: 12
+    borderRadius: 10,
+    marginLeft: 340,
+    marginRight: 10,
+    marginTop: 5,
+    marginBottom: 11
   },
   buttonTextStyle: {
     color: 'black',
-    paddingVertical: 15,
-    fontSize: 22,
+    paddingVertical: 1,
+    fontSize: 15,
     fontWeight: 'bold'
+
   },
   inputStyle: {
     flex: 1,
@@ -475,6 +549,19 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#f5fcff"
+  },
+  item: {
+    flex: 1,
+    padding: 10,
+    fontSize: 18,
+    height: 60,
+  },
+  ImageIconStyle: {
+    padding: 10,
+    margin: 5,
+    height: 25,
+    width: 25,
+    resizeMode: 'stretch',
   }
 });
 

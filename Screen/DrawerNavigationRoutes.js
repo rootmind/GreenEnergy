@@ -83,12 +83,7 @@ const DrawerNavigatorRoutes = createDrawerNavigator(
         drawerLabel: 'Home Screen',
       },
     },
-    SettingsScreen: {
-      screen: SecondActivity_StackNavigator,
-      navigationOptions: {
-        drawerLabel: 'Setting Screen',
-      },
-    },
+   
     Utilization: {
       screen: ThirdActivity_StackNavigator,
       navigationOptions: {
@@ -102,7 +97,12 @@ const DrawerNavigatorRoutes = createDrawerNavigator(
         drawerLabel: 'Profile',
       },
     },
-
+    // SettingsScreen: {
+    //   screen: SecondActivity_StackNavigator,
+    //   navigationOptions: {
+    //     drawerLabel: 'Setting Screen',
+    //   },
+    // },
 
 
   },
