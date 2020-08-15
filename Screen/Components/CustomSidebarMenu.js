@@ -26,9 +26,15 @@ const CustomSidebarMenu = props => {
     },
 
     {
+      navOptionName: 'GradeUtilization',
+      screenToNavigate: 'GradeUtilization',
+    },
+
+    {
       navOptionName: 'Profile',
       screenToNavigate: 'Profile',
     },
+
 
 
     {
