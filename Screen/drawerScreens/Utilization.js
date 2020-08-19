@@ -112,7 +112,7 @@ const Utilization = props => {
     setLoading(true);
 
     //alert('personId'+ props);
-    var apiBaseUrl = serverIP + ":9093/utilization/findByMonthYear";
+    var apiBaseUrl = serverIP + ":/utilization/findByMonthYear";
     //var apiBaseUrl = "http://192.168.1.3:9093/utilization/get";
     // var apiBaseUrl = "http://192.168.43.235:9093/utilization/get";
     var payload =
@@ -192,7 +192,7 @@ const Utilization = props => {
     //---------------------------------------------------------------------------------------------------------------------
 
     //var apiBaseUrl = "http://192.168.1.3:9093/utilization/insert";
-    var apiBaseUrl = serverIP + ":9093/utilization/insert";
+    var apiBaseUrl = serverIP + ":/utilization/insert";
     //var apiBaseUrl = "http://192.168.43.235:9093/utilization/insert";
 
     var payload =
