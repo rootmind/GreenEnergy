@@ -86,7 +86,7 @@ const GradeUtilization = props => {
     console.log('personId ' + props + ':' + personId);
     // var apiBaseUrl = "http://192.168.0.200:9093/person/find";
     // var apiBaseUrl = "http://192.168.43.235:9093/person/find";
-    var apiBaseUrl = serverIP + ":9093/utilization/findByGradeUtilization";
+    var apiBaseUrl = serverIP + ":/utilization/findByGradeUtilization";
     //var apiBaseUrl = "http://192.168.1.3:9093/utilization/get";
     var payload =
     {
