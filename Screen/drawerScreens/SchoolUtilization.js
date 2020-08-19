@@ -30,13 +30,13 @@ const GradeUtilization = props => {
   // let [personName, setPersonName] = useState('');
   // let [personEmail, setPersonEmail] = useState('');
   // let [personPassword, setPersonPassword] = useState('');
-  let [grade, setGrade] = useState('');
+  // let [grade, setGrade] = useState('');
   // let [personSection, setPersonSection] = useState('');
   // let [gender, setGender] = useState('');
   // let [personStatus, setPersonStatus] = useState('');
   // let [jobType, setJobType] = useState('');
-  let [loading, setLoading] = useState(false);
-  let [errortext, setErrortext] = useState('');
+   let [loading, setLoading] = useState(false);
+   let [errortext, setErrortext] = useState('');
   let [isGraphLoading, setIsGraphLoading] = useState(false);
   //let [isLoading, setIsLoading] = useState[];
   let [utilizationData, setUtilizationData] = useState([{ personMonth: "1", waterUtilized: 0, electricityUtilized: 0, personZone: 'AMBER', zone: 0 }]);
@@ -86,7 +86,7 @@ const GradeUtilization = props => {
     console.log('personId ' + props + ':' + personId);
     // var apiBaseUrl = "http://192.168.0.200:9093/person/find";
     // var apiBaseUrl = "http://192.168.43.235:9093/person/find";
-    var apiBaseUrl = serverIP + ":9093/utilization/findByGradeUtilization";
+    var apiBaseUrl = serverIP + ":9093/utilization/findTotalUtilization";
     //var apiBaseUrl = "http://192.168.1.3:9093/utilization/get";
     var payload =
     {
@@ -123,7 +123,6 @@ const GradeUtilization = props => {
           if (response.data.length > 0) {
             setIsGraphLoading(true);
             setUtilizationData(response.data);
-            setGrade(response.data[0].grade);
           }
           // setUtilizationData([{ personMonth: 1, waterUtilized: 100, electricityUtilized: 200 }]);
 
@@ -160,18 +159,6 @@ const GradeUtilization = props => {
 
 
         <ScrollView keyboardShouldPersistTaps="handled" >
-
-          <View style={styles.textInput}>
-            <TextInput
-              style={styles.inputStyle}
-              value={grade}
-              placeholderTextColor="black"
-              selectionColor='#808B96'
-              returnKeyType="next"
-              blurOnSubmit={false}
-              editable={false} selectTextOnFocus={false}
-            />
-          </View>
 
           <TouchableOpacity
             style={styles.buttonStyle}
@@ -260,26 +247,26 @@ const GradeUtilization = props => {
               standalone={false}
               colorScale={"qualitative"}>
 
-              <VictoryStack
+              <VictoryStack 
               // colorScale={"blue"} 
               >
 
 
 
                 <VictoryBar data={utilizationData} x="personMonth" y="zone" barWidth={({ index }) => index * 2 + 8} labels={({ datum }) => `${datum.zone}`}
-                  style={{
-                    data: {
-                      fill: ({ datum }) => (datum.zone === 10 ? "red" : (datum.zone === 20 ? "#FFC200" : "green")),
-                      // stroke: ({ index }) => +index % 2 === 0  ? "#000000" : "#c43a31",
-                      // fillOpacity: 0.7,
-                      // strokeWidth: 3
-                    },
-                    labels: {
-                      fontSize: 15,
-                      fill: ({ datum }) => (datum.zone === 10 ? "red" : (datum.zone === 20 ? "#FFC200" : "green"))
-                    }
-                  }}
-
+                       style={{
+                        data: {
+                          fill: ({ datum }) =>( datum.zone === 10 ? "red" :(datum.zone === 20 ? "#FFC200":"green") ),
+                          // stroke: ({ index }) => +index % 2 === 0  ? "#000000" : "#c43a31",
+                          // fillOpacity: 0.7,
+                          // strokeWidth: 3
+                        },
+                        labels: {
+                          fontSize: 15,
+                          fill: ({ datum }) =>( datum.zone === 10 ? "red" :(datum.zone === 20 ? "#FFC200":"green") )
+                        }
+                      }}
+                
                 />
               </VictoryStack>
 
@@ -295,7 +282,7 @@ const GradeUtilization = props => {
 
           </VictoryChart>
 
-
+   
 
         </ScrollView>
 
@@ -545,13 +532,6 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     borderColor: 'blue',
     fontSize: 20
-  },
-  textInput: {
-    flex: 1,
-    margin: 23,
-    paddingLeft: 6,
-    color: 'black',
-    fontSize: 20,
   },
   errorTextStyle: {
     color: 'red',

@@ -13,6 +13,7 @@ import HomeScreen from './drawerScreens/HomeScreen';
 import SettingsScreen from './drawerScreens/SettingsScreen';
 import Utilization from './drawerScreens/Utilization';
 import GradeUtilization from './drawerScreens/GradeUtilization';
+import SchoolUtilization from './drawerScreens/SchoolUtilization';
 import Profile from './drawerScreens/Profile';
 import CustomSidebarMenu from './Components/CustomSidebarMenu';
 import NavigationDrawerHeader from './Components/NavigationDrawerHeader';
@@ -88,6 +89,20 @@ const FifthActivity_StackNavigator = createStackNavigator({
   },
 });
 
+const SixthActivity_StackNavigator = createStackNavigator({
+  First: {
+    screen: SchoolUtilization,
+    navigationOptions: ({ navigation }) => ({
+      title: 'SchoolUtilization',
+      headerLeft: () => <NavigationDrawerHeader navigationProps={navigation} />,
+      headerStyle: {
+        backgroundColor: '#1DA1F2',
+      },
+      headerTintColor: 'white',
+    }),
+  },
+});
+
 
 
 const DrawerNavigatorRoutes = createDrawerNavigator(
@@ -110,6 +125,13 @@ const DrawerNavigatorRoutes = createDrawerNavigator(
       screen: FifthActivity_StackNavigator,
       navigationOptions: {
         drawerLabel: 'GradeUtilization',
+      },
+    },
+
+    SchoolUtilization: {
+      screen: SixthActivity_StackNavigator,
+      navigationOptions: {
+        drawerLabel: 'SchoolUtilization',
       },
     },
 

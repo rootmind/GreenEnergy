@@ -31,6 +31,11 @@ const CustomSidebarMenu = props => {
     },
 
     {
+      navOptionName: 'SchoolUtilization',
+      screenToNavigate: 'SchoolUtilization',
+    },
+
+    {
       navOptionName: 'Profile',
       screenToNavigate: 'Profile',
     },
