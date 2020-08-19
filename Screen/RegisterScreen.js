@@ -109,7 +109,7 @@ const RegisterScreen = props => {
     setLoading(true);
     //---------------------------------------------------------------------------------------------------------------------
 
-    var apiBaseUrl = serverIP + ":/person/insert";
+    var apiBaseUrl = serverIP + "/person/insert";
     //var apiBaseUrl = "http://192.168.43.235:9093/person/insert";
     // var apiBaseUrl = "http://localhost:9093/utilization/find";
     var self = this;

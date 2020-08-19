@@ -25,6 +25,8 @@ import { VictoryBar, VictoryChart, VictoryTheme, VictoryGroup, VictoryStack, Vic
 import { serverIP } from '../../app.json';
 //charan 
 //kanna
+//kiran
+//checking
 const HomeScreen = props => {
   let [personId, setPersonId] = useState('');
   // let [personName, setPersonName] = useState('');
@@ -86,7 +88,7 @@ const HomeScreen = props => {
     console.log('personId ' + props + ':' + personId);
     // var apiBaseUrl = "http://192.168.0.200:9093/person/find";
     // var apiBaseUrl = "http://192.168.43.235:9093/person/find";
-    var apiBaseUrl = serverIP + ":/utilization/get";
+    var apiBaseUrl = serverIP + "/utilization/get";
     //var apiBaseUrl = "http://192.168.1.3:9093/utilization/get";
     var payload =
     {
