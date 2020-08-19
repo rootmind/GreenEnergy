@@ -276,7 +276,8 @@ const Utilization = props => {
           <View style={styles.pickerInput}>
             <Picker
               selectedValue={personMonth}
-              style={{ height: 50, width: 150 }}
+              style={styles.pickerStyle}
+              // style={{ height: 50, width: 150 }}
               // onValueChange={(itemValue, itemIndex) =>
               //   setPersonMonth(itemValue),() =>{findByMonthYear()}
               onValueChange={onPickerMonthChange }>
@@ -286,10 +287,11 @@ const Utilization = props => {
             </Picker>
           </View>
 
-          <View style={styles.pickerInput}>
+          <View style>
             <Picker
               selectedValue={personYear}
-              style={{ height: 50, width: 125 }}
+              style={styles.pickerStyle}
+              // style={{ height: 50, width: 125 }}
               // onValueChange={(itemValue, itemIndex) =>
               //   setPersonYear(itemValue),() =>{findByMonthYear()}
               onValueChange = {onPickerYearChange }>
@@ -298,6 +300,34 @@ const Utilization = props => {
               })}
             </Picker>
           </View>
+{/* 
+          <View>
+            <Picker
+              selectedValue={personYear}
+              style={styles.pickerStyle}
+              itemStyle={styles.pickerItemStyle}
+              onValueChange={(itemValue, itemIndex) =>
+                setPersonSection(itemValue)
+              }>
+              {Object.keys(personSectionOptions).map((key) => {
+                return (<Picker.Item label={personSectionOptions[key]} value={key} key={key} />) //if you have a bunch of keys value pair
+              })}
+            </Picker>
+          </View>
+
+          <View>
+            <Picker
+              selectedValue={gender}
+              style={styles.pickerStyle}
+              itemStyle={styles.pickerItemStyle}
+              onValueChange={(itemValue, itemIndex) =>
+                setGender(itemValue)
+              }>
+              {Object.keys(genderOptions).map((key) => {
+                return (<Picker.Item label={genderOptions[key]} value={key} key={key} />) //if you have a bunch of keys value pair
+              })}
+            </Picker>
+          </View> */}
 
           <View style={styles.textInput}>
             <TextInput
