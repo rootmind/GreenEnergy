@@ -161,7 +161,7 @@ const GradeUtilization = props => {
 
         <ScrollView keyboardShouldPersistTaps="handled" >
 
-          <View style={styles.textInput}>
+          {/* <View style={styles.textInput}>
             <TextInput
               style={styles.inputStyle}
               value={grade}
@@ -171,7 +171,7 @@ const GradeUtilization = props => {
               blurOnSubmit={false}
               editable={false} selectTextOnFocus={false}
             />
-          </View>
+          </View> */}
 
           <TouchableOpacity
             style={styles.buttonStyle}
@@ -537,13 +537,13 @@ const styles = StyleSheet.create({
   },
   inputStyle: {
     flex: 1,
-    color: 'white',
+    color: 'black',
     paddingLeft: 15,
     paddingRight: 15,
     borderWidth: 3,
     borderRadius: 30,
     paddingVertical: 15,
-    borderColor: 'blue',
+    borderColor: 'white',
     fontSize: 20
   },
   textInput: {

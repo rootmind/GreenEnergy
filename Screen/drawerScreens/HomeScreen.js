@@ -309,6 +309,29 @@ const HomeScreen = props => {
     return (
       <View style={styles.container}>
 
+<TouchableOpacity
+            style={styles.buttonStyle}
+            activeOpacity={0.5}
+            onPress={() => fetchUtilizationInfo(personId)}>
+            {/* <ImageBackground source={image} style={styles.image}>
+                <Text style={styles.buttonTextStyle}>LOGIN</Text>
+              </ImageBackground> */}
+
+            {/* <Text style={styles.buttonTextStyle}>R</Text> */}
+            <Image source={require('../../Image/refresh.png')} resizeMode='contain' style={styles.ImageIconStyle} />
+            {/* <Image
+                source={require('..../Image/2a.jpg')}
+                style={{
+                  width: '200%',
+                  height: 250,
+                  marginVertical: -5,
+                  marginRight: 8,
+                  marginBottom: -18,
+                  resizeMode: 'contain'
+                }}
+              /> */}
+          </TouchableOpacity>
+
       </View>
     );
   }
