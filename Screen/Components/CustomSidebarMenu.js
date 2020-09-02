@@ -15,10 +15,10 @@ const CustomSidebarMenu = props => {
       screenToNavigate: 'HomeScreen',
     },
 
-    {
-      navOptionName: 'Settings',
-      screenToNavigate: 'SettingsScreen',
-    },
+    // {
+    //   navOptionName: 'Settings',
+    //   screenToNavigate: 'SettingsScreen',
+    // },
 
     {
       navOptionName: 'Utilization',

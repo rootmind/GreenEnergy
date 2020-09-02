@@ -2,7 +2,7 @@
 /* https://aboutreact.com/react-native-login-and-signup/ */
 
 //Import React and Hook we needed
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 //Import all required component
 import {
@@ -26,38 +26,47 @@ const RegisterScreen = props => {
   let [personName, setPersonName] = useState('');
   let [personEmail, setPersonEmail] = useState('');
   let [personPassword, setPersonPassword] = useState('');
+  let [schoolId, setSchoolId] = useState('');
   let [grade, setGrade] = useState('');
   let [personSection, setPersonSection] = useState('');
   let [gender, setGender] = useState('');
   let [jobType, setJobType] = useState('');
   let [loading, setLoading] = useState(false);
   let [errortext, setErrortext] = useState('');
+  let [animating, setAnimating] = useState(true);
+  let [schoolOptions, setSchoolOptions] = useState([{"schoolId": "0", "schoolName": "Select School"}]);
 
-  const gradeOptions = {
-    "0": "Select Grade",
-    "KG1": "KG1",
-    "KG2": "KG2",
-    "GR1": "GR1",
-    "GR2": "GR2",
-    "GR3": "GR3",
-    "GR4": "GR4",
-    "GR5": "GR5",
-    "GR6": "GR6",
-    "GR7": "GR7",
-    "GR8": "GR8",
-    "GR9": "GR9",
-    "GR10": "GR10",
-    "GR11": "GR11",
-    "GR12": "GR12"
-  };
-  const sectionOptions = {
-    "0": "Select Section",
-    "A": "A",
-    "B": "B",
-    "C": "C",
-    "D": "D"
 
-  };
+  //var schoolOptions = [{"schoolId": "0", "schoolName": "Select School"}];
+ // -----------------------------------------------------------------------------------------------------------------
+ let [gradeOptions, setGradeOptions] = useState([{"gradeKey": "0", "gradeName": "Select Grade"}]);
+ let [sectionOptions, setSectionOptions] = useState([{"sectionKey": "0", "sectionName": "Select Section"}]);
+ //-----------------------------------------------------------------------------------------------------------------
+  // const gradeOptions = {
+  //   "0": "Select Grade",
+  //   "KG1": "KG1",
+  //   "KG2": "KG2",
+  //   "GR1": "GR1",
+  //   "GR2": "GR2",
+  //   "GR3": "GR3",
+  //   "GR4": "GR4",
+  //   "GR5": "GR5",
+  //   "GR6": "GR6",
+  //   "GR7": "GR7",
+  //   "GR8": "GR8",
+  //   "GR9": "GR9",
+  //   "GR10": "GR10",
+  //   "GR11": "GR11",
+  //   "GR12": "GR12"
+  // };
+  // const sectionOptions = {
+  //   "0": "Select Section",
+  //   "A": "A",
+  //   "B": "B",
+  //   "C": "C",
+  //   "D": "D"
+
+  // };
   const genderOptions = {
     "0": "Select Gender",
     "Male": "Male",
@@ -87,6 +96,10 @@ const RegisterScreen = props => {
       alert('Please fill Password');
       return;
     }
+    if (!schoolId && schoolId == '0') {
+      alert('Please select School');
+      return;
+    }
     if (!grade && grade == '0') {
       alert('Please select Grade');
       return;
@@ -105,6 +118,9 @@ const RegisterScreen = props => {
       alert('Please select JobType');
       return;
     }
+
+    
+
     //Show Loader
     setLoading(true);
     //---------------------------------------------------------------------------------------------------------------------
@@ -119,6 +135,7 @@ const RegisterScreen = props => {
       "personName": personName,
       "personEmail": personEmail,
       "personPassword": personPassword,
+      "schoolId": (schoolId == '0' ? '' : schoolId),
       "grade": (grade == '0' ? '' : grade),
       "personSection": (personSection == '0' ? '' : personSection),
       "gender": gender,
@@ -169,8 +186,219 @@ const RegisterScreen = props => {
         console.log(error);
       });
 
+
+
+
+   
+
     //-------------------------------------------------------------------------------------------------------------------------
   };
+
+  useEffect(() => {
+    setTimeout(() => {
+      setAnimating(false);
+      //Check if user_id is set or not
+      //If not then send for Authentication
+      //else send to Home Screen
+      // AsyncStorage.getItem('person_id').then((value) => {
+      //   // alert('value'+ value);
+      //   // setPersonId(value);
+      //   fetchPersonInfo(value);
+      // }
+      fetchSchool();
+    }, 1);
+  }, []);
+
+
+  const fetchSchool = () => {
+    setErrortext('');
+
+    //Show Loader
+    setLoading(true);
+
+    var apiBaseUrl = serverIP + "/master/getSchool";
+
+    var self = this;
+    var payload =
+    {
+
+    }
+
+    // console.log('School Find ' + JSON.stringify(payload));
+    axios.get(apiBaseUrl, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true,
+      }
+    })
+      //axios.post(apiBaseUrl, payload)
+      .then(function (response) {
+        setLoading(false);
+        console.log('School Find Response ' + JSON.stringify(response));
+        if (response.status == 200) {
+          // console.log(response.data.status);
+          console.log(JSON.stringify(response.data));
+          // setPersonId(response.data.personId);
+         // schoolOptions= [];
+          setSchoolOptions(response.data);
+          console.log('school array' + JSON.stringify(schoolOptions));
+
+        }
+
+        else {
+          //console.log("Username does not exists");
+          alert("Query Not Successful");
+        }
+      })
+      .catch(function (error) {
+        setLoading(false);
+        console.log(error);
+      });
+
+
+
+  };
+
+
+
+  //--------------------------------------------------------------------
+  useEffect(() => {
+    setTimeout(() => {
+      setAnimating(false);
+      //Check if user_id is set or not
+      //If not then send for Authentication
+      //else send to Home Screen
+      // AsyncStorage.getItem('person_id').then((value) => {
+      //   // alert('value'+ value);
+      //   // setPersonId(value);
+      //   fetchPersonInfo(value);
+      // }
+      fetchPersonSection();
+    }, 1);
+  }, []);
+
+
+  const fetchPersonSection = () => {
+    setErrortext('');
+
+    //Show Loader
+    setLoading(true);
+
+    var apiBaseUrl = serverIP + "/master/getSection";
+
+    var self = this;
+    var payload =
+    {
+
+    }
+
+    // console.log('School Find ' + JSON.stringify(payload));
+    axios.get(apiBaseUrl, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true,
+      }
+    })
+      //axios.post(apiBaseUrl, payload)
+      .then(function (response) {
+        setLoading(false);
+        console.log('PersonSection Find Response ' + JSON.stringify(response));
+        if (response.status == 200) {
+          // console.log(response.data.status);
+          console.log(JSON.stringify(response.data));
+          // setPersonId(response.data.personId);
+         // schoolOptions= [];
+          setSectionOptions(response.data);
+          console.log('PersonSection array' + JSON.stringify(schoolOptions));
+
+        }
+
+        else {
+          //console.log("Username does not exists");
+          alert("Query Not Successful");
+        }
+      })
+      .catch(function (error) {
+        setLoading(false);
+        console.log(error);
+      });
+
+
+
+  };
+
+
+
+  useEffect(() => {
+    setTimeout(() => {
+      setAnimating(false);
+      //Check if user_id is set or not
+      //If not then send for Authentication
+      //else send to Home Screen
+      // AsyncStorage.getItem('person_id').then((value) => {
+      //   // alert('value'+ value);
+      //   // setPersonId(value);
+      //   fetchPersonInfo(value);
+      // }
+      fetchGrade();
+    }, 1);
+  }, []);
+
+
+  const fetchGrade = () => {
+    setErrortext('');
+
+    //Show Loader
+    setLoading(true);
+
+    var apiBaseUrl = serverIP + "/master/getGrade";
+
+    var self = this;
+    var payload =
+    {
+
+    }
+
+    // console.log('School Find ' + JSON.stringify(payload));
+    axios.get(apiBaseUrl, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true,
+      }
+    })
+      //axios.post(apiBaseUrl, payload)
+      .then(function (response) {
+        setLoading(false);
+        console.log('Grade Find Response ' + JSON.stringify(response));
+        if (response.status == 200) {
+          // console.log(response.data.status);
+          console.log(JSON.stringify(response.data));
+          // setPersonId(response.data.personId);
+         // schoolOptions= [];
+          setGradeOptions(response.data);
+          console.log('Grade array' + JSON.stringify(gradeOptions));
+
+        }
+
+        else {
+          //console.log("Username does not exists");
+          alert("Query Not Successful");
+        }
+      })
+      .catch(function (error) {
+        setLoading(false);
+        console.log(error);
+      });
+
+
+
+  };
+   
+  //------------------------------------------------------------
+   
 
   // if (isRegistrationSuccess) {
   //   return (
@@ -248,6 +476,58 @@ const RegisterScreen = props => {
 
           <View>
             <Picker
+              selectedValue={schoolId}
+              style={styles.pickerStyle}
+              itemStyle={styles.pickerItemStyle}
+              onValueChange={(itemValue, itemIndex) =>
+                setSchoolId(itemValue)
+              }>
+              {schoolOptions.map((item,key) => {
+                return (<Picker.Item label={item.schoolName} value={item.schoolId} key={key} />) //if you have a bunch of keys value pair
+              })}
+            </Picker>
+          </View>
+{/* /---------------------------------------------------------------------------------------------------------------------------- */}
+
+<View>
+            <Picker
+              selectedValue={grade}
+              style={styles.pickerStyle}
+              itemStyle={styles.pickerItemStyle}
+              onValueChange={(itemValue, itemIndex) =>
+                setGrade(itemValue)
+              }>
+              {gradeOptions.map((item,key) => {
+                return (<Picker.Item label={item.gradeName} value={item.gradeKey} key={key} />) //if you have a bunch of keys value pair
+              })}
+            </Picker>
+          </View>
+
+<View>
+            <Picker
+              selectedValue={personSection}
+              style={styles.pickerStyle}
+              itemStyle={styles.pickerItemStyle}
+              onValueChange={(itemValue, itemIndex) =>
+                setPersonSection(itemValue)
+              }>
+              {sectionOptions.map((item,key) => {
+                return (<Picker.Item label={item.sectionName} value={item.sectionKey} key={key} />) //if you have a bunch of keys value pair
+              })}
+            </Picker>
+          </View>
+{/* ------------------------------------------------------------------------------------------------------------------------------------- */}
+          {/* {<Picker
+                selectedValue={this.state.selectedValue}
+                onValueChange={(itemValue, itemIndex) => this.setState({selectedValue: itemValue})} >
+                { this.state.PickerValueHolder.map((item, key)=>
+                  <Picker.Item label={item.name} value={item.name} key={key} />
+                )}
+              </Picker>} */}
+
+
+          {/* <View>
+            <Picker
               selectedValue={grade}
               style={styles.pickerStyle}
               itemStyle={styles.pickerItemStyle}
@@ -258,9 +538,9 @@ const RegisterScreen = props => {
                 return (<Picker.Item label={gradeOptions[key]} value={key} key={key} />) //if you have a bunch of keys value pair
               })}
             </Picker>
-          </View>
+          </View> */}
 
-          <View>
+          {/* <View>
             <Picker
               selectedValue={personSection}
               style={styles.pickerStyle}
@@ -272,8 +552,8 @@ const RegisterScreen = props => {
                 return (<Picker.Item label={sectionOptions[key]} value={key} key={key} />) //if you have a bunch of keys value pair
               })}
             </Picker>
-          </View>
-          
+          </View> */}
+
           <View>
             <Picker
               selectedValue={gender}

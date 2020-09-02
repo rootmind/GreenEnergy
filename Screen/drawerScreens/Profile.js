@@ -27,6 +27,7 @@ const Profile = props => {
   let [personName, setPersonName] = useState('');
   let [personEmail, setPersonEmail] = useState('');
   let [personPassword, setPersonPassword] = useState('');
+  let [schoolId, setSchoolId] = useState('');
   let [grade, setGrade] = useState('');
   let [personSection, setPersonSection] = useState('');
   let [gender, setGender] = useState('');
@@ -125,6 +126,7 @@ const Profile = props => {
           setPersonName(response.data.personName);
           setPersonEmail(response.data.personEmail);
           setPersonPassword(response.data.personPassword);
+          setSchoolId(response.data.schoolId);
           setGrade(response.data.grade);
           setPersonSection(response.data.personSection);
           setGender(response.data.gender);
@@ -277,6 +279,19 @@ const Profile = props => {
               blurOnSubmit={false}
               secureTextEntry={true}
             />
+          </View>
+          <View style={styles.textInput}>
+          <TextInput
+            style={styles.inputStyle}
+            onChangeText={schoolId => setSchoolId(schoolId)}
+            value={schoolId}
+            placeholder="Enter Id"
+            placeholderTextColor="black"
+            selectionColor='#808B96'
+            returnKeyType="next"
+            blurOnSubmit={false}
+            editable={false} selectTextOnFocus={false}
+          />
           </View>
           <View>
             <Picker
