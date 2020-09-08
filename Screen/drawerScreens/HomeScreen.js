@@ -37,8 +37,8 @@ const HomeScreen = props => {
   // let [gender, setGender] = useState('');
   // let [personStatus, setPersonStatus] = useState('');
   // let [jobType, setJobType] = useState('');
-   let [loading, setLoading] = useState(false);
-   let [errortext, setErrortext] = useState('');
+  let [loading, setLoading] = useState(false);
+  let [errortext, setErrortext] = useState('');
   let [isGraphLoading, setIsGraphLoading] = useState(false);
   //let [isLoading, setIsLoading] = useState[];
   let [utilizationData, setUtilizationData] = useState([{ personMonth: "1", waterUtilized: 0, electricityUtilized: 0, personZone: 'AMBER', zone: 0 }]);
@@ -191,13 +191,30 @@ const HomeScreen = props => {
               standalone={false}
               colorScale={"qualitative"}>
 
-              <VictoryStack colorScale={"green"} >
+              <VictoryStack
+              // colorScale={"green"} 
+               >
 
                 {/* {utilizationData.map((data, i) => {
                 return <VictoryBar data={data} x="personMonth" y="electricityUtilized" key={i}/>;
               })} */}
 
-                <VictoryBar name="ELECTRICITY" data={utilizationData} x="personMonth" y="electricityUtilized" barWidth={({ index }) => index * 2 + 8} labels={({ datum }) => `${datum.electricityUtilized}`} />
+                <VictoryBar name="ELECTRICITY" data={utilizationData} x="personMonth" y="electricityUtilized" barWidth={({ index }) => index * 2 + 8} labels={({ datum }) => `${datum.electricityUtilized}`}
+                  style={{
+                    data: {
+                     // fill: ({ datum }) => (datum.electricityUtilized >=150 ? "red" : (datum.electricityUtilized >= 100 ? "#FFC200" : "green")),
+                      fill: ({ datum }) => (datum.colour),
+                      // stroke: ({ index }) => +index % 2 === 0  ? "#000000" : "#c43a31",
+                      // fillOpacity: 0.7,
+                      // strokeWidth: 3
+                    },
+                    labels: {
+                      fontSize: 15,
+                      //fill: ({ datum }) => (datum.zone === 10 ? "red" : (datum.zone === 20 ? "#FFC200" : "green"))
+                      fill: ({ datum }) => (datum.colour)
+                    }
+                  }}
+                />
               </VictoryStack>
 
               <VictoryAxis dependentAxis label="Electricity"
@@ -213,20 +230,29 @@ const HomeScreen = props => {
           </VictoryChart>
 
           <VictoryChart height={400} width={375} theme={VictoryTheme.grayscale}        >
-
-
-
             <VictoryGroup offset={0}
               standalone={false}
               colorScale={"qualitative"}>
+              <VictoryStack 
+              //colorScale={"blue"} 
+              >
+                <VictoryBar data={utilizationData} x="personMonth" y="waterUtilized" barWidth={({ index }) => index * 2 + 8} labels={({ datum }) => `${datum.waterUtilized}`} 
+                 style={{
+                  data: {
+                  //  fill: ({ datum }) => (datum.waterUtilized >=1000 ? "red" : (datum.waterUtilized >= 500 ? "#FFC200" : "green")),
+                    fill: ({ datum }) => (datum.colour),
+                    // stroke: ({ index }) => +index % 2 === 0  ? "#000000" : "#c43a31",
+                    // fillOpacity: 0.7,
+                    // strokeWidth: 3
+                  },
+                  labels: {
+                    fontSize: 15,
+                   // fill: ({ datum }) => (datum.zone === 10 ? "red" : (datum.zone === 20 ? "#FFC200" : "green"))
+                    fill: ({ datum }) => (datum.colour)
+                  }
+                }}
 
-              <VictoryStack colorScale={"blue"} >
-
-                {/* {utilizationData.map((data, i) => {
-      return <VictoryBar data={data} x="personMonth" y="electricityUtilized" key={i}/>;
-    })} */}
-
-                <VictoryBar data={utilizationData} x="personMonth" y="waterUtilized" barWidth={({ index }) => index * 2 + 8} labels={({ datum }) => `${datum.waterUtilized}`} />
+                />
               </VictoryStack>
 
               <VictoryAxis dependentAxis label="Water"
@@ -236,39 +262,30 @@ const HomeScreen = props => {
               <VictoryAxis domain={[0, 12]} label="Month"
                 tickFormat={["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]}
               />
-
             </VictoryGroup>
-
           </VictoryChart>
 
-          <VictoryChart height={400} width={375} theme={VictoryTheme.grayscale}        >
-
-
-
+          {/* <VictoryChart height={400} width={375} theme={VictoryTheme.grayscale}>
             <VictoryGroup offset={0}
               standalone={false}
               colorScale={"qualitative"}>
-
-              <VictoryStack 
+              <VictoryStack
               // colorScale={"blue"} 
               >
-
-
-
                 <VictoryBar data={utilizationData} x="personMonth" y="zone" barWidth={({ index }) => index * 2 + 8} labels={({ datum }) => `${datum.zone}`}
-                       style={{
-                        data: {
-                          fill: ({ datum }) =>( datum.zone === 10 ? "red" :(datum.zone === 20 ? "#FFC200":"green") ),
-                          // stroke: ({ index }) => +index % 2 === 0  ? "#000000" : "#c43a31",
-                          // fillOpacity: 0.7,
-                          // strokeWidth: 3
-                        },
-                        labels: {
-                          fontSize: 15,
-                          fill: ({ datum }) =>( datum.zone === 10 ? "red" :(datum.zone === 20 ? "#FFC200":"green") )
-                        }
-                      }}
-                
+                  style={{
+                    data: {
+                      fill: ({ datum }) => (datum.zone === 10 ? "red" : (datum.zone === 20 ? "#FFC200" : "green")),
+                      // stroke: ({ index }) => +index % 2 === 0  ? "#000000" : "#c43a31",
+                      // fillOpacity: 0.7,
+                      // strokeWidth: 3
+                    },
+                    labels: {
+                      fontSize: 15,
+                      fill: ({ datum }) => (datum.zone === 10 ? "red" : (datum.zone === 20 ? "#FFC200" : "green"))
+                    }
+                  }}
+
                 />
               </VictoryStack>
 
@@ -283,8 +300,8 @@ const HomeScreen = props => {
             </VictoryGroup>
 
           </VictoryChart>
+ */}
 
-   
 
         </ScrollView>
 
@@ -309,17 +326,17 @@ const HomeScreen = props => {
     return (
       <View style={styles.container}>
 
-<TouchableOpacity
-            style={styles.buttonStyle}
-            activeOpacity={0.5}
-            onPress={() => fetchUtilizationInfo(personId)}>
-            {/* <ImageBackground source={image} style={styles.image}>
+        <TouchableOpacity
+          style={styles.buttonStyle}
+          activeOpacity={0.5}
+          onPress={() => fetchUtilizationInfo(personId)}>
+          {/* <ImageBackground source={image} style={styles.image}>
                 <Text style={styles.buttonTextStyle}>LOGIN</Text>
               </ImageBackground> */}
 
-            {/* <Text style={styles.buttonTextStyle}>R</Text> */}
-            <Image source={require('../../Image/refresh.png')} resizeMode='contain' style={styles.ImageIconStyle} />
-            {/* <Image
+          {/* <Text style={styles.buttonTextStyle}>R</Text> */}
+          <Image source={require('../../Image/refresh.png')} resizeMode='contain' style={styles.ImageIconStyle} />
+          {/* <Image
                 source={require('..../Image/2a.jpg')}
                 style={{
                   width: '200%',
@@ -330,7 +347,7 @@ const HomeScreen = props => {
                   resizeMode: 'contain'
                 }}
               /> */}
-          </TouchableOpacity>
+        </TouchableOpacity>
 
       </View>
     );

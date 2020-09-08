@@ -41,6 +41,7 @@ const RegisterScreen = props => {
  // -----------------------------------------------------------------------------------------------------------------
  let [gradeOptions, setGradeOptions] = useState([{"gradeKey": "0", "gradeName": "Select Grade"}]);
  let [sectionOptions, setSectionOptions] = useState([{"sectionKey": "0", "sectionName": "Select Section"}]);
+ let [jobOptions, setJobOptions] = useState([{"jobKey": "0", "jobName": "Select JobType"}]);
  //-----------------------------------------------------------------------------------------------------------------
   // const gradeOptions = {
   //   "0": "Select Grade",
@@ -72,12 +73,12 @@ const RegisterScreen = props => {
     "Male": "Male",
     "Female": "Female"
   };
-  const jobTypeOptions = {
-    "0": "Select JobType",
-    "Student": "Student",
-    "Teacher": "Teacher",
-    "Staff": "Staff"
-  };
+  // const jobTypeOptions = {
+  //   "0": "Select JobType",
+  //   "Student": "Student",
+  //   "Teacher": "Teacher",
+  //   "Staff": "Staff"
+  // };
   const handleSubmitButton = () => {
     setErrortext('');
     if (!personId) {
@@ -96,25 +97,26 @@ const RegisterScreen = props => {
       alert('Please fill Password');
       return;
     }
-    if (!schoolId && schoolId == '0') {
+    
+    if (!schoolId || schoolId.trim() == '0') {
       alert('Please select School');
       return;
     }
-    if (!grade && grade == '0') {
+    if (!grade || grade.trim() == '0') {
       alert('Please select Grade');
       return;
     }
-    if (!personSection && personSection == '0') {
+    if (!personSection || personSection.trim() == '0') {
       alert('Please Select Section');
       return;
     }
     console.log('gender ' + gender);
-    if (!gender || gender == '0') {
+    if (!gender || gender.trim() == '0') {
       console.log('gender ' + gender);
       alert('Please select Gender');
       return;
     }
-    if (!jobType || jobType == '0') {
+    if (!jobType || jobType.trim() == '0') {
       alert('Please select JobType');
       return;
     }
@@ -135,11 +137,11 @@ const RegisterScreen = props => {
       "personName": personName,
       "personEmail": personEmail,
       "personPassword": personPassword,
-      "schoolId": (schoolId == '0' ? '' : schoolId),
-      "grade": (grade == '0' ? '' : grade),
-      "personSection": (personSection == '0' ? '' : personSection),
-      "gender": gender,
-      "jobType": jobType
+      "schoolId": (schoolId.trim == '0' ? '' : schoolId),
+      "grade": (grade.trim() == '0' ? '' : grade),
+      "personSection": (personSection.trim() == '0' ? '' : personSection),
+      "gender": (gender == '0' ? '' : gender),
+      "jobType": (jobType.trim() =='0' ? '' : jobType)
 
       // "email": this.state.username,
       // "password": this.state.password
@@ -206,6 +208,9 @@ const RegisterScreen = props => {
       //   fetchPersonInfo(value);
       // }
       fetchSchool();
+      fetchGrade();
+      fetchPersonSection();
+      fetchJob();
     }, 1);
   }, []);
 
@@ -263,20 +268,7 @@ const RegisterScreen = props => {
 
 
   //--------------------------------------------------------------------
-  useEffect(() => {
-    setTimeout(() => {
-      setAnimating(false);
-      //Check if user_id is set or not
-      //If not then send for Authentication
-      //else send to Home Screen
-      // AsyncStorage.getItem('person_id').then((value) => {
-      //   // alert('value'+ value);
-      //   // setPersonId(value);
-      //   fetchPersonInfo(value);
-      // }
-      fetchPersonSection();
-    }, 1);
-  }, []);
+ 
 
 
   const fetchPersonSection = () => {
@@ -311,7 +303,7 @@ const RegisterScreen = props => {
           // setPersonId(response.data.personId);
          // schoolOptions= [];
           setSectionOptions(response.data);
-          console.log('PersonSection array' + JSON.stringify(schoolOptions));
+          console.log('PersonSection array' + JSON.stringify(sectionOptions));
 
         }
 
@@ -331,20 +323,7 @@ const RegisterScreen = props => {
 
 
 
-  useEffect(() => {
-    setTimeout(() => {
-      setAnimating(false);
-      //Check if user_id is set or not
-      //If not then send for Authentication
-      //else send to Home Screen
-      // AsyncStorage.getItem('person_id').then((value) => {
-      //   // alert('value'+ value);
-      //   // setPersonId(value);
-      //   fetchPersonInfo(value);
-      // }
-      fetchGrade();
-    }, 1);
-  }, []);
+
 
 
   const fetchGrade = () => {
@@ -380,6 +359,60 @@ const RegisterScreen = props => {
          // schoolOptions= [];
           setGradeOptions(response.data);
           console.log('Grade array' + JSON.stringify(gradeOptions));
+
+        }
+
+        else {
+          //console.log("Username does not exists");
+          alert("Query Not Successful");
+        }
+      })
+      .catch(function (error) {
+        setLoading(false);
+        console.log(error);
+      });
+
+
+
+  };
+
+
+
+
+
+  const fetchJob = () => {
+    setErrortext('');
+
+    //Show Loader
+    setLoading(true);
+
+    var apiBaseUrl = serverIP + "/master/getJob";
+
+    var self = this;
+    var payload =
+    {
+
+    }
+
+    // console.log('School Find ' + JSON.stringify(payload));
+    axios.get(apiBaseUrl, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true,
+      }
+    })
+      //axios.post(apiBaseUrl, payload)
+      .then(function (response) {
+        setLoading(false);
+        console.log('Job Find Response ' + JSON.stringify(response));
+        if (response.status == 200) {
+          // console.log(response.data.status);
+          console.log(JSON.stringify(response.data));
+          // setPersonId(response.data.personId);
+         // schoolOptions= [];
+          setJobOptions(response.data);
+          console.log('Job array' + JSON.stringify(jobOptions));
 
         }
 
@@ -516,6 +549,8 @@ const RegisterScreen = props => {
               })}
             </Picker>
           </View>
+
+       
 {/* ------------------------------------------------------------------------------------------------------------------------------------- */}
           {/* {<Picker
                 selectedValue={this.state.selectedValue}
@@ -571,6 +606,20 @@ const RegisterScreen = props => {
           <View>
             <Picker
               selectedValue={jobType}
+              style={styles.pickerStyle}
+              itemStyle={styles.pickerItemStyle}
+              onValueChange={(itemValue, itemIndex) =>
+                setJobType(itemValue)
+              }>
+              {jobOptions.map((item,key) => {
+                return (<Picker.Item label={item.jobName} value={item.jobKey} key={key} />) //if you have a bunch of keys value pair
+              })}
+            </Picker>
+          </View>
+
+          {/* <View>
+            <Picker
+              selectedValue={jobType}
 
               style={styles.pickerStyle}
               itemStyle={styles.pickerItemStyle}
@@ -581,7 +630,7 @@ const RegisterScreen = props => {
                 return (<Picker.Item label={jobTypeOptions[key]} value={key} key={key} />) //if you have a bunch of keys value pair
               })}
             </Picker>
-          </View>
+          </View> */}
 
           {errortext != '' ? (
             <Text style={styles.errorTextStyle}> {errortext} </Text>

@@ -208,7 +208,22 @@ const GradeUtilization = props => {
                 return <VictoryBar data={data} x="personMonth" y="electricityUtilized" key={i}/>;
               })} */}
 
-                <VictoryBar name="ELECTRICITY" data={utilizationData} x="personMonth" y="electricityUtilized" barWidth={({ index }) => index * 2 + 8} labels={({ datum }) => `${datum.electricityUtilized}`} />
+                <VictoryBar name="ELECTRICITY" data={utilizationData} x="personMonth" y="electricityUtilized" barWidth={({ index }) => index * 2 + 8} labels={({ datum }) => `${datum.electricityUtilized}`}
+                    style={{
+                      data: {
+                       // fill: ({ datum }) => (datum.electricityUtilized >=150 ? "red" : (datum.electricityUtilized >= 100 ? "#FFC200" : "green")),
+                        fill: ({ datum }) => (datum.colour),
+                        // stroke: ({ index }) => +index % 2 === 0  ? "#000000" : "#c43a31",
+                        // fillOpacity: 0.7,
+                        // strokeWidth: 3
+                      },
+                      labels: {
+                        fontSize: 15,
+                        //fill: ({ datum }) => (datum.zone === 10 ? "red" : (datum.zone === 20 ? "#FFC200" : "green"))
+                        fill: ({ datum }) => (datum.colour)
+                      }
+                    }}
+                />
               </VictoryStack>
 
               <VictoryAxis dependentAxis label="Electricity"
@@ -237,7 +252,22 @@ const GradeUtilization = props => {
       return <VictoryBar data={data} x="personMonth" y="electricityUtilized" key={i}/>;
     })} */}
 
-                <VictoryBar data={utilizationData} x="personMonth" y="waterUtilized" barWidth={({ index }) => index * 2 + 8} labels={({ datum }) => `${datum.waterUtilized}`} />
+                <VictoryBar data={utilizationData} x="personMonth" y="waterUtilized" barWidth={({ index }) => index * 2 + 8} labels={({ datum }) => `${datum.waterUtilized}`} 
+                    style={{
+                      data: {
+                       // fill: ({ datum }) => (datum.electricityUtilized >=150 ? "red" : (datum.electricityUtilized >= 100 ? "#FFC200" : "green")),
+                        fill: ({ datum }) => (datum.colour),
+                        // stroke: ({ index }) => +index % 2 === 0  ? "#000000" : "#c43a31",
+                        // fillOpacity: 0.7,
+                        // strokeWidth: 3
+                      },
+                      labels: {
+                        fontSize: 15,
+                        //fill: ({ datum }) => (datum.zone === 10 ? "red" : (datum.zone === 20 ? "#FFC200" : "green"))
+                        fill: ({ datum }) => (datum.colour)
+                      }
+                    }}
+                />
               </VictoryStack>
 
               <VictoryAxis dependentAxis label="Water"
@@ -252,7 +282,7 @@ const GradeUtilization = props => {
 
           </VictoryChart>
 
-          <VictoryChart height={400} width={375} theme={VictoryTheme.grayscale}        >
+          {/* <VictoryChart height={400} width={375} theme={VictoryTheme.grayscale}        >
 
 
 
@@ -294,7 +324,7 @@ const GradeUtilization = props => {
             </VictoryGroup>
 
           </VictoryChart>
-
+ */}
 
 
         </ScrollView>
