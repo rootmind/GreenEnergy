@@ -34,15 +34,15 @@ const RegisterScreen = props => {
   let [loading, setLoading] = useState(false);
   let [errortext, setErrortext] = useState('');
   let [animating, setAnimating] = useState(true);
-  let [schoolOptions, setSchoolOptions] = useState([{"schoolId": "0", "schoolName": "Select School"}]);
+  let [schoolOptions, setSchoolOptions] = useState([{ "schoolId": "0", "schoolName": "Select School" }]);
 
 
   //var schoolOptions = [{"schoolId": "0", "schoolName": "Select School"}];
- // -----------------------------------------------------------------------------------------------------------------
- let [gradeOptions, setGradeOptions] = useState([{"gradeKey": "0", "gradeName": "Select Grade"}]);
- let [sectionOptions, setSectionOptions] = useState([{"sectionKey": "0", "sectionName": "Select Section"}]);
- let [jobOptions, setJobOptions] = useState([{"jobKey": "0", "jobName": "Select JobType"}]);
- //-----------------------------------------------------------------------------------------------------------------
+  // -----------------------------------------------------------------------------------------------------------------
+  let [gradeOptions, setGradeOptions] = useState([{ "gradeKey": "0", "gradeName": "Select Grade" }]);
+  let [sectionOptions, setSectionOptions] = useState([{ "sectionKey": "0", "sectionName": "Select Section" }]);
+  let [jobOptions, setJobOptions] = useState([{ "jobKey": "0", "jobName": "Select JobType" }]);
+  //-----------------------------------------------------------------------------------------------------------------
   // const gradeOptions = {
   //   "0": "Select Grade",
   //   "KG1": "KG1",
@@ -79,6 +79,8 @@ const RegisterScreen = props => {
   //   "Teacher": "Teacher",
   //   "Staff": "Staff"
   // };
+
+
   const handleSubmitButton = () => {
     setErrortext('');
     if (!personId) {
@@ -93,11 +95,16 @@ const RegisterScreen = props => {
       alert('Please fill Email');
       return;
     }
+    if (!validateEmail(personEmail)) {
+      alert('Invalid Email Format');
+      return;
+    }
+
     if (!personPassword) {
       alert('Please fill Password');
       return;
     }
-    
+
     if (!schoolId || schoolId.trim() == '0') {
       alert('Please select School');
       return;
@@ -121,7 +128,7 @@ const RegisterScreen = props => {
       return;
     }
 
-    
+
 
     //Show Loader
     setLoading(true);
@@ -141,7 +148,7 @@ const RegisterScreen = props => {
       "grade": (grade.trim() == '0' ? '' : grade),
       "personSection": (personSection.trim() == '0' ? '' : personSection),
       "gender": (gender == '0' ? '' : gender),
-      "jobType": (jobType.trim() =='0' ? '' : jobType)
+      "jobType": (jobType.trim() == '0' ? '' : jobType)
 
       // "email": this.state.username,
       // "password": this.state.password
@@ -191,7 +198,7 @@ const RegisterScreen = props => {
 
 
 
-   
+
 
     //-------------------------------------------------------------------------------------------------------------------------
   };
@@ -245,7 +252,7 @@ const RegisterScreen = props => {
           // console.log(response.data.status);
           console.log(JSON.stringify(response.data));
           // setPersonId(response.data.personId);
-         // schoolOptions= [];
+          // schoolOptions= [];
           setSchoolOptions(response.data);
           console.log('school array' + JSON.stringify(schoolOptions));
 
@@ -268,7 +275,7 @@ const RegisterScreen = props => {
 
 
   //--------------------------------------------------------------------
- 
+
 
 
   const fetchPersonSection = () => {
@@ -301,7 +308,7 @@ const RegisterScreen = props => {
           // console.log(response.data.status);
           console.log(JSON.stringify(response.data));
           // setPersonId(response.data.personId);
-         // schoolOptions= [];
+          // schoolOptions= [];
           setSectionOptions(response.data);
           console.log('PersonSection array' + JSON.stringify(sectionOptions));
 
@@ -356,7 +363,7 @@ const RegisterScreen = props => {
           // console.log(response.data.status);
           console.log(JSON.stringify(response.data));
           // setPersonId(response.data.personId);
-         // schoolOptions= [];
+          // schoolOptions= [];
           setGradeOptions(response.data);
           console.log('Grade array' + JSON.stringify(gradeOptions));
 
@@ -375,6 +382,7 @@ const RegisterScreen = props => {
 
 
   };
+
 
 
 
@@ -410,7 +418,7 @@ const RegisterScreen = props => {
           // console.log(response.data.status);
           console.log(JSON.stringify(response.data));
           // setPersonId(response.data.personId);
-         // schoolOptions= [];
+          // schoolOptions= [];
           setJobOptions(response.data);
           console.log('Job array' + JSON.stringify(jobOptions));
 
@@ -429,9 +437,11 @@ const RegisterScreen = props => {
 
 
   };
-   
+
+
+
   //------------------------------------------------------------
-   
+
 
   // if (isRegistrationSuccess) {
   //   return (
@@ -451,6 +461,31 @@ const RegisterScreen = props => {
   //     </View>
   //   );
   // }
+
+  //   passwordHandle(value){
+  //     this.setState({
+  //         password: value.replace(/\s/g, '')
+  //     })
+  //  }
+
+  const validateEmail = (text) => {
+    console.log(text);
+    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (reg.test(text) === false) {
+      console.log("Email is Not Correct");
+      // this.setState({ email: text })
+      setPersonEmail(text)
+      return false;
+    }
+    else {
+      // this.setState({ email: text })
+      setPersonEmail(text)
+      console.log("Email is Correct");
+      return true;
+    }
+  }
+
+
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
       <Loader loading={loading} />
@@ -458,46 +493,59 @@ const RegisterScreen = props => {
         <View style={styles.textInput}>
           <TextInput
             style={styles.inputStyle}
-            onChangeText={personId => setPersonId(personId)}
+            onChangeText={personId => setPersonId(personId.replace(/\s/g, ''))}
             placeholder="Enter ID"
+            maxLength={20}
+            multiline={false}
             placeholderTextColor="black"
             selectionColor='#808B96'
             returnKeyType="next"
             blurOnSubmit={false}
-            onSubmitEditing={Keyboard.dismiss}
+            onSubmitEditing={()=>{this.personNameTI.focus();}}
+
           />
         </View>
         <KeyboardAvoidingView enabled>
           <View style={styles.textInput}>
             <TextInput
+              ref={(input)=>{this.personNameTI=input;}}
               style={styles.inputStyle}
               onChangeText={PersonName => setPersonName(PersonName)}
               placeholder="Enter Name"
+              maxLength={100}
+              multiline={false}
               placeholderTextColor="black"
               selectionColor='#808B96'
               autoCapitalize="sentences"
               returnKeyType="next"
               blurOnSubmit={false}
-              onSubmitEditing={Keyboard.dismiss}
+              onSubmitEditing={()=>{this.personEmailTI.focus();}}
+
             />
           </View>
           <View style={styles.textInput}>
             <TextInput
+             ref={(input)=>{this.personEmailTI=input;}}
               style={styles.inputStyle}
-              onChangeText={personEmail => setPersonEmail(personEmail)}
+              onChangeText={personEmail => validateEmail(personEmail)}
               placeholder="Enter Email"
+              maxLength={100}
+              multiline={false}
               placeholderTextColor="black"
               selectionColor='#808B96'
               returnKeyType="next"
               blurOnSubmit={false}
-              onSubmitEditing={Keyboard.dismiss}
+              onSubmitEditing={()=>{this.personPasswordTI.focus();}}
             />
           </View>
           <View style={styles.textInput}>
             <TextInput
+             ref={(input)=>{this.personPasswordTI=input;}}
               style={styles.inputStyle}
-              onChangeText={personPassword => setPersonPassword(personPassword)}
+              onChangeText={personPassword => setPersonPassword(personPassword.replace(/\s/g, ''))}
               placeholder="Enter Password"
+              maxLength={15}
+              multiline={false}
               placeholderTextColor="black"
               selectionColor='#808B96'
               returnKeyType="next"
@@ -515,14 +563,14 @@ const RegisterScreen = props => {
               onValueChange={(itemValue, itemIndex) =>
                 setSchoolId(itemValue)
               }>
-              {schoolOptions.map((item,key) => {
+              {schoolOptions.map((item, key) => {
                 return (<Picker.Item label={item.schoolName} value={item.schoolId} key={key} />) //if you have a bunch of keys value pair
               })}
             </Picker>
           </View>
-{/* /---------------------------------------------------------------------------------------------------------------------------- */}
+          {/* /---------------------------------------------------------------------------------------------------------------------------- */}
 
-<View>
+          <View>
             <Picker
               selectedValue={grade}
               style={styles.pickerStyle}
@@ -530,13 +578,13 @@ const RegisterScreen = props => {
               onValueChange={(itemValue, itemIndex) =>
                 setGrade(itemValue)
               }>
-              {gradeOptions.map((item,key) => {
+              {gradeOptions.map((item, key) => {
                 return (<Picker.Item label={item.gradeName} value={item.gradeKey} key={key} />) //if you have a bunch of keys value pair
               })}
             </Picker>
           </View>
 
-<View>
+          <View>
             <Picker
               selectedValue={personSection}
               style={styles.pickerStyle}
@@ -544,14 +592,14 @@ const RegisterScreen = props => {
               onValueChange={(itemValue, itemIndex) =>
                 setPersonSection(itemValue)
               }>
-              {sectionOptions.map((item,key) => {
+              {sectionOptions.map((item, key) => {
                 return (<Picker.Item label={item.sectionName} value={item.sectionKey} key={key} />) //if you have a bunch of keys value pair
               })}
             </Picker>
           </View>
 
-       
-{/* ------------------------------------------------------------------------------------------------------------------------------------- */}
+
+          {/* ------------------------------------------------------------------------------------------------------------------------------------- */}
           {/* {<Picker
                 selectedValue={this.state.selectedValue}
                 onValueChange={(itemValue, itemIndex) => this.setState({selectedValue: itemValue})} >
@@ -611,7 +659,7 @@ const RegisterScreen = props => {
               onValueChange={(itemValue, itemIndex) =>
                 setJobType(itemValue)
               }>
-              {jobOptions.map((item,key) => {
+              {jobOptions.map((item, key) => {
                 return (<Picker.Item label={item.jobName} value={item.jobKey} key={key} />) //if you have a bunch of keys value pair
               })}
             </Picker>

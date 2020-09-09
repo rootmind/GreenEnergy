@@ -328,34 +328,42 @@ const Utilization = props => {
               })}
             </Picker>
           </View> */}
-
-          <View style={styles.textInput}>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={waterUtilized => setWaterUtilized(waterUtilized)}
-              placeholder="Enter Water Utilized"
-              placeholderTextColor="black"
-              selectionColor='#808B96'
-              value={'' + waterUtilized}
-              returnKeyType="next"
-              keyboardType="numeric"
-              blurOnSubmit={false}
-            />
-          </View>
-
-          <View style={styles.textInput}>
+     <View style={styles.textInput}>
             <TextInput
               style={styles.inputStyle}
               onChangeText={electricityUtilized => setElectricityUtilized(electricityUtilized)}
               placeholder="Enter Electricity Utilized"
+              maxLength={5}
+              multiline={false}
               placeholderTextColor="black"
               selectionColor='#808B96'
               value={'' + electricityUtilized}
               returnKeyType="next"
               keyboardType="numeric"
               blurOnSubmit={false}
+              onSubmitEditing={()=>{this.waterUtilizedTI.focus();}}
             />
           </View>
+
+          <View style={styles.textInput}>
+            <TextInput
+             ref={(input)=>{this.waterUtilizedTI=input;}}
+              style={styles.inputStyle}
+              onChangeText={waterUtilized => setWaterUtilized(waterUtilized)}
+              placeholder="Enter Water Utilized"
+              maxLength={5}
+              multiline={false}
+              placeholderTextColor="black"
+              selectionColor='#808B96'
+              value={'' + waterUtilized}
+              returnKeyType="next"
+              keyboardType="numeric"
+              blurOnSubmit={false}
+              
+            />
+          </View>
+
+     
 
           {errortext != '' ? (
             <Text style={styles.errorTextStyle}> {errortext} </Text>

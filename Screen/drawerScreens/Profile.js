@@ -162,7 +162,50 @@ const Profile = props => {
 
   const handleSubmitButton = (props) => {
     setErrortext('');
+    if (!personId) {
+      alert('Please fill Id');
+      return;
+    }
+    if (!personName) {
+      alert('Please fill Name');
+      return;
+    }
+    if (!personEmail) {
+      alert('Please fill Email');
+      return;
+    }
+    if (!validateEmail(personEmail)) {
+      alert('Invalid Email Format');
+      return;
+    }
 
+    if (!personPassword) {
+      alert('Please fill Password');
+      return;
+    }
+
+    if (!schoolId || schoolId.trim() == '0') {
+      alert('Please select School');
+      return;
+    }
+    if (!grade || grade.trim() == '0') {
+      alert('Please select Grade');
+      return;
+    }
+    if (!personSection || personSection.trim() == '0') {
+      alert('Please Select Section');
+      return;
+    }
+    console.log('gender ' + gender);
+    if (!gender || gender.trim() == '0') {
+      console.log('gender ' + gender);
+      alert('Please select Gender');
+      return;
+    }
+    if (!jobType || jobType.trim() == '0') {
+      alert('Please select JobType');
+      return;
+    }
     //Show Loader
     setLoading(true);
 
@@ -449,6 +492,22 @@ const Profile = props => {
 
   };
   //---------------------------------------------
+  const validateEmail = (text) => {
+    console.log(text);
+    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (reg.test(text) === false) {
+      console.log("Email is Not Correct");
+      // this.setState({ email: text })
+      setPersonEmail(text)
+      return false;
+    }
+    else {
+      // this.setState({ email: text })
+      setPersonEmail(text)
+      console.log("Email is Correct");
+      return true;
+    }
+  }
 
 
   return (
@@ -458,15 +517,18 @@ const Profile = props => {
         <View style={styles.textInput}>
           <TextInput
             style={styles.inputStyle}
-            onChangeText={personId => setPersonId(personId)}
+            onChangeText={personId => setPersonId(personId.replace(/\s/g, ''))}
             value={personId}
             placeholder="Enter Id"
+            maxLength={20}
+            multiline={false}
             placeholderTextColor="black"
             selectionColor='#808B96'
             returnKeyType="next"
             blurOnSubmit={false}
             editable={false} 
             selectTextOnFocus={false}
+
           />
         </View>
         <KeyboardAvoidingView enabled>
@@ -476,37 +538,48 @@ const Profile = props => {
               onChangeText={PersonName => setPersonName(PersonName)}
               value={personName}
               placeholder="Enter Name"
+              maxLength={100}
+              multiline={false}
               placeholderTextColor="black"
               selectionColor='#808B96'
               autoCapitalize="sentences"
               returnKeyType="next"
               blurOnSubmit={false}
+              onSubmitEditing={()=>{this.personEmailTI.focus();}}
             />
           </View>
           <View style={styles.textInput}>
             <TextInput
+             ref={(input)=>{this.personEmailTI=input;}}
               style={styles.inputStyle}
-              onChangeText={personEmail => setPersonEmail(personEmail)}
+              onChangeText={personEmail => validateEmail(personEmail)}
               value={personEmail}
               placeholder="Enter Email"
+              maxLength={100}
+              multiline={false}
               placeholderTextColor="black"
               selectionColor='#808B96'
               keyboardType="email-address"
               returnKeyType="next"
               blurOnSubmit={false}
+              onSubmitEditing={()=>{this.personPasswordTI.focus();}}
             />
           </View>
           <View style={styles.textInput}>
             <TextInput
+            ref={(input)=>{this.personPasswordTI=input;}}
               style={styles.inputStyle}
-              onChangeText={personPassword => setPersonPassword(personPassword)}
+              onChangeText={personPassword => setPersonPassword(personPassword.replace(/\s/g, ''))}
               value={personPassword}
               placeholder="Enter Password"
+              maxLength={15}
+              multiline={false}
               placeholderTextColor="black"
               selectionColor='#808B96'
               returnKeyType="next"
               blurOnSubmit={false}
               secureTextEntry={true}
+              onSubmitEditing={Keyboard.dismiss}
             />
   
           </View>

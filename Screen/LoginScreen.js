@@ -169,19 +169,24 @@ const LoginScreen = props => {
                 style={styles.inputStyle}
                 onChangeText={userEmail => setUserEmail(userEmail)}
                 placeholder=" User ID" //dummy@abc.com
+                maxLength={20}
+                multiline={false}
                 placeholderTextColor="black"
                 selectionColor='#808B96'
                 autoCapitalize="none"
                 returnKeyType="next"
                 blurOnSubmit={false}
-                onSubmitEditing={Keyboard.dismiss}
+                onSubmitEditing={()=>{this.personPasswordTI.focus();}}
               />
             </View>
             <View style={styles.textInput}>
               <TextInput
+              ref={(input)=>{this.personPasswordTI=input;}}
                 style={styles.inputStyle}
                 onChangeText={UserPassword => setUserPassword(UserPassword)}
                 placeholder=" Password" //12345
+                maxLength={15}
+                multiline={false}
                 placeholderTextColor="black"
                 selectionColor='#808B96'
                 blurOnSubmit={false}
