@@ -15,6 +15,7 @@
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* GreenEnergyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* GreenEnergyTests.m */; };
+		3DCB15C324F8141A0003FDFB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3DCB15C224F8141A0003FDFB /* GoogleService-Info.plist */; };
 		70988C4D131CC759702464DA /* libPods-GreenEnergy-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 528542349C7540C805816D7E /* libPods-GreenEnergy-tvOSTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		A276298EF6D10FD47E20AC49 /* libPods-GreenEnergy-GreenEnergyTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E3E06F36F1AD5F90499B77A /* libPods-GreenEnergy-GreenEnergyTests.a */; };
@@ -54,6 +55,7 @@
 		2CB4059F5888ADEE7D66BD97 /* Pods-GreenEnergy-GreenEnergyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GreenEnergy-GreenEnergyTests.release.xcconfig"; path = "Target Support Files/Pods-GreenEnergy-GreenEnergyTests/Pods-GreenEnergy-GreenEnergyTests.release.xcconfig"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* GreenEnergy-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "GreenEnergy-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* GreenEnergy-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "GreenEnergy-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3DCB15C224F8141A0003FDFB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		528542349C7540C805816D7E /* libPods-GreenEnergy-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-GreenEnergy-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		73B18E3CE54807FBBE0F1D45 /* libPods-GreenEnergy-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-GreenEnergy-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E3E06F36F1AD5F90499B77A /* libPods-GreenEnergy-GreenEnergyTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-GreenEnergy-GreenEnergyTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -125,6 +127,7 @@
 		13B07FAE1A68108700A75B9A /* GreenEnergy */ = {
 			isa = PBXGroup;
 			children = (
+				3DCB15C224F8141A0003FDFB /* GoogleService-Info.plist */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -161,7 +164,6 @@
 				C289E10EC36FF8580BB27D05 /* Pods-GreenEnergy-tvOSTests.debug.xcconfig */,
 				9F6056620E4D5CEC65FF68B3 /* Pods-GreenEnergy-tvOSTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -294,6 +296,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
+						DevelopmentTeam = 2E3L9RDQ3R;
 						LastSwiftMigration = 1120;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
@@ -342,6 +345,7 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				3DCB15C324F8141A0003FDFB /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -656,6 +660,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2E3L9RDQ3R;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = GreenEnergy/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -679,6 +684,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2E3L9RDQ3R;
 				INFOPLIST_FILE = GreenEnergy/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
