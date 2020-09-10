@@ -167,7 +167,7 @@ const LoginScreen = props => {
             <View style={styles.textInput}>
               <TextInput
                 style={styles.inputStyle}
-                onChangeText={userEmail => setUserEmail(userEmail)}
+                onChangeText={userEmail => setUserEmail(userEmail.replace(/\s/g, ''))}
                 placeholder=" User ID" //dummy@abc.com
                 maxLength={20}
                 multiline={false}
@@ -183,7 +183,7 @@ const LoginScreen = props => {
               <TextInput
               ref={(input)=>{this.personPasswordTI=input;}}
                 style={styles.inputStyle}
-                onChangeText={UserPassword => setUserPassword(UserPassword)}
+                onChangeText={UserPassword => setUserPassword(UserPassword.replace(/\s/g, ''))}
                 placeholder=" Password" //12345
                 maxLength={15}
                 multiline={false}

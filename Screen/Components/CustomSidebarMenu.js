@@ -5,7 +5,7 @@
 import React from 'react';
 
 //Import all required component
-import { View, StyleSheet, Text, Alert } from 'react-native';
+import { View, TouchableWithoutFeedback, StyleSheet, Text, Alert } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 
 const CustomSidebarMenu = props => {
@@ -78,7 +78,11 @@ const CustomSidebarMenu = props => {
       props.navigation.navigate(screenToNavigate);
     }
   };
+
+
+
   return (
+   
     <View style={stylesSidebar.sideMenuContainer}>
       <View style={stylesSidebar.profileHeader}>
         <View style={stylesSidebar.profileHeaderPicCircle}>
@@ -113,6 +117,7 @@ const CustomSidebarMenu = props => {
         ))}
       </View>
     </View>
+  
   );
 };
 
