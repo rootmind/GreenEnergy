@@ -2,7 +2,7 @@
 /* https://aboutreact.com/react-native-login-and-signup/ */
 
 //Import React and Hook we needed
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 //Import all required component
 import {
@@ -26,49 +26,61 @@ const RegisterScreen = props => {
   let [personName, setPersonName] = useState('');
   let [personEmail, setPersonEmail] = useState('');
   let [personPassword, setPersonPassword] = useState('');
+  let [schoolId, setSchoolId] = useState('');
   let [grade, setGrade] = useState('');
   let [personSection, setPersonSection] = useState('');
   let [gender, setGender] = useState('');
   let [jobType, setJobType] = useState('');
   let [loading, setLoading] = useState(false);
   let [errortext, setErrortext] = useState('');
+  let [animating, setAnimating] = useState(true);
+  let [schoolOptions, setSchoolOptions] = useState([{ "schoolId": "0", "schoolName": "Select School" }]);
 
-  const gradeOptions = {
-    "0": "Select Grade",
-    "KG1": "KG1",
-    "KG2": "KG2",
-    "GR1": "GR1",
-    "GR2": "GR2",
-    "GR3": "GR3",
-    "GR4": "GR4",
-    "GR5": "GR5",
-    "GR6": "GR6",
-    "GR7": "GR7",
-    "GR8": "GR8",
-    "GR9": "GR9",
-    "GR10": "GR10",
-    "GR11": "GR11",
-    "GR12": "GR12"
-  };
-  const sectionOptions = {
-    "0": "Select Section",
-    "A": "A",
-    "B": "B",
-    "C": "C",
-    "D": "D"
 
-  };
+  //var schoolOptions = [{"schoolId": "0", "schoolName": "Select School"}];
+  // -----------------------------------------------------------------------------------------------------------------
+  let [gradeOptions, setGradeOptions] = useState([{ "gradeKey": "0", "gradeName": "Select Grade" }]);
+  let [sectionOptions, setSectionOptions] = useState([{ "sectionKey": "0", "sectionName": "Select Section" }]);
+  let [jobOptions, setJobOptions] = useState([{ "jobKey": "0", "jobName": "Select JobType" }]);
+  //-----------------------------------------------------------------------------------------------------------------
+  // const gradeOptions = {
+  //   "0": "Select Grade",
+  //   "KG1": "KG1",
+  //   "KG2": "KG2",
+  //   "GR1": "GR1",
+  //   "GR2": "GR2",
+  //   "GR3": "GR3",
+  //   "GR4": "GR4",
+  //   "GR5": "GR5",
+  //   "GR6": "GR6",
+  //   "GR7": "GR7",
+  //   "GR8": "GR8",
+  //   "GR9": "GR9",
+  //   "GR10": "GR10",
+  //   "GR11": "GR11",
+  //   "GR12": "GR12"
+  // };
+  // const sectionOptions = {
+  //   "0": "Select Section",
+  //   "A": "A",
+  //   "B": "B",
+  //   "C": "C",
+  //   "D": "D"
+
+  // };
   const genderOptions = {
     "0": "Select Gender",
     "Male": "Male",
     "Female": "Female"
   };
-  const jobTypeOptions = {
-    "0": "Select JobType",
-    "Student": "Student",
-    "Teacher": "Teacher",
-    "Staff": "Staff"
-  };
+  // const jobTypeOptions = {
+  //   "0": "Select JobType",
+  //   "Student": "Student",
+  //   "Teacher": "Teacher",
+  //   "Staff": "Staff"
+  // };
+
+
   const handleSubmitButton = () => {
     setErrortext('');
     if (!personId) {
@@ -83,28 +95,41 @@ const RegisterScreen = props => {
       alert('Please fill Email');
       return;
     }
+    if (!validateEmail(personEmail)) {
+      alert('Invalid Email Format');
+      return;
+    }
+
     if (!personPassword) {
       alert('Please fill Password');
       return;
     }
-    if (!grade && grade == '0') {
+
+    if (!schoolId || schoolId.trim() == '0') {
+      alert('Please select School');
+      return;
+    }
+    if (!grade || grade.trim() == '0') {
       alert('Please select Grade');
       return;
     }
-    if (!personSection && personSection == '0') {
+    if (!personSection || personSection.trim() == '0') {
       alert('Please Select Section');
       return;
     }
     console.log('gender ' + gender);
-    if (!gender || gender == '0') {
+    if (!gender || gender.trim() == '0') {
       console.log('gender ' + gender);
       alert('Please select Gender');
       return;
     }
-    if (!jobType || jobType == '0') {
+    if (!jobType || jobType.trim() == '0') {
       alert('Please select JobType');
       return;
     }
+
+
+
     //Show Loader
     setLoading(true);
     //---------------------------------------------------------------------------------------------------------------------
@@ -119,10 +144,11 @@ const RegisterScreen = props => {
       "personName": personName,
       "personEmail": personEmail,
       "personPassword": personPassword,
-      "grade": (grade == '0' ? '' : grade),
-      "personSection": (personSection == '0' ? '' : personSection),
-      "gender": gender,
-      "jobType": jobType
+      "schoolId": (schoolId.trim == '0' ? '' : schoolId),
+      "grade": (grade.trim() == '0' ? '' : grade),
+      "personSection": (personSection.trim() == '0' ? '' : personSection),
+      "gender": (gender == '0' ? '' : gender),
+      "jobType": (jobType.trim() == '0' ? '' : jobType)
 
       // "email": this.state.username,
       // "password": this.state.password
@@ -169,8 +195,253 @@ const RegisterScreen = props => {
         console.log(error);
       });
 
+
+
+
+
+
     //-------------------------------------------------------------------------------------------------------------------------
   };
+
+  useEffect(() => {
+    setTimeout(() => {
+      setAnimating(false);
+      //Check if user_id is set or not
+      //If not then send for Authentication
+      //else send to Home Screen
+      // AsyncStorage.getItem('person_id').then((value) => {
+      //   // alert('value'+ value);
+      //   // setPersonId(value);
+      //   fetchPersonInfo(value);
+      // }
+      fetchSchool();
+      fetchGrade();
+      fetchPersonSection();
+      fetchJob();
+    }, 1);
+  }, []);
+
+
+  const fetchSchool = () => {
+    setErrortext('');
+
+    //Show Loader
+    setLoading(true);
+
+    var apiBaseUrl = serverIP + "/master/getSchool";
+
+    var self = this;
+    var payload =
+    {
+
+    }
+
+    // console.log('School Find ' + JSON.stringify(payload));
+    axios.get(apiBaseUrl, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true,
+      }
+    })
+      //axios.post(apiBaseUrl, payload)
+      .then(function (response) {
+        setLoading(false);
+        console.log('School Find Response ' + JSON.stringify(response));
+        if (response.status == 200) {
+          // console.log(response.data.status);
+          console.log(JSON.stringify(response.data));
+          // setPersonId(response.data.personId);
+          // schoolOptions= [];
+          setSchoolOptions(response.data);
+          console.log('school array' + JSON.stringify(schoolOptions));
+
+        }
+
+        else {
+          //console.log("Username does not exists");
+          alert("Query Not Successful");
+        }
+      })
+      .catch(function (error) {
+        setLoading(false);
+        console.log(error);
+      });
+
+
+
+  };
+
+
+
+  //--------------------------------------------------------------------
+
+
+
+  const fetchPersonSection = () => {
+    setErrortext('');
+
+    //Show Loader
+    setLoading(true);
+
+    var apiBaseUrl = serverIP + "/master/getSection";
+
+    var self = this;
+    var payload =
+    {
+
+    }
+
+    // console.log('School Find ' + JSON.stringify(payload));
+    axios.get(apiBaseUrl, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true,
+      }
+    })
+      //axios.post(apiBaseUrl, payload)
+      .then(function (response) {
+        setLoading(false);
+        console.log('PersonSection Find Response ' + JSON.stringify(response));
+        if (response.status == 200) {
+          // console.log(response.data.status);
+          console.log(JSON.stringify(response.data));
+          // setPersonId(response.data.personId);
+          // schoolOptions= [];
+          setSectionOptions(response.data);
+          console.log('PersonSection array' + JSON.stringify(sectionOptions));
+
+        }
+
+        else {
+          //console.log("Username does not exists");
+          alert("Query Not Successful");
+        }
+      })
+      .catch(function (error) {
+        setLoading(false);
+        console.log(error);
+      });
+
+
+
+  };
+
+
+
+
+
+
+  const fetchGrade = () => {
+    setErrortext('');
+
+    //Show Loader
+    setLoading(true);
+
+    var apiBaseUrl = serverIP + "/master/getGrade";
+
+    var self = this;
+    var payload =
+    {
+
+    }
+
+    // console.log('School Find ' + JSON.stringify(payload));
+    axios.get(apiBaseUrl, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true,
+      }
+    })
+      //axios.post(apiBaseUrl, payload)
+      .then(function (response) {
+        setLoading(false);
+        console.log('Grade Find Response ' + JSON.stringify(response));
+        if (response.status == 200) {
+          // console.log(response.data.status);
+          console.log(JSON.stringify(response.data));
+          // setPersonId(response.data.personId);
+          // schoolOptions= [];
+          setGradeOptions(response.data);
+          console.log('Grade array' + JSON.stringify(gradeOptions));
+
+        }
+
+        else {
+          //console.log("Username does not exists");
+          alert("Query Not Successful");
+        }
+      })
+      .catch(function (error) {
+        setLoading(false);
+        console.log(error);
+      });
+
+
+
+  };
+
+
+
+
+
+
+  const fetchJob = () => {
+    setErrortext('');
+
+    //Show Loader
+    setLoading(true);
+
+    var apiBaseUrl = serverIP + "/master/getJob";
+
+    var self = this;
+    var payload =
+    {
+
+    }
+
+    // console.log('School Find ' + JSON.stringify(payload));
+    axios.get(apiBaseUrl, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true,
+      }
+    })
+      //axios.post(apiBaseUrl, payload)
+      .then(function (response) {
+        setLoading(false);
+        console.log('Job Find Response ' + JSON.stringify(response));
+        if (response.status == 200) {
+          // console.log(response.data.status);
+          console.log(JSON.stringify(response.data));
+          // setPersonId(response.data.personId);
+          // schoolOptions= [];
+          setJobOptions(response.data);
+          console.log('Job array' + JSON.stringify(jobOptions));
+
+        }
+
+        else {
+          //console.log("Username does not exists");
+          alert("Query Not Successful");
+        }
+      })
+      .catch(function (error) {
+        setLoading(false);
+        console.log(error);
+      });
+
+
+
+  };
+
+
+
+  //------------------------------------------------------------
+
 
   // if (isRegistrationSuccess) {
   //   return (
@@ -190,6 +461,31 @@ const RegisterScreen = props => {
   //     </View>
   //   );
   // }
+
+  //   passwordHandle(value){
+  //     this.setState({
+  //         password: value.replace(/\s/g, '')
+  //     })
+  //  }
+
+  const validateEmail = (text) => {
+    console.log(text);
+    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (reg.test(text) === false) {
+      console.log("Email is Not Correct");
+      // this.setState({ email: text })
+      setPersonEmail(text)
+      return false;
+    }
+    else {
+      // this.setState({ email: text })
+      setPersonEmail(text)
+      console.log("Email is Correct");
+      return true;
+    }
+  }
+
+
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
       <Loader loading={loading} />
@@ -197,46 +493,59 @@ const RegisterScreen = props => {
         <View style={styles.textInput}>
           <TextInput
             style={styles.inputStyle}
-            onChangeText={personId => setPersonId(personId)}
+            onChangeText={personId => setPersonId(personId.replace(/\s/g, ''))}
             placeholder="Enter ID"
+            maxLength={20}
+            multiline={false}
             placeholderTextColor="black"
             selectionColor='#808B96'
             returnKeyType="next"
             blurOnSubmit={false}
-            onSubmitEditing={Keyboard.dismiss}
+            onSubmitEditing={()=>{this.personNameTI.focus();}}
+
           />
         </View>
         <KeyboardAvoidingView enabled>
           <View style={styles.textInput}>
             <TextInput
+              ref={(input)=>{this.personNameTI=input;}}
               style={styles.inputStyle}
               onChangeText={PersonName => setPersonName(PersonName)}
               placeholder="Enter Name"
+              maxLength={100}
+              multiline={false}
               placeholderTextColor="black"
               selectionColor='#808B96'
               autoCapitalize="sentences"
               returnKeyType="next"
               blurOnSubmit={false}
-              onSubmitEditing={Keyboard.dismiss}
+              onSubmitEditing={()=>{this.personEmailTI.focus();}}
+
             />
           </View>
           <View style={styles.textInput}>
             <TextInput
+             ref={(input)=>{this.personEmailTI=input;}}
               style={styles.inputStyle}
-              onChangeText={personEmail => setPersonEmail(personEmail)}
+              onChangeText={personEmail => validateEmail(personEmail)}
               placeholder="Enter Email"
+              maxLength={100}
+              multiline={false}
               placeholderTextColor="black"
               selectionColor='#808B96'
               returnKeyType="next"
               blurOnSubmit={false}
-              onSubmitEditing={Keyboard.dismiss}
+              onSubmitEditing={()=>{this.personPasswordTI.focus();}}
             />
           </View>
           <View style={styles.textInput}>
             <TextInput
+             ref={(input)=>{this.personPasswordTI=input;}}
               style={styles.inputStyle}
-              onChangeText={personPassword => setPersonPassword(personPassword)}
+              onChangeText={personPassword => setPersonPassword(personPassword.replace(/\s/g, ''))}
               placeholder="Enter Password"
+              maxLength={15}
+              multiline={false}
               placeholderTextColor="black"
               selectionColor='#808B96'
               returnKeyType="next"
@@ -248,14 +557,29 @@ const RegisterScreen = props => {
 
           <View>
             <Picker
+              selectedValue={schoolId}
+              style={styles.pickerStyle}
+              itemStyle={styles.pickerItemStyle}
+              onValueChange={(itemValue, itemIndex) =>
+                setSchoolId(itemValue)
+              }>
+              {schoolOptions.map((item, key) => {
+                return (<Picker.Item label={item.schoolName} value={item.schoolId} key={key} />) //if you have a bunch of keys value pair
+              })}
+            </Picker>
+          </View>
+          {/* /---------------------------------------------------------------------------------------------------------------------------- */}
+
+          <View>
+            <Picker
               selectedValue={grade}
               style={styles.pickerStyle}
               itemStyle={styles.pickerItemStyle}
               onValueChange={(itemValue, itemIndex) =>
                 setGrade(itemValue)
               }>
-              {Object.keys(gradeOptions).map((key) => {
-                return (<Picker.Item label={gradeOptions[key]} value={key} key={key} />) //if you have a bunch of keys value pair
+              {gradeOptions.map((item, key) => {
+                return (<Picker.Item label={item.gradeName} value={item.gradeKey} key={key} />) //if you have a bunch of keys value pair
               })}
             </Picker>
           </View>
@@ -268,12 +592,51 @@ const RegisterScreen = props => {
               onValueChange={(itemValue, itemIndex) =>
                 setPersonSection(itemValue)
               }>
+              {sectionOptions.map((item, key) => {
+                return (<Picker.Item label={item.sectionName} value={item.sectionKey} key={key} />) //if you have a bunch of keys value pair
+              })}
+            </Picker>
+          </View>
+
+
+          {/* ------------------------------------------------------------------------------------------------------------------------------------- */}
+          {/* {<Picker
+                selectedValue={this.state.selectedValue}
+                onValueChange={(itemValue, itemIndex) => this.setState({selectedValue: itemValue})} >
+                { this.state.PickerValueHolder.map((item, key)=>
+                  <Picker.Item label={item.name} value={item.name} key={key} />
+                )}
+              </Picker>} */}
+
+
+          {/* <View>
+            <Picker
+              selectedValue={grade}
+              style={styles.pickerStyle}
+              itemStyle={styles.pickerItemStyle}
+              onValueChange={(itemValue, itemIndex) =>
+                setGrade(itemValue)
+              }>
+              {Object.keys(gradeOptions).map((key) => {
+                return (<Picker.Item label={gradeOptions[key]} value={key} key={key} />) //if you have a bunch of keys value pair
+              })}
+            </Picker>
+          </View> */}
+
+          {/* <View>
+            <Picker
+              selectedValue={personSection}
+              style={styles.pickerStyle}
+              itemStyle={styles.pickerItemStyle}
+              onValueChange={(itemValue, itemIndex) =>
+                setPersonSection(itemValue)
+              }>
               {Object.keys(sectionOptions).map((key) => {
                 return (<Picker.Item label={sectionOptions[key]} value={key} key={key} />) //if you have a bunch of keys value pair
               })}
             </Picker>
-          </View>
-          
+          </View> */}
+
           <View>
             <Picker
               selectedValue={gender}
@@ -291,6 +654,20 @@ const RegisterScreen = props => {
           <View>
             <Picker
               selectedValue={jobType}
+              style={styles.pickerStyle}
+              itemStyle={styles.pickerItemStyle}
+              onValueChange={(itemValue, itemIndex) =>
+                setJobType(itemValue)
+              }>
+              {jobOptions.map((item, key) => {
+                return (<Picker.Item label={item.jobName} value={item.jobKey} key={key} />) //if you have a bunch of keys value pair
+              })}
+            </Picker>
+          </View>
+
+          {/* <View>
+            <Picker
+              selectedValue={jobType}
 
               style={styles.pickerStyle}
               itemStyle={styles.pickerItemStyle}
@@ -301,7 +678,7 @@ const RegisterScreen = props => {
                 return (<Picker.Item label={jobTypeOptions[key]} value={key} key={key} />) //if you have a bunch of keys value pair
               })}
             </Picker>
-          </View>
+          </View> */}
 
           {errortext != '' ? (
             <Text style={styles.errorTextStyle}> {errortext} </Text>
