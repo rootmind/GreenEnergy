@@ -23,6 +23,8 @@ import {
 // import { set } from 'react-native-reanimated';
 import { VictoryBar, VictoryChart, VictoryTheme, VictoryGroup, VictoryStack, VictoryAxis, VictoryLine } from "victory-native";
 import { serverIP } from '../../app.json';
+import { Picker } from '@react-native-community/picker';
+
 //charan 
 //kanna
 const GradeUtilization = props => {
@@ -42,7 +44,8 @@ const GradeUtilization = props => {
   let [utilizationData, setUtilizationData] = useState([{ personMonth: "1", waterUtilized: 0, electricityUtilized: 0, personZone: 'AMBER', zone: 0 }]);
 
   let [animating, setAnimating] = useState(true);
-
+  let [schoolOptions, setSchoolOptions] = useState([{"schoolId": "0", "schoolName": "Select School"}]);
+  let [schoolId, setSchoolId] = useState('');
   const personMonthOptions = {
     0: "Select Month",
     1: "January",
@@ -69,6 +72,8 @@ const GradeUtilization = props => {
         // alert('value' + value);
         setPersonId(value);
         fetchUtilizationInfo(value);
+        fetchSchool();
+ 
       }
 
       );
@@ -123,6 +128,7 @@ const GradeUtilization = props => {
           if (response.data.length > 0) {
             setIsGraphLoading(true);
             setUtilizationData(response.data);
+            setSchoolId(response.data[0].schoolId);
           }
           // setUtilizationData([{ personMonth: 1, waterUtilized: 100, electricityUtilized: 200 }]);
 
@@ -147,6 +153,58 @@ const GradeUtilization = props => {
 
 
   };
+
+  
+  const fetchSchool = () => {
+    setErrortext('');
+
+    //Show Loader
+    setLoading(true);
+
+    var apiBaseUrl = serverIP + "/master/getSchool";
+
+    var self = this;
+    var payload =
+    {
+
+    }
+
+    // console.log('School Find ' + JSON.stringify(payload));
+    axios.get(apiBaseUrl, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true,
+      }
+    })
+      //axios.post(apiBaseUrl, payload)
+      .then(function (response) {
+        setLoading(false);
+        console.log('School Find Response ' + JSON.stringify(response));
+        if (response.status == 200) {
+          // console.log(response.data.status);
+          console.log(JSON.stringify(response.data));
+          // setPersonId(response.data.personId);
+         // schoolOptions= [];
+          setSchoolOptions(response.data);
+          console.log('school array' + JSON.stringify(schoolOptions));
+
+        }
+
+        else {
+          //console.log("Username does not exists");
+          alert("Query Not Successful");
+        }
+      })
+      .catch(function (error) {
+        setLoading(false);
+        console.log(error);
+      });
+
+
+
+  };
+
 
   if (isGraphLoading) {
 
@@ -182,6 +240,21 @@ const GradeUtilization = props => {
                 }}
               /> */}
           </TouchableOpacity>
+
+          <View>
+            <Picker
+              selectedValue={schoolId}
+              style={styles.pickerStyle}
+              itemStyle={styles.pickerItemStyle}
+              enabled={false}
+              onValueChange={(itemValue, itemIndex) =>
+                setSchoolId(itemValue)
+              }>
+              {schoolOptions.map((item,key) => {
+                return (<Picker.Item label={item.schoolName} value={item.schoolId} key={key} />) //if you have a bunch of keys value pair
+              })}
+            </Picker>
+          </View>
 
           <VictoryChart height={400} width={375} theme={VictoryTheme.grayscale}        >
 

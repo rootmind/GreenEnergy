@@ -5,7 +5,7 @@
 import React from 'react';
 
 //Import all required component
-import { View, TouchableWithoutFeedback, StyleSheet, Text, Alert } from 'react-native';
+import { View, StyleSheet, Text, Alert } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 
 const CustomSidebarMenu = props => {
@@ -26,12 +26,12 @@ const CustomSidebarMenu = props => {
     },
 
     {
-      navOptionName: 'GradeUtilization',
+      navOptionName: 'Grade Utilization',
       screenToNavigate: 'GradeUtilization',
     },
 
     {
-      navOptionName: 'SchoolUtilization',
+      navOptionName: 'School Utilization',
       screenToNavigate: 'SchoolUtilization',
     },
 
