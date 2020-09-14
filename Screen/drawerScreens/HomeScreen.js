@@ -199,10 +199,11 @@ const HomeScreen = props => {
                 return <VictoryBar data={data} x="personMonth" y="electricityUtilized" key={i}/>;
               })} */}
 
-                <VictoryBar name="ELECTRICITY" data={utilizationData} x="personMonth" y="electricityUtilized" barWidth={({ index }) => index * 2 + 8} labels={({ datum }) => `${datum.electricityUtilized}`}
+                <VictoryBar name="ELECTRICITY" data={utilizationData} x="personMonth" y="electricityUtilized"
+                 barWidth={({ index }) => index * 2 + 8} labels={({ datum }) => `${datum.electricityUtilized}`}
                   style={{
                     data: {
-                     // fill: ({ datum }) => (datum.electricityUtilized >=150 ? "red" : (datum.electricityUtilized >= 100 ? "#FFC200" : "green")),
+                    
                       fill: ({ datum }) => (datum.colour),
                       // stroke: ({ index }) => +index % 2 === 0  ? "#000000" : "#c43a31",
                       // fillOpacity: 0.7,
@@ -210,7 +211,7 @@ const HomeScreen = props => {
                     },
                     labels: {
                       fontSize: 15,
-                      //fill: ({ datum }) => (datum.zone === 10 ? "red" : (datum.zone === 20 ? "#FFC200" : "green"))
+                     
                       fill: ({ datum }) => (datum.colour)
                     }
                   }}
@@ -218,11 +219,12 @@ const HomeScreen = props => {
               </VictoryStack>
 
               <VictoryAxis dependentAxis label="Electricity"
-                //domain={[0, 200]}
+                
                 tickFormat={(tick) => `${tick}kW`}
               />
               <VictoryAxis domain={[0, 12]} label="Month"
-                tickFormat={["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]}
+            //  tickFormat={[ "4", "5", "6", "7", "8", "9", "10", "11", "12","0", "1", "2", "3"]}
+               axisValue={utilizationData.personMonth}
               />
 
             </VictoryGroup>

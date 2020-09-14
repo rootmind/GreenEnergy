@@ -23,6 +23,7 @@ import {
 // import { set } from 'react-native-reanimated';
 import { VictoryBar, VictoryChart, VictoryTheme, VictoryGroup, VictoryStack, VictoryAxis, VictoryLine } from "victory-native";
 import { serverIP } from '../../app.json';
+import { Picker } from '@react-native-community/picker';
 //charan 
 //kanna
 const GradeUtilization = props => {
@@ -42,7 +43,7 @@ const GradeUtilization = props => {
   let [utilizationData, setUtilizationData] = useState([{ personMonth: "1", waterUtilized: 0, electricityUtilized: 0, personZone: 'AMBER', zone: 0 }]);
 
   let [animating, setAnimating] = useState(true);
-
+  let [gradeOptions, setGradeOptions] = useState([{ "gradeKey": "0", "gradeName": "Select Grade" }]);
   const personMonthOptions = {
     0: "Select Month",
     1: "January",
@@ -65,10 +66,11 @@ const GradeUtilization = props => {
       //Check if user_id is set or not
       //If not then send for Authentication
       //else send to Home Screen
-      AsyncStorage.getItem('person_id').then((value) => {
+      AsyncStorage.getItem('person_id').then((personId) => {
         // alert('value' + value);
-        setPersonId(value);
-        fetchUtilizationInfo(value);
+        setPersonId(personId);
+        fetchUtilizationInfo({personId});
+        fetchGrade();
       }
 
       );
@@ -90,7 +92,8 @@ const GradeUtilization = props => {
     //var apiBaseUrl = "http://192.168.1.3:9093/utilization/get";
     var payload =
     {
-      "personId": props
+      "personId": props.personId,
+      "grade": (!props.itemValue?'':props.itemValue)
     }
 
     axios.post(apiBaseUrl, payload, {
@@ -125,6 +128,12 @@ const GradeUtilization = props => {
             setUtilizationData(response.data);
             setGrade(response.data[0].grade);
           }
+
+          else {
+            alert('No Data Available for Selected Grade');
+            setGrade(grade);
+            
+          }
           // setUtilizationData([{ personMonth: 1, waterUtilized: 100, electricityUtilized: 200 }]);
 
           // data = reponse.data;
@@ -148,6 +157,58 @@ const GradeUtilization = props => {
 
 
   };
+
+  const fetchGrade = () => {
+    setErrortext('');
+
+    //Show Loader
+    setLoading(true);
+
+    var apiBaseUrl = serverIP + "/master/getGrade";
+
+    var self = this;
+    var payload =
+    {
+
+    }
+
+    // console.log('School Find ' + JSON.stringify(payload));
+    axios.get(apiBaseUrl, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': true,
+      }
+    })
+      //axios.post(apiBaseUrl, payload)
+      .then(function (response) {
+        setLoading(false);
+        console.log('Grade Find Response ' + JSON.stringify(response));
+        if (response.status == 200) {
+          // console.log(response.data.status);
+          console.log(JSON.stringify(response.data));
+          // setPersonId(response.data.personId);
+          // schoolOptions= [];
+          setGradeOptions(response.data);
+          console.log('Grade array' + JSON.stringify(gradeOptions));
+
+        }
+
+        else {
+          //console.log("Username does not exists");
+          alert("Query Not Successful");
+        }
+      })
+      .catch(function (error) {
+        setLoading(false);
+        console.log(error);
+      });
+
+
+
+  };
+
+
 
   if (isGraphLoading) {
 
@@ -195,6 +256,23 @@ const GradeUtilization = props => {
                 }}
               /> */}
           </TouchableOpacity>
+
+          <View>
+            <Picker
+              selectedValue={grade}
+              style={styles.pickerStyle}
+              itemStyle={styles.pickerItemStyle}
+              onValueChange={(itemValue, itemIndex) =>
+               { setGrade(itemValue);
+              fetchUtilizationInfo({personId, itemValue})
+              }
+          
+              }>
+              {gradeOptions.map((item, key) => {
+                return (<Picker.Item label={item.gradeName} value={item.gradeKey} key={key} />) //if you have a bunch of keys value pair
+              })}
+            </Picker>
+          </View>
 
           <VictoryChart height={400} width={375} theme={VictoryTheme.grayscale}        >
 
@@ -349,6 +427,8 @@ const GradeUtilization = props => {
   else {
     return (
       <View style={styles.container}>
+
+
 
       </View>
     );
@@ -550,7 +630,7 @@ const styles = StyleSheet.create({
     // backgroundColor: '#7DE24E',
     color: '#FFFFFF',
     borderColor: '#7DE24E',
-    height: 34,
+    height: 5,
     alignItems: 'center',
     borderRadius: 10,
     marginLeft: 340,
