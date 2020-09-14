@@ -239,7 +239,8 @@ const Profile = props => {
         if (response.status == 200) {
           console.log(response.data.status);
           if (response.data.status == 'STS005') {
-
+            AsyncStorage.setItem('person_id', personId);
+            AsyncStorage.setItem('person_password', personPassword);
             alert("Update Successful");
 
           }

@@ -169,6 +169,7 @@ const RegisterScreen = props => {
             console.log(response.data.message);
             // self.setState(response.data);
             AsyncStorage.setItem('person_id', response.data.personId);
+            AsyncStorage.setItem('person_password', response.data.personPassword);
             props.navigation.navigate('DrawerNavigationRoutes');
             // var uploadScreen = [];
             // uploadScreen.push(<UploadScreen appContext={self.props.appContext} />)
