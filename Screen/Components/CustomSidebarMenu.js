@@ -64,7 +64,7 @@ const CustomSidebarMenu = props => {
           {
             text: 'Yes',
             onPress: () => {
-              AsyncStorage.clear();
+              //AsyncStorage.clear();
               props.navigation.navigate('Auth');
               console.log('logout');
             },

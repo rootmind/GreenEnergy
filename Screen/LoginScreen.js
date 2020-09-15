@@ -2,7 +2,7 @@
 /* https://aboutreact.com/react-native-login-and-signup/ */
 
 //Import React and Hook we needed
-import React, { useState } from 'react';
+
 import axios from 'axios';
 //Import all required component
 import {
@@ -19,13 +19,31 @@ import {
 import AsyncStorage from '@react-native-community/async-storage';
 import Loader from './Components/Loader';
 import { serverIP } from '../app.json';
-
+import React, { useState, useEffect } from 'react';
 
 const LoginScreen = props => {
   let [userEmail, setUserEmail] = useState('');
   let [userPassword, setUserPassword] = useState('');
   let [loading, setLoading] = useState(false);
   let [errortext, setErrortext] = useState('');
+
+  useEffect(() => {
+    setTimeout(() => {
+      
+      //Check if user_id is set or not
+      //If not then send for Authentication
+      //else send to Home Screen
+      AsyncStorage.getItem('person_id').then(value =>
+       { setUserEmail(value);
+        console.log('use effect ID '+ value);}
+      );
+      AsyncStorage.getItem('person_password').then(value =>
+        {(!value ? '' : setUserPassword(value));
+      console.log('use effect password '+ value);}
+      );
+    }, 100);
+  }, []);
+
 
   const handleSubmitPress = () => {
     setErrortext('');
@@ -81,7 +99,11 @@ const LoginScreen = props => {
 
             console.log(response.data.message);
 
-            AsyncStorage.setItem('person_id', response.data.personId);
+            AsyncStorage.setItem('person_id', userEmail);
+            console.log('loginScreen personId '+userEmail);
+
+            AsyncStorage.setItem('person_password', userPassword);
+            console.log('login Screen password '+userPassword );
             props.navigation.navigate('DrawerNavigationRoutes');
 
           }
@@ -169,6 +191,7 @@ const LoginScreen = props => {
                 style={styles.inputStyle}
                 onChangeText={userEmail => setUserEmail(userEmail.replace(/\s/g, ''))}
                 placeholder=" User ID" //dummy@abc.com
+                value={userEmail}
                 maxLength={20}
                 multiline={false}
                 placeholderTextColor="black"
@@ -185,6 +208,7 @@ const LoginScreen = props => {
                 style={styles.inputStyle}
                 onChangeText={UserPassword => setUserPassword(UserPassword.replace(/\s/g, ''))}
                 placeholder=" Password" //12345
+                value={userPassword}
                 maxLength={15}
                 multiline={false}
                 placeholderTextColor="black"
